@@ -376,10 +376,36 @@ hr{border:none;border-top:0.5px solid rgba(0,0,0,0.07);margin:20px 0}
       </div>
     </div>
 
-    <div class="ai-bar">
-      <div class="ai-orb"></div>
-      <div class="ai-bar-text">Generate a viral script about <strong id="script-topic-display">your topic</strong></div>
-      <button class="btn btn-primary" onclick="generateViralScript()" id="script-gen-btn">✦ Generate</button>
+    <!-- Mode toggle -->
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <div class="style-chip active" data-mode="ai" onclick="selectScriptMode(this)" style="flex:1;justify-content:center">✦ Generate with AI</div>
+      <div class="style-chip" data-mode="manual" onclick="selectScriptMode(this)" style="flex:1;justify-content:center">✏️ Write manually</div>
+    </div>
+
+    <!-- AI mode -->
+    <div id="mode-ai">
+      <div class="ai-bar">
+        <div class="ai-orb"></div>
+        <div class="ai-bar-text">Generate a viral script about <strong id="script-topic-display">your topic</strong></div>
+        <button class="btn btn-primary" onclick="generateViralScript()" id="script-gen-btn">✦ Generate</button>
+      </div>
+    </div>
+
+    <!-- Manual mode -->
+    <div id="mode-manual" style="display:none;flex-direction:column;gap:10px;margin-bottom:16px">
+      <div class="script-section">
+        <div class="script-section-label hook">🪝 Hook · first 3 seconds</div>
+        <textarea id="manual-hook" placeholder="Write your hook here — bold claim, question, or shocking fact that grabs attention in 2-3 seconds…" style="min-height:70px;background:transparent;border:none;padding:0;font-family:'Sora',sans-serif;font-size:13px;line-height:1.7;width:100%;outline:none;resize:vertical;color:var(--text)"></textarea>
+      </div>
+      <div class="script-section">
+        <div class="script-section-label body">💬 Main points</div>
+        <textarea id="manual-body" placeholder="Write your main points here — one idea per line, punchy and conversational…" style="min-height:100px;background:transparent;border:none;padding:0;font-family:'Sora',sans-serif;font-size:13px;line-height:1.7;width:100%;outline:none;resize:vertical;color:var(--text)"></textarea>
+      </div>
+      <div class="script-section">
+        <div class="script-section-label cta">🚀 Call to action</div>
+        <textarea id="manual-cta" placeholder="Follow for more, save this video, comment below…" style="min-height:50px;background:transparent;border:none;padding:0;font-family:'Sora',sans-serif;font-size:13px;line-height:1.7;width:100%;outline:none;resize:vertical;color:var(--text)"></textarea>
+      </div>
+      <button class="btn btn-outline" onclick="useManualScript()" style="align-self:flex-start">✓ Use this script</button>
     </div>
 
     <!-- Script output -->
@@ -569,8 +595,36 @@ const S = {
   musicURL: '',
 };
 
-let scriptStyle = 'story';
-let scriptDur = '30';
+let scriptMode = 'ai';
+
+function selectScriptMode(el) {
+  document.querySelectorAll('.style-chip[data-mode]').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  scriptMode = el.dataset.mode;
+  document.getElementById('mode-ai').style.display = scriptMode === 'ai' ? 'block' : 'none';
+  document.getElementById('mode-manual').style.display = scriptMode === 'manual' ? 'flex' : 'none';
+  // topic + style fields only relevant for AI
+  document.getElementById('script-output').style.display = 'none';
+  document.getElementById('script-next-btn').disabled = true;
+}
+
+function useManualScript() {
+  const hook = document.getElementById('manual-hook').value.trim();
+  const body = document.getElementById('manual-body').value.trim();
+  const cta  = document.getElementById('manual-cta').value.trim();
+  if (!hook && !body && !cta) { toast('Write at least a hook or main points'); return; }
+  S.viralScript = {
+    hook: hook || '(no hook)',
+    body: body || '(no body)',
+    cta:  cta  || '(no CTA)',
+    hookScore: '—', viralScore: '—', duration: '—',
+    keywords: [...(hook+' '+body+' '+cta).split(/\s+/).filter(Boolean).slice(0,8)]
+  };
+  showScriptOutput(S.viralScript, true);
+  toast('Script saved ✓');
+}
+
+
 
 // ══════════════════════════════════════════
 // NAVIGATION
@@ -708,12 +762,9 @@ Return ONLY valid JSON with no markdown fences, no extra text, nothing else:
 }`;
 
   try {
-    const apiKey = getApiKey();
-    if (!apiKey) { toast('Enter your Anthropic API key in Setup (Step 1)'); btn.disabled=false; btn.innerHTML='✦ Generate'; return; }
-
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('https://crimson-truth-ce04.aloude-app.workers.dev/', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
+      headers: { 'Content-Type': 'application/json', 'x-api-key': getApiKey(), 'anthropic-version': '2023-06-01' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
