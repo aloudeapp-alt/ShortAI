@@ -799,7 +799,34 @@ Return ONLY valid JSON with no markdown fences, no extra text, nothing else:
   toast('Script generated ✦');
 }
 
-function scriptToRecording() {
+function showScriptOutput(d, isManual) {
+  document.getElementById('script-output').innerHTML = `
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+      ${isManual ? '<span class="score-badge dur-s">✏️ Manual script</span>' : `
+        <span class="score-badge hook-s">🪝 Hook ${d.hookScore}/100</span>
+        <span class="score-badge viral-s">🔥 Viral ${d.viralScore}/100</span>
+        <span class="score-badge dur-s">⏱ ${d.duration}</span>
+      `}
+    </div>
+    <div class="script-section">
+      <div class="script-section-label hook">🪝 Hook · first 3 seconds</div>
+      <div class="script-editable" id="script-hook" contenteditable="true">${d.hook}</div>
+    </div>
+    <div class="script-section">
+      <div class="script-section-label body">💬 Main points</div>
+      <div class="script-editable" id="script-body" contenteditable="true">${d.body}</div>
+    </div>
+    <div class="script-section">
+      <div class="script-section-label cta">🚀 Call to action</div>
+      <div class="script-editable" id="script-cta" contenteditable="true">${d.cta}</div>
+    </div>
+    ${isManual ? '' : '<button class="btn btn-ghost" style="font-size:11px;align-self:flex-start" onclick="generateViralScript()">🔄 Regenerate</button>'}
+  `;
+  document.getElementById('script-output').style.display = 'flex';
+  document.getElementById('script-next-btn').disabled = false;
+}
+
+
   if (!S.viralScript) { toast('Generate a script first'); return; }
 
   // Read possibly edited text from contenteditable divs
@@ -1629,7 +1656,7 @@ async function testApiKey() {
   const btn = document.querySelector('[onclick="testApiKey()"]');
   btn.textContent = '⏳ Testing…'; btn.disabled = true;
   try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('https://crimson-truth-ce04.aloude-app.workers.dev/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
       body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 10, messages: [{ role: 'user', content: 'Hi' }] })
