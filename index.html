@@ -321,6 +321,23 @@ hr{border:none;border-top:0.5px solid rgba(0,0,0,0.07);margin:20px 0}
     </div>
 
     <div class="divider"></div>
+
+    <div style="margin-bottom:20px">
+      <div style="font-size:13px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:8px">
+        <span style="font-size:16px">🔑</span> Anthropic API Key
+      </div>
+      <div class="text-sm" style="margin-bottom:10px">Required for AI script generation. Stored only in your browser — never sent anywhere except Anthropic.</div>
+      <div style="display:flex;gap:10px;align-items:flex-end">
+        <div class="form-row" style="flex:1;margin:0">
+          <label>API Key</label>
+          <input type="password" id="anthropic-key" placeholder="sk-ant-..." oninput="saveApiKey(this.value)">
+        </div>
+        <button class="btn btn-ghost" onclick="testApiKey()" style="white-space:nowrap">✓ Test key</button>
+      </div>
+      <div id="key-status" style="font-size:11px;margin-top:6px;color:var(--text3)">Get your key at console.anthropic.com</div>
+    </div>
+
+    <div class="divider"></div>
     <div style="display:flex;justify-content:flex-end">
       <button class="btn btn-primary" onclick="goStep(1)">Continue to Script →</button>
     </div>
@@ -691,9 +708,12 @@ Return ONLY valid JSON with no markdown fences, no extra text, nothing else:
 }`;
 
   try {
+    const apiKey = getApiKey();
+    if (!apiKey) { toast('Enter your Anthropic API key in Setup (Step 1)'); btn.disabled=false; btn.innerHTML='✦ Generate'; return; }
+
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 1000,
@@ -1538,10 +1558,60 @@ function toast(msg){
   setTimeout(()=>el.classList.remove('show'),2800);
 }
 
+// ══════════════════════════════════════════
+// API KEY
+// ══════════════════════════════════════════
+function getApiKey() {
+  return document.getElementById('anthropic-key')?.value?.trim()
+    || localStorage.getItem('anthropic_key') || '';
+}
+
+function saveApiKey(val) {
+  try { localStorage.setItem('anthropic_key', val); } catch(e) {}
+  document.getElementById('key-status').textContent = val ? '✓ Key saved in browser' : 'Get your key at console.anthropic.com';
+  document.getElementById('key-status').style.color = val ? 'var(--green)' : 'var(--text3)';
+}
+
+async function testApiKey() {
+  const key = getApiKey();
+  if (!key) { toast('Enter your API key first'); return; }
+  const btn = document.querySelector('[onclick="testApiKey()"]');
+  btn.textContent = '⏳ Testing…'; btn.disabled = true;
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-api-key': key, 'anthropic-version': '2023-06-01' },
+      body: JSON.stringify({ model: 'claude-haiku-4-5-20251001', max_tokens: 10, messages: [{ role: 'user', content: 'Hi' }] })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error.message);
+    document.getElementById('key-status').textContent = '✅ Key is valid!';
+    document.getElementById('key-status').style.color = 'var(--green)';
+    toast('API key works ✓');
+  } catch(e) {
+    document.getElementById('key-status').textContent = '❌ ' + e.message;
+    document.getElementById('key-status').style.color = 'var(--red)';
+    toast('Key error: ' + e.message);
+  }
+  btn.textContent = '✓ Test key'; btn.disabled = false;
+}
+
+function loadSavedApiKey() {
+  try {
+    const k = localStorage.getItem('anthropic_key');
+    if (k) {
+      document.getElementById('anthropic-key').value = k;
+      document.getElementById('key-status').textContent = '✓ Key loaded from browser';
+      document.getElementById('key-status').style.color = 'var(--green)';
+    }
+  } catch(e) {}
+}
+
 // ══ INIT ══
 selectTTS('browser');
 selectVideoFormat('vertical');
 loadCachedProfile();
+loadSavedApiKey();
 </script>
 </body>
 </html>
