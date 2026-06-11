@@ -61,7 +61,12 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
   .m-num,.m-tvk,.m-tms,.m-pc{display:none}
   .m-teams{grid-column:1;grid-row:1}
   .m-date{grid-column:2;grid-row:1;text-align:right}
-  .m-mob{display:flex!important}
+  .m-mob{display:flex}
+  /* при раскрытии карточки прячем мобильный ряд (пики есть внутри панели) */
+  .match-card.expanded .m-mob{display:none}
+}
+@media(min-width:641px){
+  .m-mob{display:none!important}
 }
 .m-mob{display:none;grid-column:1/-1;grid-row:2;gap:7px}
 .m-num{font-size:10px;color:var(--text3);text-align:center}
@@ -147,6 +152,13 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 .bc.nd{background:var(--bg3);color:var(--text3)}
 .empty{text-align:center;padding:48px 16px;color:var(--text3);font-size:13px;line-height:2}
 .nores{text-align:center;padding:32px;color:var(--text3)}
+.gtable-wrap{margin-bottom:8px}
+.gtable{width:100%;border-collapse:collapse;font-size:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
+.gtable th{font-size:10px;font-weight:600;color:var(--text3);text-align:center;padding:7px 6px;border-bottom:1px solid var(--border);letter-spacing:.03em;background:var(--bg3)}
+.gtable th:nth-child(2){text-align:left}
+.gtable td{padding:7px 6px;border-bottom:1px solid var(--border);color:var(--text2);text-align:center;vertical-align:middle}
+.gtable td:nth-child(2){text-align:left}
+.gtable tr:last-child td{border-bottom:none}
 </style>
 </head>
 <body>
@@ -175,6 +187,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 
 <div id="page-schedule" class="page active">
   <div class="filters-row" id="filtersRow"></div>
+  <div class="filters-row" id="groupRow" style="display:none;margin-top:-6px"></div>
   <div id="schedRoot"></div>
 </div>
 <div id="page-analytics" class="page">
@@ -198,37 +211,46 @@ var WC_SEASON = 2026;
 // (эмодзи-флаги НЕ работают на Windows!)
 // ═══════════════════════════════════════════════════
 var ISO = {
-  "Мексика":"mx","Польша":"pl","США":"us","Уругвай":"uy","Испания":"es",
-  "Хорватия":"hr","Марокко":"ma","Португалия":"pt","Германия":"de","Япония":"jp",
-  "Аргентина":"ar","Чили":"cl","Франция":"fr","Нигерия":"ng","Англия":"gb-eng",
-  "Иран":"ir","Бразилия":"br","ЮАР":"za","Нидерланды":"nl","Сенегал":"sn",
-  "Италия":"it","Эквадор":"ec","Бельгия":"be","Австралия":"au","Сербия":"rs",
-  "Канада":"ca","Венесуэла":"ve","Колумбия":"co","Кот-д'Ивуар":"ci","Дания":"dk",
-  "Тунис":"tn","Швейцария":"ch","Швеция":"se","Норвегия":"no","Австрия":"at",
-  "Турция":"tr","Румыния":"ro","Греция":"gr","Словакия":"sk","Словения":"si",
-  "Венгрия":"hu","Грузия":"ge","Косово":"xk","Украина":"ua","Шотландия":"gb-sct",
-  "Уэльс":"gb-wls","Ирландия":"ie","Алжир":"dz","Египет":"eg","Камерун":"cm",
-  "Гана":"gh","Мали":"ml","Кения":"ke","Замбия":"zm","Саудовская Аравия":"sa",
-  "Новая Зеландия":"nz","Катар":"qa","ОАЭ":"ae","Ирак":"iq","Узбекистан":"uz",
-  "Гондурас":"hn","Ямайка":"jm","Панама":"pa","Коста-Рика":"cr","Перу":"pe",
-  "Парагвай":"py","Боливия":"bo",
+  // 48 команд ЧМ 2026 (официальный жребий)
+  "Мексика":"mx","ЮАР":"za","Южная Корея":"kr","Чехия":"cz",
+  "Канада":"ca","Босния и Герцеговина":"ba","Катар":"qa","Швейцария":"ch",
+  "Бразилия":"br","Марокко":"ma","Гаити":"ht","Шотландия":"gb-sct",
+  "США":"us","Парагвай":"py","Австралия":"au","Турция":"tr",
+  "Германия":"de","Кюрасао":"cw","Кот-д'Ивуар":"ci","Эквадор":"ec",
+  "Нидерланды":"nl","Япония":"jp","Швеция":"se","Тунис":"tn",
+  "Бельгия":"be","Египет":"eg","Иран":"ir","Новая Зеландия":"nz",
+  "Испания":"es","Кабо-Верде":"cv","Саудовская Аравия":"sa","Уругвай":"uy",
+  "Франция":"fr","Сенегал":"sn","Ирак":"iq","Норвегия":"no",
+  "Аргентина":"ar","Алжир":"dz","Австрия":"at","Иордания":"jo",
+  "Португалия":"pt","ДР Конго":"cd","Узбекистан":"uz","Колумбия":"co",
+  "Англия":"gb-eng","Хорватия":"hr","Гана":"gh","Панама":"pa",
   // English (для матчинга API)
-  "Mexico":"mx","Poland":"pl","United States":"us","Uruguay":"uy","Spain":"es",
-  "Croatia":"hr","Morocco":"ma","Portugal":"pt","Germany":"de","Japan":"jp",
-  "Argentina":"ar","Chile":"cl","France":"fr","Nigeria":"ng","England":"gb-eng",
-  "Iran":"ir","Brazil":"br","South Africa":"za","Netherlands":"nl","Senegal":"sn",
-  "Italy":"it","Ecuador":"ec","Belgium":"be","Australia":"au","Serbia":"rs",
-  "Canada":"ca","Venezuela":"ve","Colombia":"co","Ivory Coast":"ci","Denmark":"dk","Tunisia":"tn"
+  "Mexico":"mx","South Africa":"za","South Korea":"kr","Korea Republic":"kr","Czechia":"cz","Czech Republic":"cz",
+  "Canada":"ca","Bosnia and Herzegovina":"ba","Qatar":"qa","Switzerland":"ch",
+  "Brazil":"br","Morocco":"ma","Haiti":"ht","Scotland":"gb-sct",
+  "USA":"us","United States":"us","Paraguay":"py","Australia":"au","Turkiye":"tr","Turkey":"tr",
+  "Germany":"de","Curacao":"cw","Ivory Coast":"ci","Cote d'Ivoire":"ci","Ecuador":"ec",
+  "Netherlands":"nl","Japan":"jp","Sweden":"se","Tunisia":"tn",
+  "Belgium":"be","Egypt":"eg","Iran":"ir","New Zealand":"nz",
+  "Spain":"es","Cape Verde":"cv","Saudi Arabia":"sa","Uruguay":"uy",
+  "France":"fr","Senegal":"sn","Iraq":"iq","Norway":"no",
+  "Argentina":"ar","Algeria":"dz","Austria":"at","Jordan":"jo",
+  "Portugal":"pt","DR Congo":"cd","Uzbekistan":"uz","Colombia":"co",
+  "England":"gb-eng","Croatia":"hr","Ghana":"gh","Panama":"pa"
 };
 var EN2RU = {
-  "Mexico":"Мексика","Poland":"Польша","United States":"США","USA":"США","Uruguay":"Уругвай",
-  "Spain":"Испания","Croatia":"Хорватия","Morocco":"Марокко","Portugal":"Португалия",
-  "Germany":"Германия","Japan":"Япония","Argentina":"Аргентина","Chile":"Чили",
-  "France":"Франция","Nigeria":"Нигерия","England":"Англия","Iran":"Иран",
-  "Brazil":"Бразилия","South Africa":"ЮАР","Netherlands":"Нидерланды","Senegal":"Сенегал",
-  "Italy":"Италия","Ecuador":"Эквадор","Belgium":"Бельгия","Australia":"Австралия",
-  "Serbia":"Сербия","Canada":"Канада","Venezuela":"Венесуэла","Colombia":"Колумбия",
-  "Ivory Coast":"Кот-д'Ивуар","Cote d'Ivoire":"Кот-д'Ивуар","Denmark":"Дания","Tunisia":"Тунис"
+  "Mexico":"Мексика","South Africa":"ЮАР","South Korea":"Южная Корея","Korea Republic":"Южная Корея","Czechia":"Чехия","Czech Republic":"Чехия",
+  "Canada":"Канада","Bosnia and Herzegovina":"Босния и Герцеговина","Qatar":"Катар","Switzerland":"Швейцария",
+  "Brazil":"Бразилия","Morocco":"Марокко","Haiti":"Гаити","Scotland":"Шотландия",
+  "USA":"США","United States":"США","Paraguay":"Парагвай","Australia":"Австралия","Turkiye":"Турция","Turkey":"Турция",
+  "Germany":"Германия","Curacao":"Кюрасао","Ivory Coast":"Кот-д'Ивуар","Cote d'Ivoire":"Кот-д'Ивуар","Ecuador":"Эквадор",
+  "Netherlands":"Нидерланды","Japan":"Япония","Sweden":"Швеция","Tunisia":"Тунис",
+  "Belgium":"Бельгия","Egypt":"Египет","Iran":"Иран","New Zealand":"Новая Зеландия",
+  "Spain":"Испания","Cape Verde":"Кабо-Верде","Saudi Arabia":"Саудовская Аравия","Uruguay":"Уругвай",
+  "France":"Франция","Senegal":"Сенегал","Iraq":"Ирак","Norway":"Норвегия",
+  "Argentina":"Аргентина","Algeria":"Алжир","Austria":"Австрия","Jordan":"Иордания",
+  "Portugal":"Португалия","DR Congo":"ДР Конго","Uzbekistan":"Узбекистан","Colombia":"Колумбия",
+  "England":"Англия","Croatia":"Хорватия","Ghana":"Гана","Panama":"Панама"
 };
 
 // Флаг как <img> с flagcdn. Для "Ничья" — спец-иконка.
@@ -248,81 +270,138 @@ function fvs(t){
 // ═══════════════════════════════════════════════════
 // МАТЧИ — групповой этап (упрощённо A-H, по 6 матчей)
 // ═══════════════════════════════════════════════════
+// Официальные группы ЧМ 2026
+var GROUPS={
+  A:["Мексика","ЮАР","Южная Корея","Чехия"],
+  B:["Канада","Босния и Герцеговина","Катар","Швейцария"],
+  C:["Бразилия","Марокко","Гаити","Шотландия"],
+  D:["США","Парагвай","Австралия","Турция"],
+  E:["Германия","Кюрасао","Кот-д'Ивуар","Эквадор"],
+  F:["Нидерланды","Япония","Швеция","Тунис"],
+  G:["Бельгия","Египет","Иран","Новая Зеландия"],
+  H:["Испания","Кабо-Верде","Саудовская Аравия","Уругвай"],
+  I:["Франция","Сенегал","Ирак","Норвегия"],
+  J:["Аргентина","Алжир","Австрия","Иордания"],
+  K:["Португалия","ДР Конго","Узбекистан","Колумбия"],
+  L:["Англия","Хорватия","Гана","Панама"]
+};
+
 var MATCHES = [
-  {id:1, stage:"group",group:"A",date:"2026-06-11",utcH:23,utcM:0, home:"Мексика",    away:"Польша",       venue:"Estadio Azteca",      city:"Мехико"},
-  {id:2, stage:"group",group:"A",date:"2026-06-12",utcH:2, utcM:0, home:"США",        away:"Уругвай",      venue:"AT&T Stadium",        city:"Даллас"},
-  {id:3, stage:"group",group:"A",date:"2026-06-19",utcH:1, utcM:0, home:"Польша",     away:"Уругвай",      venue:"AT&T Stadium",        city:"Даллас"},
-  {id:4, stage:"group",group:"A",date:"2026-06-19",utcH:20,utcM:0, home:"Мексика",    away:"США",          venue:"SoFi Stadium",        city:"Лос-Анджелес"},
-  {id:5, stage:"group",group:"A",date:"2026-06-26",utcH:2, utcM:0, home:"Польша",     away:"Мексика",      venue:"NRG Stadium",         city:"Хьюстон"},
-  {id:6, stage:"group",group:"A",date:"2026-06-26",utcH:2, utcM:0, home:"Уругвай",    away:"США",          venue:"Arrowhead Stadium",   city:"Канзас-Сити"},
-  {id:7, stage:"group",group:"B",date:"2026-06-12",utcH:19,utcM:0, home:"Испания",    away:"Хорватия",     venue:"SoFi Stadium",        city:"Лос-Анджелес"},
-  {id:8, stage:"group",group:"B",date:"2026-06-12",utcH:22,utcM:0, home:"Марокко",    away:"Португалия",   venue:"Lumen Field",         city:"Сиэтл"},
-  {id:9, stage:"group",group:"B",date:"2026-06-19",utcH:20,utcM:0, home:"Испания",    away:"Марокко",      venue:"MetLife Stadium",     city:"Нью-Йорк"},
-  {id:10,stage:"group",group:"B",date:"2026-06-19",utcH:23,utcM:0, home:"Хорватия",   away:"Португалия",   venue:"BC Place",            city:"Ванкувер"},
-  {id:11,stage:"group",group:"B",date:"2026-06-26",utcH:22,utcM:0, home:"Хорватия",   away:"Испания",      venue:"Hard Rock Stadium",   city:"Майами"},
-  {id:12,stage:"group",group:"B",date:"2026-06-26",utcH:22,utcM:0, home:"Португалия", away:"Марокко",      venue:"Gillette Stadium",    city:"Бостон"},
-  {id:13,stage:"group",group:"C",date:"2026-06-13",utcH:0, utcM:0, home:"Германия",   away:"Япония",       venue:"BC Place",            city:"Ванкувер"},
-  {id:14,stage:"group",group:"C",date:"2026-06-13",utcH:20,utcM:0, home:"Аргентина",  away:"Чили",         venue:"MetLife Stadium",     city:"Нью-Йорк"},
-  {id:15,stage:"group",group:"C",date:"2026-06-20",utcH:0, utcM:0, home:"Германия",   away:"Аргентина",    venue:"BC Place",            city:"Ванкувер"},
-  {id:16,stage:"group",group:"C",date:"2026-06-20",utcH:20,utcM:0, home:"Япония",     away:"Чили",         venue:"AT&T Stadium",        city:"Даллас"},
-  {id:17,stage:"group",group:"C",date:"2026-06-26",utcH:2, utcM:0, home:"Германия",   away:"Чили",         venue:"MetLife Stadium",     city:"Нью-Йорк"},
-  {id:18,stage:"group",group:"C",date:"2026-06-26",utcH:2, utcM:0, home:"Япония",     away:"Аргентина",    venue:"AT&T Stadium",        city:"Даллас"},
-  {id:19,stage:"group",group:"D",date:"2026-06-13",utcH:22,utcM:0, home:"Франция",    away:"Нигерия",      venue:"Arrowhead Stadium",   city:"Канзас-Сити"},
-  {id:20,stage:"group",group:"D",date:"2026-06-14",utcH:1, utcM:0, home:"Англия",     away:"Иран",         venue:"Gillette Stadium",    city:"Бостон"},
-  {id:21,stage:"group",group:"D",date:"2026-06-20",utcH:22,utcM:0, home:"Франция",    away:"Англия",       venue:"Gillette Stadium",    city:"Бостон"},
-  {id:22,stage:"group",group:"D",date:"2026-06-20",utcH:22,utcM:0, home:"Нигерия",    away:"Иран",         venue:"Hard Rock Stadium",   city:"Майами"},
-  {id:23,stage:"group",group:"D",date:"2026-06-26",utcH:22,utcM:0, home:"Нигерия",    away:"Франция",      venue:"BMO Field",           city:"Торонто"},
-  {id:24,stage:"group",group:"D",date:"2026-06-26",utcH:22,utcM:0, home:"Иран",       away:"Англия",       venue:"BC Place",            city:"Ванкувер"},
-  {id:25,stage:"group",group:"E",date:"2026-06-14",utcH:22,utcM:0, home:"Бразилия",   away:"ЮАР",          venue:"Hard Rock Stadium",   city:"Майами"},
-  {id:26,stage:"group",group:"E",date:"2026-06-15",utcH:2, utcM:0, home:"Нидерланды", away:"Сенегал",      venue:"Lincoln Financial",   city:"Филадельфия"},
-  {id:27,stage:"group",group:"E",date:"2026-06-21",utcH:22,utcM:0, home:"Бразилия",   away:"Нидерланды",   venue:"Hard Rock Stadium",   city:"Майами"},
-  {id:28,stage:"group",group:"E",date:"2026-06-21",utcH:22,utcM:0, home:"ЮАР",        away:"Сенегал",      venue:"Lumen Field",         city:"Сиэтл"},
-  {id:29,stage:"group",group:"E",date:"2026-06-27",utcH:2, utcM:0, home:"Нидерланды", away:"ЮАР",          venue:"Lincoln Financial",   city:"Филадельфия"},
-  {id:30,stage:"group",group:"E",date:"2026-06-27",utcH:2, utcM:0, home:"Сенегал",    away:"Бразилия",     venue:"Lumen Field",         city:"Сиэтл"},
-  {id:31,stage:"group",group:"F",date:"2026-06-15",utcH:1, utcM:0, home:"Италия",     away:"Эквадор",      venue:"Estadio Guadalajara", city:"Гвадалахара"},
-  {id:32,stage:"group",group:"F",date:"2026-06-15",utcH:20,utcM:0, home:"Бельгия",    away:"Австралия",    venue:"BMO Field",           city:"Торонто"},
-  {id:33,stage:"group",group:"F",date:"2026-06-21",utcH:20,utcM:0, home:"Италия",     away:"Бельгия",      venue:"Estadio Guadalajara", city:"Гвадалахара"},
-  {id:34,stage:"group",group:"F",date:"2026-06-21",utcH:20,utcM:0, home:"Австралия",  away:"Эквадор",      venue:"NRG Stadium",         city:"Хьюстон"},
-  {id:35,stage:"group",group:"F",date:"2026-06-27",utcH:22,utcM:0, home:"Бельгия",    away:"Эквадор",      venue:"Estadio Guadalajara", city:"Гвадалахара"},
-  {id:36,stage:"group",group:"F",date:"2026-06-27",utcH:22,utcM:0, home:"Австралия",  away:"Италия",       venue:"Arrowhead Stadium",   city:"Канзас-Сити"},
-  {id:37,stage:"group",group:"G",date:"2026-06-15",utcH:22,utcM:0, home:"Португалия", away:"Сербия",       venue:"BC Place",            city:"Ванкувер"},
-  {id:38,stage:"group",group:"G",date:"2026-06-16",utcH:1, utcM:0, home:"Колумбия",   away:"Кот-д'Ивуар", venue:"NRG Stadium",         city:"Хьюстон"},
-  {id:39,stage:"group",group:"G",date:"2026-06-22",utcH:0, utcM:0, home:"Португалия", away:"Колумбия",     venue:"SoFi Stadium",        city:"Лос-Анджелес"},
-  {id:40,stage:"group",group:"G",date:"2026-06-22",utcH:0, utcM:0, home:"Сербия",     away:"Кот-д'Ивуар", venue:"AT&T Stadium",        city:"Даллас"},
-  {id:41,stage:"group",group:"G",date:"2026-06-28",utcH:2, utcM:0, home:"Кот-д'Ивуар",away:"Португалия",  venue:"Lincoln Financial",   city:"Филадельфия"},
-  {id:42,stage:"group",group:"G",date:"2026-06-28",utcH:2, utcM:0, home:"Сербия",     away:"Колумбия",     venue:"Hard Rock Stadium",   city:"Майами"},
-  {id:43,stage:"group",group:"H",date:"2026-06-16",utcH:20,utcM:0, home:"Канада",     away:"Венесуэла",    venue:"BMO Field",           city:"Торонто"},
-  {id:44,stage:"group",group:"H",date:"2026-06-16",utcH:22,utcM:0, home:"Дания",      away:"Тунис",        venue:"Levi's Stadium",      city:"Сан-Хосе"},
-  {id:45,stage:"group",group:"H",date:"2026-06-22",utcH:22,utcM:0, home:"Канада",     away:"Дания",        venue:"BMO Field",           city:"Торонто"},
-  {id:46,stage:"group",group:"H",date:"2026-06-22",utcH:22,utcM:0, home:"Венесуэла",  away:"Тунис",        venue:"BC Place",            city:"Ванкувер"},
-  {id:47,stage:"group",group:"H",date:"2026-06-28",utcH:22,utcM:0, home:"Тунис",      away:"Канада",       venue:"BMO Field",           city:"Торонто"},
-  {id:48,stage:"group",group:"H",date:"2026-06-28",utcH:22,utcM:0, home:"Дания",      away:"Венесуэла",    venue:"Levi's Stadium",      city:"Сан-Хосе"},
-  {id:70,stage:"r32",group:"",date:"2026-07-04",utcH:0, utcM:0, home:"1A",away:"2B",venue:"BC Place",            city:"Ванкувер"},
-  {id:71,stage:"r32",group:"",date:"2026-07-04",utcH:22,utcM:0, home:"1B",away:"2A",venue:"AT&T Stadium",        city:"Даллас"},
-  {id:72,stage:"r32",group:"",date:"2026-07-05",utcH:2, utcM:0, home:"1C",away:"2D",venue:"MetLife Stadium",     city:"Нью-Йорк"},
-  {id:73,stage:"r32",group:"",date:"2026-07-05",utcH:22,utcM:0, home:"1D",away:"2C",venue:"SoFi Stadium",        city:"Лос-Анджелес"},
-  {id:74,stage:"r32",group:"",date:"2026-07-06",utcH:2, utcM:0, home:"1E",away:"2F",venue:"NRG Stadium",         city:"Хьюстон"},
-  {id:75,stage:"r32",group:"",date:"2026-07-06",utcH:22,utcM:0, home:"1F",away:"2E",venue:"Hard Rock Stadium",   city:"Майами"},
-  {id:76,stage:"r32",group:"",date:"2026-07-07",utcH:2, utcM:0, home:"1G",away:"2H",venue:"BMO Field",           city:"Торонто"},
-  {id:77,stage:"r32",group:"",date:"2026-07-07",utcH:22,utcM:0, home:"1H",away:"2G",venue:"Gillette Stadium",    city:"Бостон"},
-  {id:80,stage:"qf",group:"",date:"2026-07-11",utcH:2, utcM:0, home:"TBD",away:"TBD",venue:"MetLife Stadium",   city:"Нью-Йорк"},
-  {id:81,stage:"qf",group:"",date:"2026-07-11",utcH:22,utcM:0, home:"TBD",away:"TBD",venue:"SoFi Stadium",      city:"Лос-Анджелес"},
-  {id:82,stage:"qf",group:"",date:"2026-07-12",utcH:2, utcM:0, home:"TBD",away:"TBD",venue:"BC Place",          city:"Ванкувер"},
-  {id:83,stage:"qf",group:"",date:"2026-07-12",utcH:22,utcM:0, home:"TBD",away:"TBD",venue:"AT&T Stadium",      city:"Даллас"},
-  {id:84,stage:"sf",group:"",date:"2026-07-14",utcH:2, utcM:0, home:"TBD",away:"TBD",venue:"MetLife Stadium",   city:"Нью-Йорк"},
-  {id:85,stage:"sf",group:"",date:"2026-07-15",utcH:2, utcM:0, home:"TBD",away:"TBD",venue:"SoFi Stadium",      city:"Лос-Анджелес"},
-  {id:86,stage:"3rd",group:"",date:"2026-07-18",utcH:22,utcM:0, home:"TBD",away:"TBD",venue:"AT&T Stadium",     city:"Даллас"},
-  {id:87,stage:"final",group:"",date:"2026-07-19",utcH:22,utcM:0, home:"TBD",away:"TBD",venue:"MetLife Stadium",city:"Нью-Йорк"},
+  {id:1,stage:"group",group:"A",date:"2026-06-11",utcH:19,utcM:0, home:"Мексика", away:"ЮАР", venue:"Estadio Azteca", city:"Мехико"},
+  {id:2,stage:"group",group:"A",date:"2026-06-12",utcH:2,utcM:0, home:"Южная Корея", away:"Чехия", venue:"Estadio Azteca", city:"Мехико"},
+  {id:3,stage:"group",group:"A",date:"2026-06-18",utcH:2,utcM:0, home:"Мексика", away:"Южная Корея", venue:"Estadio Guadalajara", city:"Гвадалахара"},
+  {id:4,stage:"group",group:"A",date:"2026-06-18",utcH:22,utcM:0, home:"Чехия", away:"ЮАР", venue:"Estadio Azteca", city:"Мехико"},
+  {id:5,stage:"group",group:"A",date:"2026-06-24",utcH:2,utcM:0, home:"Чехия", away:"Мексика", venue:"Estadio Monterrey", city:"Монтеррей"},
+  {id:6,stage:"group",group:"A",date:"2026-06-24",utcH:2,utcM:0, home:"ЮАР", away:"Южная Корея", venue:"Estadio Guadalajara", city:"Гвадалахара"},
+  {id:7,stage:"group",group:"B",date:"2026-06-12",utcH:19,utcM:0, home:"Канада", away:"Босния и Герцеговина", venue:"Toronto Stadium", city:"Торонто"},
+  {id:8,stage:"group",group:"B",date:"2026-06-13",utcH:3,utcM:0, home:"Катар", away:"Швейцария", venue:"SF Bay Area Stadium", city:"Сан-Франциско"},
+  {id:9,stage:"group",group:"B",date:"2026-06-18",utcH:19,utcM:0, home:"Канада", away:"Катар", venue:"BC Place", city:"Ванкувер"},
+  {id:10,stage:"group",group:"B",date:"2026-06-19",utcH:1,utcM:0, home:"Швейцария", away:"Босния и Герцеговина", venue:"Seattle Stadium", city:"Сиэтл"},
+  {id:11,stage:"group",group:"B",date:"2026-06-24",utcH:18,utcM:0, home:"Швейцария", away:"Канада", venue:"BC Place", city:"Ванкувер"},
+  {id:12,stage:"group",group:"B",date:"2026-06-24",utcH:18,utcM:0, home:"Босния и Герцеговина", away:"Катар", venue:"SF Bay Area Stadium", city:"Сан-Франциско"},
+  {id:13,stage:"group",group:"C",date:"2026-06-13",utcH:22,utcM:0, home:"Бразилия", away:"Марокко", venue:"New York New Jersey Stadium", city:"Нью-Йорк"},
+  {id:14,stage:"group",group:"C",date:"2026-06-14",utcH:1,utcM:0, home:"Гаити", away:"Шотландия", venue:"Boston Stadium", city:"Бостон"},
+  {id:15,stage:"group",group:"C",date:"2026-06-20",utcH:22,utcM:0, home:"Бразилия", away:"Гаити", venue:"Miami Stadium", city:"Майами"},
+  {id:16,stage:"group",group:"C",date:"2026-06-21",utcH:1,utcM:0, home:"Шотландия", away:"Марокко", venue:"Atlanta Stadium", city:"Атланта"},
+  {id:17,stage:"group",group:"C",date:"2026-06-25",utcH:22,utcM:0, home:"Шотландия", away:"Бразилия", venue:"Miami Stadium", city:"Майами"},
+  {id:18,stage:"group",group:"C",date:"2026-06-25",utcH:22,utcM:0, home:"Марокко", away:"Гаити", venue:"Atlanta Stadium", city:"Атланта"},
+  {id:19,stage:"group",group:"D",date:"2026-06-12",utcH:21,utcM:0, home:"США", away:"Парагвай", venue:"Los Angeles Stadium", city:"Лос-Анджелес"},
+  {id:20,stage:"group",group:"D",date:"2026-06-13",utcH:5,utcM:0, home:"Австралия", away:"Турция", venue:"BC Place", city:"Ванкувер"},
+  {id:21,stage:"group",group:"D",date:"2026-06-19",utcH:21,utcM:0, home:"США", away:"Австралия", venue:"SF Bay Area Stadium", city:"Сан-Франциско"},
+  {id:22,stage:"group",group:"D",date:"2026-06-19",utcH:23,utcM:0, home:"Турция", away:"Парагвай", venue:"Los Angeles Stadium", city:"Лос-Анджелес"},
+  {id:23,stage:"group",group:"D",date:"2026-06-25",utcH:2,utcM:0, home:"Турция", away:"США", venue:"Kansas City Stadium", city:"Канзас-Сити"},
+  {id:24,stage:"group",group:"D",date:"2026-06-25",utcH:2,utcM:0, home:"Парагвай", away:"Австралия", venue:"Seattle Stadium", city:"Сиэтл"},
+  {id:25,stage:"group",group:"E",date:"2026-06-14",utcH:17,utcM:0, home:"Германия", away:"Кюрасао", venue:"Houston Stadium", city:"Хьюстон"},
+  {id:26,stage:"group",group:"E",date:"2026-06-14",utcH:23,utcM:0, home:"Кот-д'Ивуар", away:"Эквадор", venue:"Philadelphia Stadium", city:"Филадельфия"},
+  {id:27,stage:"group",group:"E",date:"2026-06-20",utcH:17,utcM:0, home:"Германия", away:"Кот-д'Ивуар", venue:"Houston Stadium", city:"Хьюстон"},
+  {id:28,stage:"group",group:"E",date:"2026-06-20",utcH:23,utcM:0, home:"Эквадор", away:"Кюрасао", venue:"Philadelphia Stadium", city:"Филадельфия"},
+  {id:29,stage:"group",group:"E",date:"2026-06-26",utcH:2,utcM:0, home:"Эквадор", away:"Германия", venue:"Atlanta Stadium", city:"Атланта"},
+  {id:30,stage:"group",group:"E",date:"2026-06-26",utcH:2,utcM:0, home:"Кюрасао", away:"Кот-д'Ивуар", venue:"Kansas City Stadium", city:"Канзас-Сити"},
+  {id:31,stage:"group",group:"F",date:"2026-06-14",utcH:20,utcM:0, home:"Нидерланды", away:"Япония", venue:"Dallas Stadium", city:"Даллас"},
+  {id:32,stage:"group",group:"F",date:"2026-06-15",utcH:2,utcM:0, home:"Швеция", away:"Тунис", venue:"Estadio Monterrey", city:"Монтеррей"},
+  {id:33,stage:"group",group:"F",date:"2026-06-21",utcH:18,utcM:0, home:"Нидерланды", away:"Швеция", venue:"Kansas City Stadium", city:"Канзас-Сити"},
+  {id:34,stage:"group",group:"F",date:"2026-06-21",utcH:20,utcM:0, home:"Тунис", away:"Япония", venue:"Dallas Stadium", city:"Даллас"},
+  {id:35,stage:"group",group:"F",date:"2026-06-26",utcH:18,utcM:0, home:"Тунис", away:"Нидерланды", venue:"Houston Stadium", city:"Хьюстон"},
+  {id:36,stage:"group",group:"F",date:"2026-06-26",utcH:18,utcM:0, home:"Япония", away:"Швеция", venue:"Estadio Monterrey", city:"Монтеррей"},
+  {id:37,stage:"group",group:"G",date:"2026-06-15",utcH:19,utcM:0, home:"Бельгия", away:"Египет", venue:"Seattle Stadium", city:"Сиэтл"},
+  {id:38,stage:"group",group:"G",date:"2026-06-16",utcH:0,utcM:0, home:"Иран", away:"Новая Зеландия", venue:"Los Angeles Stadium", city:"Лос-Анджелес"},
+  {id:39,stage:"group",group:"G",date:"2026-06-21",utcH:22,utcM:0, home:"Бельгия", away:"Иран", venue:"BC Place", city:"Ванкувер"},
+  {id:40,stage:"group",group:"G",date:"2026-06-22",utcH:1,utcM:0, home:"Новая Зеландия", away:"Египет", venue:"Seattle Stadium", city:"Сиэтл"},
+  {id:41,stage:"group",group:"G",date:"2026-06-26",utcH:22,utcM:0, home:"Новая Зеландия", away:"Бельгия", venue:"Toronto Stadium", city:"Торонто"},
+  {id:42,stage:"group",group:"G",date:"2026-06-26",utcH:22,utcM:0, home:"Египет", away:"Иран", venue:"Los Angeles Stadium", city:"Лос-Анджелес"},
+  {id:43,stage:"group",group:"H",date:"2026-06-15",utcH:17,utcM:0, home:"Испания", away:"Кабо-Верде", venue:"Atlanta Stadium", city:"Атланта"},
+  {id:44,stage:"group",group:"H",date:"2026-06-15",utcH:22,utcM:0, home:"Саудовская Аравия", away:"Уругвай", venue:"Miami Stadium", city:"Майами"},
+  {id:45,stage:"group",group:"H",date:"2026-06-22",utcH:17,utcM:0, home:"Испания", away:"Саудовская Аравия", venue:"Atlanta Stadium", city:"Атланта"},
+  {id:46,stage:"group",group:"H",date:"2026-06-22",utcH:22,utcM:0, home:"Уругвай", away:"Кабо-Верде", venue:"Miami Stadium", city:"Майами"},
+  {id:47,stage:"group",group:"H",date:"2026-06-27",utcH:2,utcM:0, home:"Уругвай", away:"Испания", venue:"New York New Jersey Stadium", city:"Нью-Йорк"},
+  {id:48,stage:"group",group:"H",date:"2026-06-27",utcH:2,utcM:0, home:"Кабо-Верде", away:"Саудовская Аравия", venue:"Boston Stadium", city:"Бостон"},
+  {id:49,stage:"group",group:"I",date:"2026-06-16",utcH:19,utcM:0, home:"Франция", away:"Сенегал", venue:"New York New Jersey Stadium", city:"Нью-Йорк"},
+  {id:50,stage:"group",group:"I",date:"2026-06-16",utcH:23,utcM:0, home:"Ирак", away:"Норвегия", venue:"Toronto Stadium", city:"Торонто"},
+  {id:51,stage:"group",group:"I",date:"2026-06-22",utcH:19,utcM:0, home:"Франция", away:"Ирак", venue:"Boston Stadium", city:"Бостон"},
+  {id:52,stage:"group",group:"I",date:"2026-06-23",utcH:1,utcM:0, home:"Норвегия", away:"Сенегал", venue:"Philadelphia Stadium", city:"Филадельфия"},
+  {id:53,stage:"group",group:"I",date:"2026-06-27",utcH:18,utcM:0, home:"Норвегия", away:"Франция", venue:"New York New Jersey Stadium", city:"Нью-Йорк"},
+  {id:54,stage:"group",group:"I",date:"2026-06-27",utcH:18,utcM:0, home:"Сенегал", away:"Ирак", venue:"Toronto Stadium", city:"Торонто"},
+  {id:55,stage:"group",group:"J",date:"2026-06-16",utcH:21,utcM:0, home:"Аргентина", away:"Алжир", venue:"Kansas City Stadium", city:"Канзас-Сити"},
+  {id:56,stage:"group",group:"J",date:"2026-06-17",utcH:1,utcM:0, home:"Австрия", away:"Иордания", venue:"Houston Stadium", city:"Хьюстон"},
+  {id:57,stage:"group",group:"J",date:"2026-06-23",utcH:21,utcM:0, home:"Аргентина", away:"Австрия", venue:"Dallas Stadium", city:"Даллас"},
+  {id:58,stage:"group",group:"J",date:"2026-06-23",utcH:23,utcM:0, home:"Иордания", away:"Алжир", venue:"Estadio Monterrey", city:"Монтеррей"},
+  {id:59,stage:"group",group:"J",date:"2026-06-27",utcH:22,utcM:0, home:"Иордания", away:"Аргентина", venue:"Dallas Stadium", city:"Даллас"},
+  {id:60,stage:"group",group:"J",date:"2026-06-27",utcH:22,utcM:0, home:"Алжир", away:"Австрия", venue:"Houston Stadium", city:"Хьюстон"},
+  {id:61,stage:"group",group:"K",date:"2026-06-17",utcH:19,utcM:0, home:"Португалия", away:"ДР Конго", venue:"Philadelphia Stadium", city:"Филадельфия"},
+  {id:62,stage:"group",group:"K",date:"2026-06-17",utcH:23,utcM:0, home:"Узбекистан", away:"Колумбия", venue:"New York New Jersey Stadium", city:"Нью-Йорк"},
+  {id:63,stage:"group",group:"K",date:"2026-06-24",utcH:19,utcM:0, home:"Португалия", away:"Узбекистан", venue:"BC Place", city:"Ванкувер"},
+  {id:64,stage:"group",group:"K",date:"2026-06-24",utcH:23,utcM:0, home:"Колумбия", away:"ДР Конго", venue:"SF Bay Area Stadium", city:"Сан-Франциско"},
+  {id:65,stage:"group",group:"K",date:"2026-06-28",utcH:2,utcM:0, home:"Колумбия", away:"Португалия", venue:"Philadelphia Stadium", city:"Филадельфия"},
+  {id:66,stage:"group",group:"K",date:"2026-06-28",utcH:2,utcM:0, home:"ДР Конго", away:"Узбекистан", venue:"New York New Jersey Stadium", city:"Нью-Йорк"},
+  {id:67,stage:"group",group:"L",date:"2026-06-17",utcH:21,utcM:0, home:"Англия", away:"Хорватия", venue:"Boston Stadium", city:"Бостон"},
+  {id:68,stage:"group",group:"L",date:"2026-06-18",utcH:1,utcM:0, home:"Гана", away:"Панама", venue:"Toronto Stadium", city:"Торонто"},
+  {id:69,stage:"group",group:"L",date:"2026-06-23",utcH:18,utcM:0, home:"Англия", away:"Гана", venue:"Boston Stadium", city:"Бостон"},
+  {id:70,stage:"group",group:"L",date:"2026-06-23",utcH:20,utcM:0, home:"Панама", away:"Хорватия", venue:"New York New Jersey Stadium", city:"Нью-Йорк"},
+  {id:71,stage:"group",group:"L",date:"2026-06-28",utcH:18,utcM:0, home:"Панама", away:"Англия", venue:"Toronto Stadium", city:"Торонто"},
+  {id:72,stage:"group",group:"L",date:"2026-06-28",utcH:18,utcM:0, home:"Хорватия", away:"Гана", venue:"Atlanta Stadium", city:"Атланта"},
+  {id:73,stage:"r32",group:"",date:"2026-06-28",utcH:22,utcM:0, home:"2A", away:"2B", venue:"Los Angeles Stadium", city:"Лос-Анджелес"},
+  {id:74,stage:"r32",group:"",date:"2026-06-29",utcH:2,utcM:0, home:"1E", away:"3ABCDF", venue:"Houston Stadium", city:"Хьюстон"},
+  {id:75,stage:"r32",group:"",date:"2026-06-29",utcH:22,utcM:0, home:"1F", away:"2C", venue:"Dallas Stadium", city:"Даллас"},
+  {id:76,stage:"r32",group:"",date:"2026-06-30",utcH:2,utcM:0, home:"1C", away:"3EFGIJ", venue:"Atlanta Stadium", city:"Атланта"},
+  {id:77,stage:"r32",group:"",date:"2026-06-30",utcH:22,utcM:0, home:"1I", away:"3CDFGH", venue:"Boston Stadium", city:"Бостон"},
+  {id:78,stage:"r32",group:"",date:"2026-07-01",utcH:2,utcM:0, home:"2E", away:"2F", venue:"Philadelphia Stadium", city:"Филадельфия"},
+  {id:79,stage:"r32",group:"",date:"2026-07-01",utcH:18,utcM:0, home:"1A", away:"3CEFGH", venue:"Estadio Azteca", city:"Мехико"},
+  {id:80,stage:"r32",group:"",date:"2026-07-01",utcH:22,utcM:0, home:"2K", away:"2L", venue:"BC Place", city:"Ванкувер"},
+  {id:81,stage:"r32",group:"",date:"2026-07-02",utcH:2,utcM:0, home:"1L", away:"3EHIJK", venue:"Toronto Stadium", city:"Торонто"},
+  {id:82,stage:"r32",group:"",date:"2026-07-02",utcH:18,utcM:0, home:"1D", away:"3BEFIJ", venue:"SF Bay Area Stadium", city:"Сан-Франциско"},
+  {id:83,stage:"r32",group:"",date:"2026-07-02",utcH:22,utcM:0, home:"1G", away:"3AEHIJ", venue:"Seattle Stadium", city:"Сиэтл"},
+  {id:84,stage:"r32",group:"",date:"2026-07-03",utcH:2,utcM:0, home:"2D", away:"2G", venue:"New York New Jersey Stadium", city:"Нью-Йорк"},
+  {id:85,stage:"r32",group:"",date:"2026-07-03",utcH:18,utcM:0, home:"1J", away:"2H", venue:"Miami Stadium", city:"Майами"},
+  {id:86,stage:"r32",group:"",date:"2026-07-03",utcH:22,utcM:0, home:"1K", away:"3DEIJL", venue:"Kansas City Stadium", city:"Канзас-Сити"},
+  {id:87,stage:"r32",group:"",date:"2026-07-04",utcH:1,utcM:0, home:"1B", away:"3EFGIJ", venue:"BC Place", city:"Ванкувер"},
+  {id:88,stage:"r32",group:"",date:"2026-07-04",utcH:18,utcM:0, home:"1H", away:"2J", venue:"Atlanta Stadium", city:"Атланта"},
+  {id:89,stage:"r16",group:"",date:"2026-07-04",utcH:22,utcM:0, home:"W49", away:"W50", venue:"Philadelphia Stadium", city:"Филадельфия"},
+  {id:90,stage:"r16",group:"",date:"2026-07-05",utcH:2,utcM:0, home:"W51", away:"W52", venue:"Houston Stadium", city:"Хьюстон"},
+  {id:91,stage:"r16",group:"",date:"2026-07-05",utcH:22,utcM:0, home:"W53", away:"W54", venue:"Dallas Stadium", city:"Даллас"},
+  {id:92,stage:"r16",group:"",date:"2026-07-06",utcH:2,utcM:0, home:"W55", away:"W56", venue:"SF Bay Area Stadium", city:"Сан-Франциско"},
+  {id:93,stage:"r16",group:"",date:"2026-07-06",utcH:22,utcM:0, home:"W57", away:"W58", venue:"Miami Stadium", city:"Майами"},
+  {id:94,stage:"r16",group:"",date:"2026-07-07",utcH:2,utcM:0, home:"W59", away:"W60", venue:"Atlanta Stadium", city:"Атланта"},
+  {id:95,stage:"r16",group:"",date:"2026-07-07",utcH:18,utcM:0, home:"W61", away:"W62", venue:"BC Place", city:"Ванкувер"},
+  {id:96,stage:"r16",group:"",date:"2026-07-07",utcH:22,utcM:0, home:"W63", away:"W64", venue:"Boston Stadium", city:"Бостон"},
+  {id:97,stage:"qf",group:"",date:"2026-07-09",utcH:22,utcM:0, home:"W65", away:"W66", venue:"Boston Stadium", city:"Бостон"},
+  {id:98,stage:"qf",group:"",date:"2026-07-10",utcH:22,utcM:0, home:"W67", away:"W68", venue:"Los Angeles Stadium", city:"Лос-Анджелес"},
+  {id:99,stage:"qf",group:"",date:"2026-07-11",utcH:18,utcM:0, home:"W69", away:"W70", venue:"Kansas City Stadium", city:"Канзас-Сити"},
+  {id:100,stage:"qf",group:"",date:"2026-07-11",utcH:22,utcM:0, home:"W71", away:"W72", venue:"Miami Stadium", city:"Майами"},
+  {id:101,stage:"sf",group:"",date:"2026-07-14",utcH:23,utcM:0, home:"W73", away:"W74", venue:"Dallas Stadium", city:"Даллас"},
+  {id:102,stage:"sf",group:"",date:"2026-07-15",utcH:23,utcM:0, home:"W75", away:"W76", venue:"Atlanta Stadium", city:"Атланта"},
+  {id:103,stage:"3rd",group:"",date:"2026-07-18",utcH:18,utcM:0, home:"L77", away:"L78", venue:"Miami Stadium", city:"Майами"},
+  {id:104,stage:"final",group:"",date:"2026-07-19",utcH:19,utcM:0, home:"W77", away:"W78", venue:"New York New Jersey Stadium", city:"Нью-Йорк"},
 ];
-var STAGE_LABELS={group:"Групповой этап",r32:"1/8 финала",qf:"Четвертьфиналы",sf:"Полуфиналы","3rd":"Матч за 3-е место",final:"Финал"};
-var STAGE_ORDER=["group","r32","qf","sf","3rd","final"];
-var FILTERS=[{key:"all",label:"Все"},{key:"group",label:"Группы"},{key:"r32",label:"1/8"},{key:"qf",label:"1/4"},{key:"sf",label:"Полуф."},{key:"final",label:"Финал"}];
+var STAGE_LABELS={group:"Групповой этап",r32:"1/8 финала (Round of 32)",r16:"1/16 → 1/8 финала",qf:"Четвертьфиналы",sf:"Полуфиналы","3rd":"Матч за 3-е место",final:"🏆 Финал"};
+var STAGE_ORDER=["group","r32","r16","qf","sf","3rd","final"];
+var FILTERS=[{key:"all",label:"Все"},{key:"group",label:"Группы"},{key:"r32",label:"1/8"},{key:"r16",label:"1/16→8"},{key:"qf",label:"1/4"},{key:"sf",label:"Полуф."},{key:"final",label:"Финал"}];
+var GROUP_KEYS=["A","B","C","D","E","F","G","H","I","J","K","L"];
 
 // ═══════════════════════════════════════════════════
 // STATE — с надёжным localStorage fallback
 // ═══════════════════════════════════════════════════
 var picks={}, comments={}, results={}, autoRes={};
-var expanded={}, activeFilter="all", searchQ="";
+var expanded={}, activeFilter="all", activeGroup="", searchQ="";
 var autoOn=false, autoTimer=null, cdTimer=null, cdSec=0;
 var _pcmt={}, _pres={};
 
@@ -493,31 +572,98 @@ var _rt;
 function sr(){clearTimeout(_rt);_rt=setTimeout(function(){render();if(document.getElementById("page-analytics").classList.contains("active"))renderAn();},80);}
 
 function renderFilters(){
-  document.getElementById("filtersRow").innerHTML=
-    FILTERS.map(function(f){return'<button class="flt'+(activeFilter===f.key?" active":"")+'" onclick="setF(\''+f.key+'\')">'+f.label+'</button>';}).join("")+
+  var html=FILTERS.map(function(f){return'<button class="flt'+(activeFilter===f.key?" active":"")+'" onclick="setF(\''+f.key+'\')">'+f.label+'</button>';}).join("")+
     '<input class="search-box" id="searchBox" placeholder="Поиск..." value="'+esc(searchQ)+'">';
-  // attach listener AFTER insert (избегаем потери фокуса/задержки)
+  document.getElementById("filtersRow").innerHTML=html;
+  // под-фильтр групп (только когда выбран групповой этап или Все)
+  var grpRow=document.getElementById("groupRow");
+  if(activeFilter==="group"){
+    grpRow.style.display="flex";
+    grpRow.innerHTML='<button class="flt'+(activeGroup===""?" active":"")+'" onclick="setG(\'\')">Все группы</button>'+
+      GROUP_KEYS.map(function(g){return'<button class="flt'+(activeGroup===g?" active":"")+'" onclick="setG(\''+g+'\')">Группа '+g+'</button>';}).join("");
+  } else {
+    grpRow.style.display="none";
+  }
   var sb=document.getElementById("searchBox");
   if(sb){ sb.oninput=function(){ searchQ=this.value.toLowerCase(); renderSchedOnly(); }; }
 }
-function setF(k){activeFilter=k;render();}
+function setF(k){activeFilter=k;activeGroup="";render();}
+function setG(g){activeGroup=g;render();}
 
 // Рендер только списка матчей (не трогаем фильтры — поиск не теряет фокус)
 function renderSchedOnly(){
   var root=document.getElementById("schedRoot");
   var ms=MATCHES.filter(function(m){return activeFilter==="all"||m.stage===activeFilter;});
+  if(activeFilter==="group"&&activeGroup) ms=ms.filter(function(m){return m.group===activeGroup;});
   if(searchQ)ms=ms.filter(function(m){return m.home.toLowerCase().includes(searchQ)||m.away.toLowerCase().includes(searchQ);});
   if(!ms.length){root.innerHTML='<div class="nores">Матчи не найдены</div>';return;}
+  var html="";
+  // Если фильтр = группы и выбрана конкретная — показываем таблицу группы сверху
+  if(activeFilter==="group"&&activeGroup){
+    html+=renderGroupTable(activeGroup);
+  }
   var byStage={};STAGE_ORDER.forEach(function(s){byStage[s]=[];});
   ms.forEach(function(m){if(byStage[m.stage])byStage[m.stage].push(m);});
-  var html="";
   STAGE_ORDER.forEach(function(stage){
     var list=byStage[stage];if(!list.length)return;
-    html+='<div class="stage-sep">'+STAGE_LABELS[stage]+' <span>'+list.length+' матч'+(list.length===1?"":"ей")+'</span></div>';
-    list.forEach(function(m){html+=renderCard(m);});
+    // в групповом этапе при выборе "Все группы" — разбиваем по группам
+    if(stage==="group"&&activeFilter==="group"&&!activeGroup){
+      GROUP_KEYS.forEach(function(g){
+        var gl=list.filter(function(m){return m.group===g;});
+        if(!gl.length)return;
+        html+='<div class="stage-sep">Группа '+g+' <span>'+groupTeamsLine(g)+'</span></div>';
+        gl.forEach(function(m){html+=renderCard(m);});
+      });
+    } else {
+      html+='<div class="stage-sep">'+STAGE_LABELS[stage]+' <span>'+list.length+' матч'+(list.length===1?"":"ей")+'</span></div>';
+      list.forEach(function(m){html+=renderCard(m);});
+    }
   });
   root.innerHTML=html;
   applyMob();
+}
+
+function groupTeamsLine(g){
+  if(!GROUPS[g]) return "";
+  return GROUPS[g].join(" · ");
+}
+
+// Турнирная таблица группы (на основе сыгранных матчей)
+function renderGroupTable(g){
+  if(!GROUPS[g]) return "";
+  var teams=GROUPS[g];
+  var stats={};
+  teams.forEach(function(t){ stats[t]={p:0,w:0,d:0,l:0,gf:0,ga:0,pts:0}; });
+  MATCHES.filter(function(m){return m.group===g&&m.stage==="group";}).forEach(function(m){
+    var br=getBR(m.id);
+    if(!br||br.live) return;
+    var s=br.score.split(/[:\-]/);
+    var g1=parseInt(s[0]),g2=parseInt(s[1]);
+    if(isNaN(g1)||isNaN(g2))return;
+    if(!stats[m.home]||!stats[m.away])return;
+    stats[m.home].p++; stats[m.away].p++;
+    stats[m.home].gf+=g1; stats[m.home].ga+=g2;
+    stats[m.away].gf+=g2; stats[m.away].ga+=g1;
+    if(g1>g2){stats[m.home].w++;stats[m.home].pts+=3;stats[m.away].l++;}
+    else if(g2>g1){stats[m.away].w++;stats[m.away].pts+=3;stats[m.home].l++;}
+    else {stats[m.home].d++;stats[m.away].d++;stats[m.home].pts++;stats[m.away].pts++;}
+  });
+  var rows=teams.slice().sort(function(a,b){
+    if(stats[b].pts!==stats[a].pts)return stats[b].pts-stats[a].pts;
+    return (stats[b].gf-stats[b].ga)-(stats[a].gf-stats[a].ga);
+  });
+  var anyPlayed=teams.some(function(t){return stats[t].p>0;});
+  var body=rows.map(function(t,i){
+    var s=stats[t];
+    var qual=i<2?"style=\"color:var(--green)\"":(i===2?"style=\"color:var(--gold)\"":"");
+    return '<tr><td '+qual+'>'+(i+1)+'</td><td style="display:flex;align-items:center;gap:5px">'+fvs(t)+t+'</td>'
+      +'<td>'+s.p+'</td><td>'+s.w+'</td><td>'+s.d+'</td><td>'+s.l+'</td>'
+      +'<td>'+s.gf+':'+s.ga+'</td><td style="color:var(--gold);font-weight:700">'+s.pts+'</td></tr>';
+  }).join("");
+  return '<div class="gtable-wrap"><div class="sec" style="margin-bottom:8px">Таблица группы '+g+(anyPlayed?'':' <span style="font-size:11px;color:var(--text3);font-weight:400">— матчи ещё не сыграны</span>')+'</div>'
+    +'<table class="gtable"><thead><tr><th>#</th><th>Команда</th><th>И</th><th>В</th><th>Н</th><th>П</th><th>Голы</th><th>О</th></tr></thead>'
+    +'<tbody>'+body+'</tbody></table>'
+    +'<div style="font-size:10px;color:var(--text3);margin:6px 0 14px"><span style="color:var(--green)">●</span> выход в плей-офф · <span style="color:var(--gold)">●</span> возможен как лучший третий</div></div>';
 }
 
 function render(){ renderFilters(); renderSchedOnly(); }
@@ -602,13 +748,11 @@ function renderCard(m){
 }
 
 function applyMob(){
-  var mob=window.innerWidth<=640;
+  // Управление видимостью мобильного ряда теперь полностью на CSS
+  // (медиазапрос + .expanded). JS только убирает возможный inline display.
   MATCHES.forEach(function(m){
     var el=document.getElementById("mob_"+m.id);
-    if(el){
-      // на мобиле показываем мобильный ряд, НО скрываем если карточка раскрыта
-      el.style.display=(mob && !expanded[m.id])?"flex":"none";
-    }
+    if(el) el.style.removeProperty("display");
   });
 }
 window.addEventListener("resize",function(){setTimeout(applyMob,50);});
