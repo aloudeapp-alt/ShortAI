@@ -59,10 +59,10 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 .match-row{display:grid;grid-template-columns:24px 94px 78px 1fr 108px 108px;align-items:center;padding:10px 12px;cursor:pointer;gap:6px;user-select:none}
 @media(max-width:640px){
   .match-row{grid-template-columns:1fr auto;grid-template-rows:auto auto;padding:10px 12px;gap:3px 8px}
-  .m-num,.m-tvk,.m-tms,.m-pc{display:none}
-  .m-teams{grid-column:1;grid-row:1}
-  .m-date{grid-column:2;grid-row:1;text-align:right}
-  .m-mob{display:flex}
+  .m-num,.m-tvk,.m-pc{display:none}
+  .m-teams{grid-column:1;grid-row:1;min-width:0}
+  .m-date{grid-column:2;grid-row:1;text-align:right;justify-self:end}
+  .m-mob{display:flex;grid-column:1 / -1;grid-row:2}
   /* при раскрытии карточки прячем мобильный ряд (пики есть внутри панели) */
   .match-card.expanded .m-mob{display:none}
   /* ── mobile top nav: keep everything on one line ── */
@@ -81,6 +81,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
   .m-mob{display:none!important}
 }
 .m-mob{display:none;grid-column:1/-1;grid-row:2;gap:7px}
+.m-mob .pb{max-width:none;flex:1;justify-content:center}
 .m-num{font-size:10px;color:var(--text3);text-align:center}
 .m-date-main{font-size:12px;font-weight:500;white-space:nowrap}
 .m-date-sub{font-size:10px;color:var(--text2)}
@@ -1219,7 +1220,7 @@ function renderCard(m){
   return '<div class="match-card'+(isExp?" expanded":"")+(locked?" locked":"")+'" id="mc_'+m.id+'">'
     +'<div class="match-row" onclick="toggleE('+m.id+')">'
     +'<div class="m-num">'+(m.group?'<span class="gpill">'+m.group+'</span>':m.id)+'</div>'
-    +'<div><div class="m-date-main">'+ds+statusBadge+'</div><div class="m-date-sub">'+dw+' · '+m.city+'</div></div>'
+    +'<div class="m-date"><div class="m-date-main">'+ds+statusBadge+'</div><div class="m-date-sub">'+dw+' · '+m.city+'</div></div>'
     +'<div class="m-tvk"><div class="m-t-main">'+selT+'</div><div class="m-t-sub">'+selA+'</div></div>'
     +'<div class="m-teams"><div class="m-teams-name">'+teamsHtml+'</div>'
     +'<div class="m-teams-sub">'+m.venue+'</div>'
