@@ -91,6 +91,14 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 .pb-e{background:rgba(61,142,240,.14);color:#5ea8f5;border-color:rgba(61,142,240,.35)}
 .pb-c{background:rgba(224,92,48,.14);color:#f07850;border-color:rgba(224,92,48,.35)}
 .pb-mt{color:var(--text3);border:1px dashed var(--border2)}
+.pb-lock{opacity:.5;cursor:default}
+.po-lock{cursor:default;opacity:.85}
+.po-lock:hover{border-color:var(--border2)}
+.mstatus{font-size:9px;font-weight:800;letter-spacing:.05em;padding:1px 6px;border-radius:4px;margin-left:7px;vertical-align:middle}
+.mstatus.live{background:rgba(224,64,46,.18);color:#ff7a5c;animation:pulse 1s infinite}
+.mstatus.fin{background:var(--bg3);color:var(--text3)}
+.lock-note{font-size:11px;color:var(--text2);background:var(--bg3);padding:7px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border)}
+.match-card.locked{opacity:.96}
 .pb-mt:hover{border-color:var(--text2);color:var(--text2)}
 .pb.correct{box-shadow:0 0 0 1.5px var(--green)!important}
 .pb.wrong{opacity:.38}
@@ -555,6 +563,8 @@ function ss(s,l){document.getElementById("syncDot").className="sync-dot "+s;docu
 
 // Запись: в Firebase + локально (локальное как кэш)
 function fw(mid,who,val){
+  var m=MATCHES.find(function(x){return x.id===mid;});
+  if(m&&isLocked(m)) return; // picks locked once the match has kicked off
   var c=Object.assign({},picks[mid]||{}); c[who]=val; picks[mid]=c;
   saveLocal();
   if(fbReady){ try{ fbRoot.child("picks/"+mid).set(c); }catch(e){} }
@@ -798,6 +808,20 @@ function getBR(mid){
   var au=autoRes[mid]||"";if(!au)return null;
   var p=au.split("|");return{score:p[0],auto:true,live:p[1]==="LIVE"};
 }
+// Match kickoff timestamp (UTC ms)
+function matchTS(m){ return new Date(m.date+"T"+pad(m.utcH)+":"+pad(m.utcM)+":00Z").getTime(); }
+// Are picks locked? Locked once kickoff time has passed, OR a score exists (live/FT).
+function isLocked(m){
+  if(getBR(m.id)) return true;          // score present (live or finished)
+  return Date.now() >= matchTS(m);       // kickoff time reached
+}
+// Status of a match: "upcoming" | "live" | "finished"
+function matchStatus(m){
+  var br=getBR(m.id);
+  if(br) return br.live?"live":"finished";
+  if(Date.now()>=matchTS(m)) return "live";   // started by clock, no score yet
+  return "upcoming";
+}
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 
 // ═══════════════════════════════════════════════════
@@ -1012,17 +1036,25 @@ function renderCard(m){
     var autoTag=br.auto?'<span class="res-auto">auto</span>':"";
     resPill='<span class="'+cls+'">'+br.score+'</span>'+autoTag;
   }
+  var locked=isLocked(m);
+  var status=matchStatus(m); // upcoming | live | finished
   function pbCls(pick,who){
     var b="pb "+(who==="e"?"pb-e":"pb-c");
-    if(!pick)return"pb pb-mt";
-    if(!w)return b;
+    if(!pick)return"pb pb-mt"+(locked?" pb-lock":"");
+    if(!w)return b+(locked?" pb-lock":"");
     return b+(pick===w?" correct":" wrong");
   }
   function pbLbl(pick,who){
-    if(!pick)return who==="e"?"+ ESPRIT":"+ CLOUN";
+    if(!pick)return locked?'<span style="opacity:.6">— no pick</span>':(who==="e"?"+ ESPRIT":"+ CLOUN");
     var nm=isTBA(pick)?tbaHint(pick):pick;
     return fvs(pick)+'<span>'+nm+'</span>';
   }
+  // click target: locked picks just expand the card (to view), don't open a picker
+  var pickClick=locked?("toggleE("+m.id+")"):("openE(event,"+m.id+")");
+  // status badge
+  var statusBadge="";
+  if(status==="live") statusBadge='<span class="mstatus live">● LIVE</span>';
+  else if(status==="finished") statusBadge='<span class="mstatus fin">FT</span>';
 
   var teamsHtml='<span style="display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap">'
     +fv(m.home)+'<span>'+teamNameFull(m.home)+'</span>'
@@ -1037,11 +1069,13 @@ function renderCard(m){
     var auScore=auR?auR.split("|")[0]:"";
     var auTag=auR?auR.split("|")[1]:"";
     var optLabel=function(t){ return isTBA(t) ? ('<span style="color:var(--text3)">'+tbaHint(t)+'</span>') : t; };
-    var opts_e=teams.map(function(t){ return'<span class="po'+(pe===t?" se":"")+'" data-pick="'+m.id+'" data-who="esprit" data-team="'+esc(t)+'">'+fvs(t)+optLabel(t)+'</span>'; }).join("");
-    var opts_c=teams.map(function(t){ return'<span class="po'+(pc===t?" sc":"")+'" data-pick="'+m.id+'" data-who="cloun" data-team="'+esc(t)+'">'+fvs(t)+optLabel(t)+'</span>'; }).join("");
+    var lockAttr=locked?'':' data-pick="'+m.id+'"';
+    var opts_e=teams.map(function(t){ return'<span class="po'+(pe===t?" se":"")+(locked?" po-lock":"")+'"'+lockAttr+' data-who="esprit" data-team="'+esc(t)+'">'+fvs(t)+optLabel(t)+'</span>'; }).join("");
+    var opts_c=teams.map(function(t){ return'<span class="po'+(pc===t?" sc":"")+(locked?" po-lock":"")+'"'+lockAttr+' data-who="cloun" data-team="'+esc(t)+'">'+fvs(t)+optLabel(t)+'</span>'; }).join("");
+    var lockNote=locked?'<div class="lock-note">🔒 Picks locked — match has started</div>':"";
     var peHint=pe?(isTBA(pe)?tbaHint(pe):pe):"";
     var pcHint=pc?(isTBA(pc)?tbaHint(pc):pc):"";
-    expHtml='<div class="exp-panel"><div class="exp-inner">'
+    expHtml='<div class="exp-panel">'+lockNote+'<div class="exp-inner">'
       +'<div class="exp-col">'
       +'<div class="exp-lbl"><div class="dot-e"></div>ESPRIT — Vancouver'+(pe?'&nbsp;<span style="font-size:10px;color:var(--text3)">pick: '+peHint+'</span>':"")+'</div>'
       +'<textarea class="exp-ta" placeholder="Comment, thoughts, prediction..." rows="3" oninput="_pcmt['+m.id+']=_pcmt['+m.id+']||{};_pcmt['+m.id+'].esprit=this.value">'+esc(comE)+'</textarea>'
@@ -1066,20 +1100,20 @@ function renderCard(m){
       +'</div>';
   }
 
-  return '<div class="match-card'+(isExp?" expanded":"")+'" id="mc_'+m.id+'">'
+  return '<div class="match-card'+(isExp?" expanded":"")+(locked?" locked":"")+'" id="mc_'+m.id+'">'
     +'<div class="match-row" onclick="toggleE('+m.id+')">'
     +'<div class="m-num">'+(m.group?'<span class="gpill">'+m.group+'</span>':m.id)+'</div>'
-    +'<div><div class="m-date-main">'+ds+'</div><div class="m-date-sub">'+dw+' · '+m.city+'</div></div>'
+    +'<div><div class="m-date-main">'+ds+statusBadge+'</div><div class="m-date-sub">'+dw+' · '+m.city+'</div></div>'
     +'<div class="m-tvk"><div class="m-t-main">'+selT+'</div><div class="m-t-sub">'+selA+'</div></div>'
     +'<div class="m-teams"><div class="m-teams-name">'+teamsHtml+'</div>'
     +'<div class="m-teams-sub">'+m.venue+'</div>'
     +'<div class="m-teams-sub2">'+selT+' '+selA+'</div></div>'
-    +'<div class="m-pc"><span class="'+pbCls(pe,"e")+'" onclick="openE(event,'+m.id+')">'+pbLbl(pe,"e")+'</span></div>'
-    +'<div class="m-pc"><span class="'+pbCls(pc,"c")+'" onclick="openE(event,'+m.id+')">'+pbLbl(pc,"c")+'</span></div>'
+    +'<div class="m-pc"><span class="'+pbCls(pe,"e")+'" onclick="'+pickClick+'">'+pbLbl(pe,"e")+'</span></div>'
+    +'<div class="m-pc"><span class="'+pbCls(pc,"c")+'" onclick="'+pickClick+'">'+pbLbl(pc,"c")+'</span></div>'
     +'</div>'
     +'<div class="m-mob" id="mob_'+m.id+'" style="padding:0 12px 10px;gap:7px">'
-    +'<span class="'+pbCls(pe,"e")+'" style="flex:1;justify-content:center" onclick="openE(event,'+m.id+')">'+pbLbl(pe,"e")+'</span>'
-    +'<span class="'+pbCls(pc,"c")+'" style="flex:1;justify-content:center" onclick="openE(event,'+m.id+')">'+pbLbl(pc,"c")+'</span>'
+    +'<span class="'+pbCls(pe,"e")+'" style="flex:1;justify-content:center" onclick="'+pickClick+'">'+pbLbl(pe,"e")+'</span>'
+    +'<span class="'+pbCls(pc,"c")+'" style="flex:1;justify-content:center" onclick="'+pickClick+'">'+pbLbl(pc,"c")+'</span>'
     +'</div>'+expHtml+'</div>';
 }
 
@@ -1352,6 +1386,10 @@ setTimeout(function(){
     autoTimer=setInterval(fetchFixtures, FETCH_INTERVAL_MS);
   }
 }, 1500);
+// re-render schedule every minute so picks lock exactly at kickoff
+setInterval(function(){
+  if(document.getElementById("page-schedule").classList.contains("active")) renderSchedOnly();
+}, 60000);
 </script>
 </body>
 </html>
