@@ -181,7 +181,8 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
   <div id="anRoot"></div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/gun@0.2020.1240/gun.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 <script>
 // ═══════════════════════════════════════════════════
 // CONFIG — API ключ прокинут прямо в код
@@ -338,38 +339,80 @@ function saveLocal(){
 loadLocal();
 
 // ═══════════════════════════════════════════════════
-// GUN — рабочие relay + всегда сохраняем локально
+// FIREBASE — стабильная синхронизация в реальном времени
 // ═══════════════════════════════════════════════════
-var gun=GUN({peers:["https://relay.peer.ooo/gun","https://gun-manhattan.herokuapp.com/gun","https://peer.wallie.io/gun"],localStorage:true,radisk:false});
-var room=gun.get("wc2026_esprit_cloun_room1");
+var fbReady=false, fbDB=null, fbRoot=null;
 
-room.get("picks").map().on(function(v,mid){if(!v)return;try{picks[mid]=JSON.parse(v);saveLocal();sr();}catch(e){}});
-room.get("comments").map().on(function(v,mid){if(!v)return;try{comments[mid]=JSON.parse(v);saveLocal();sr();}catch(e){}});
-room.get("results").map().on(function(v,mid){if(v==null)return;results[mid]=v;saveLocal();sr();});
-room.get("autoRes").map().on(function(v,mid){if(v==null)return;autoRes[mid]=v;saveLocal();sr();});
+function initFirebase(){
+  try{
+    var cfg={
+      apiKey:"AIzaSyAj5fwzEHCI7Gza90cajHiHOwQiJcfuoQ0",
+      authDomain:"wc2026-esprit-cloun.firebaseapp.com",
+      databaseURL:"https://wc2026-esprit-cloun-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId:"wc2026-esprit-cloun",
+      storageBucket:"wc2026-esprit-cloun.firebasestorage.app",
+      messagingSenderId:"430511379657",
+      appId:"1:430511379657:web:83c5d787723e48c5156918"
+    };
+    firebase.initializeApp(cfg);
+    fbDB=firebase.database();
+    fbRoot=fbDB.ref("wc2026/room1");
+    fbReady=true;
 
-gun.on("hi",function(){ss("online","синхронизировано");});
-gun.on("bye",function(){ss("error","локально");});
-ss("syncing","подключение...");
-setTimeout(function(){ if(document.getElementById("syncDot").classList.contains("syncing")) ss("online","локально+облако"); },4000);
+    // Подписка на изменения в реальном времени
+    fbRoot.child("picks").on("value",function(snap){
+      var v=snap.val();
+      if(v){ picks=v; saveLocal(); sr(); }
+    });
+    fbRoot.child("comments").on("value",function(snap){
+      var v=snap.val();
+      if(v){ comments=v; saveLocal(); sr(); }
+    });
+    fbRoot.child("results").on("value",function(snap){
+      var v=snap.val();
+      if(v){ results=v; saveLocal(); sr(); }
+    });
+    fbRoot.child("autoRes").on("value",function(snap){
+      var v=snap.val();
+      if(v){ autoRes=v; saveLocal(); sr(); }
+    });
+
+    // Статус подключения
+    fbDB.ref(".info/connected").on("value",function(snap){
+      if(snap.val()===true) ss("online","синхронизировано");
+      else ss("error","нет связи");
+    });
+    ss("syncing","подключение...");
+  }catch(e){
+    ss("error","локально");
+    console.log("Firebase init error:",e);
+  }
+}
 
 function ss(s,l){document.getElementById("syncDot").className="sync-dot "+s;document.getElementById("syncLbl").textContent=l;}
 
-// Запись: и в Gun, и локально (локальное всегда работает)
+// Запись: в Firebase + локально (локальное как кэш)
 function fw(mid,who,val){
   var c=Object.assign({},picks[mid]||{}); c[who]=val; picks[mid]=c;
   saveLocal();
-  try{ room.get("picks").get(String(mid)).put(JSON.stringify(c)); }catch(e){}
+  if(fbReady){ try{ fbRoot.child("picks/"+mid).set(c); }catch(e){} }
   fs();
 }
 function fc(mid,who,val){
   var c=Object.assign({},comments[mid]||{}); c[who]=val; comments[mid]=c;
   saveLocal();
-  try{ room.get("comments").get(String(mid)).put(JSON.stringify(c)); }catch(e){}
+  if(fbReady){ try{ fbRoot.child("comments/"+mid).set(c); }catch(e){} }
 }
-function fr(mid,val){ results[mid]=val; saveLocal(); try{room.get("results").get(String(mid)).put(val);}catch(e){} fs(); }
-function far(mid,val){ autoRes[mid]=val; saveLocal(); try{room.get("autoRes").get(String(mid)).put(val);}catch(e){} }
-function fs(){ ss("syncing","сохранение..."); setTimeout(function(){ ss("online","сохранено"); },800); }
+function fr(mid,val){
+  results[mid]=val; saveLocal();
+  if(fbReady){ try{ fbRoot.child("results/"+mid).set(val); }catch(e){} }
+  fs();
+}
+function far(mid,val){
+  autoRes[mid]=val; saveLocal();
+  if(fbReady){ try{ fbRoot.child("autoRes/"+mid).set(val); }catch(e){} }
+}
+function fs(){ ss("syncing","сохранение..."); setTimeout(function(){ ss("online","сохранено"); },700); }
 
 // ═══════════════════════════════════════════════════
 // API — авто-результаты (ключ в коде)
@@ -661,6 +704,7 @@ document.getElementById("schedRoot").addEventListener("click",function(e){
 // BOOT
 render();
 setTimeout(applyMob,100);
+initFirebase();
 // Авто-старт получения результатов (ключ в коде)
 setTimeout(function(){ setApiS("","готово, вкл «Авто» при матче"); },500);
 </script>
