@@ -608,11 +608,14 @@ function fmtDateAPI(d){
 
 function fetchFixtures(manual){
   setApiInfo("check","requesting API...");
-  // request today and yesterday (late matches fall on yesterday's UTC date)
+  // The API buckets matches by the stadium's LOCAL date, which can be ±1 day from UTC.
+  // So we query yesterday, today and tomorrow to be safe.
   var today=new Date();
   var yest=new Date(Date.now()-86400000);
-  var dates=[fmtDateAPI(today),fmtDateAPI(yest)];
+  var tom=new Date(Date.now()+86400000);
+  var dates=[fmtDateAPI(yest),fmtDateAPI(today),fmtDateAPI(tom)];
   var done=0, totalNew=0, totalMatched=0, hadError=false, errMsg="";
+  lastFetchInfo.debug={dates:dates, totalReturned:0, sampleNames:[], wcCandidates:[]};
   dates.forEach(function(ds){
     fetch(apiCfg.base+"/football-get-matches-by-date?date="+ds,{
       headers:{"x-rapidapi-host":apiCfg.host,"x-rapidapi-key":apiCfg.key}
@@ -625,6 +628,17 @@ function fetchFixtures(manual){
     .then(function(d){
       if(d.status&&d.status!=="success"){ hadError=true; errMsg="API returned status: "+d.status; return; }
       var matches=(d.response&&d.response.matches)||[];
+      lastFetchInfo.debug.totalReturned+=matches.length;
+      // collect team-name pairs that look like our WC teams (for debugging mismatches)
+      matches.forEach(function(fx){
+        if(!fx.home||!fx.away)return;
+        var hn=fx.home.name, an=fx.away.name;
+        var isWC = MATCHES.some(function(x){return teamMatch(x.home,hn,fx.home.longName)||teamMatch(x.away,an,fx.away.longName)||teamMatch(x.home,an,fx.away.longName)||teamMatch(x.away,hn,fx.home.longName);});
+        if(isWC) lastFetchInfo.debug.wcCandidates.push(hn+" vs "+an);
+      });
+      if(lastFetchInfo.debug.sampleNames.length<10){
+        matches.slice(0,10).forEach(function(fx){ if(fx.home&&fx.away) lastFetchInfo.debug.sampleNames.push(fx.home.name+" vs "+fx.away.name); });
+      }
       var res=processFix(matches);
       totalNew+=res.updated; totalMatched+=res.matched;
     })
@@ -634,7 +648,7 @@ function fetchFixtures(manual){
       if(done===dates.length){
         lastFetchInfo.time=new Date();
         if(hadError){ lastFetchInfo.status="err"; setApiInfo("err",errMsg||"error"); }
-        else if(totalMatched===0){ lastFetchInfo.status="ok"; setApiInfo("ok","request ok, no WC matches today"); }
+        else if(totalMatched===0){ lastFetchInfo.status="ok"; setApiInfo("ok","request ok, no WC matches today ("+lastFetchInfo.debug.totalReturned+" total returned)"); }
         else { lastFetchInfo.status="ok"; setApiInfo("ok","WC matches found: "+totalMatched+", updated: "+totalNew); }
         sr(); renderSettings();
       }
@@ -655,14 +669,19 @@ function processFix(matches){
     var isLive=st.started===true && !st.finished && !st.cancelled;
     if(st.cancelled) return;
     if(!isLive&&!isFin) return;
-    // match against our schedule by team name (with alias support)
+    // match against our schedule by team name (with alias support); handle swapped home/away
+    var swapped=false;
     var m=MATCHES.find(function(x){
-      return teamMatch(x.home,homeEn,homeLong)&&teamMatch(x.away,awayEn,awayLong);
+      if(teamMatch(x.home,homeEn,homeLong)&&teamMatch(x.away,awayEn,awayLong)) return true;
+      if(teamMatch(x.home,awayEn,awayLong)&&teamMatch(x.away,homeEn,homeLong)){ swapped=true; return true; }
+      return false;
     });
     if(!m) return;
     matched++;
     var tag=isFin?(st.reason&&st.reason.short?st.reason.short:"FT"):"LIVE";
-    var val=g1+":"+g2+"|"+tag;
+    // keep score oriented to OUR home:away ordering
+    var sH=swapped?g2:g1, sA=swapped?g1:g2;
+    var val=sH+":"+sA+"|"+tag;
     if(autoRes[m.id]!==val){ far(m.id,val); cnt++; }
   });
   return {updated:cnt, matched:matched};
@@ -699,6 +718,16 @@ function renderSettings(){
     +'<button class="set-btn '+(apiCfg.autoEnabled?"":"primary")+'" onclick="toggleAuto()">'+(apiCfg.autoEnabled?"Turn auto off":"Turn auto on")+'</button>'
     +'<button class="set-btn" onclick="fetchFixtures(true)">Update now</button>'
     +'</div>'
+    +(lastFetchInfo.debug?(
+        '<div style="margin-top:14px;padding:12px;background:var(--bg3);border-radius:var(--rs);font-size:11px;color:var(--text2);line-height:1.7">'
+        +'<div style="color:var(--text);font-weight:700;margin-bottom:5px">Diagnostics (last request)</div>'
+        +'Dates queried: <span style="font-family:monospace;color:var(--gold2)">'+lastFetchInfo.debug.dates.join(", ")+'</span><br>'
+        +'Total matches returned by API: <b>'+lastFetchInfo.debug.totalReturned+'</b><br>'
+        +'WC matches matched to schedule: <b>'+(lastFetchInfo.debug.wcCandidates.length)+'</b>'
+        +(lastFetchInfo.debug.wcCandidates.length?'<br><span style="color:var(--green)">'+lastFetchInfo.debug.wcCandidates.join("<br>")+'</span>':'')
+        +(lastFetchInfo.debug.totalReturned&&!lastFetchInfo.debug.wcCandidates.length?'<br><span style="color:var(--text3)">Sample of returned matches (to compare names):<br>'+lastFetchInfo.debug.sampleNames.join("<br>")+'</span>':'')
+        +'</div>'
+      ):'')
     +'<p class="set-hint">Results are fetched automatically several times a day and synced to both of you via the cloud. Just keep the tab open on one device.</p>'
     +'</div>'
 
@@ -1082,43 +1111,64 @@ function loadLineup(e,mid){
   body.innerHTML='<div class="lu-loading"><div class="lu-spin"></div>Loading line-ups…</div>';
   var btn=body.parentNode.querySelector(".lineup-btn"); if(btn)btn.style.display="none";
 
-  // 1) resolve API eventId via matches-by-date for this fixture's UTC date
-  var apiDate=fmtDateAPI(new Date(m.date+"T"+pad(m.utcH)+":"+pad(m.utcM)+":00Z"));
-  fetch(apiCfg.base+"/football-get-matches-by-date?date="+apiDate,{
-    headers:{"x-rapidapi-host":apiCfg.host,"x-rapidapi-key":apiCfg.key}
-  })
-  .then(function(r){ if(r.status===401||r.status===403)throw new Error("key not subscribed"); if(r.status===429)throw new Error("rate limit"); return r.json(); })
-  .then(function(d){
-    var matches=(d.response&&d.response.matches)||[];
-    var fx=matches.find(function(x){
-      return x.home&&x.away&&teamMatch(m.home,x.home.name,x.home.longName)&&teamMatch(m.away,x.away.name,x.away.longName);
-    });
-    if(!fx) throw new Error("no-fixture");
-    // 2) fetch home + away lineups in parallel
-    return Promise.all([
-      fetchTeamLineup("hometeam",fx.id),
-      fetchTeamLineup("awayteam",fx.id)
-    ]);
-  })
-  .then(function(res){
-    var home=res[0], away=res[1];
-    if((!home||!home.starters.length)&&(!away||!away.starters.length)){
-      // no lineups yet → fallback to squads
-      return fetchSquads(m).then(function(sq){
+  // 1) resolve API eventId — the API buckets by stadium LOCAL date which can be ±1
+  //    from UTC, so try the scheduled date ±1 AND today/yesterday/tomorrow (real dates).
+  var base=new Date(m.date+"T"+pad(m.utcH)+":"+pad(m.utcM)+":00Z");
+  var schedD=fmtDateAPI(base);
+  var schedNext=fmtDateAPI(new Date(base.getTime()+86400000));
+  var schedPrev=fmtDateAPI(new Date(base.getTime()-86400000));
+  var realToday=fmtDateAPI(new Date());
+  var realYest=fmtDateAPI(new Date(Date.now()-86400000));
+  var realTom=fmtDateAPI(new Date(Date.now()+86400000));
+  var tryDates=[schedNext,schedD,schedPrev,realTom,realToday,realYest].filter(function(v,i,a){return a.indexOf(v)===i;});
+
+  findEventId(m,tryDates,0,function(fxId){
+    if(!fxId){ // not found on any date → fall back to squads
+      fetchSquads(m).then(function(sq){
         if(sq){ lineupCache[mid]={squad:sq}; body.innerHTML=renderLineupHTML(m,lineupCache[mid]); }
-        else throw new Error("no-data");
+        else body.innerHTML='<div class="lu-empty">Line-ups aren\'t published yet — they usually appear about an hour before kickoff. Tap ↻ to retry closer to match time.</div>'
+          +'<div style="margin-top:8px"><button class="lineup-btn" onclick="refreshLineup(event,'+mid+')">↻ Try again</button></div>';
       });
+      return;
     }
-    lineupCache[mid]={home:home,away:away};
-    body.innerHTML=renderLineupHTML(m,lineupCache[mid]);
-  })
-  .catch(function(){
-    fetchSquads(m).then(function(sq){
-      if(sq){ lineupCache[mid]={squad:sq}; body.innerHTML=renderLineupHTML(m,lineupCache[mid]); }
-      else body.innerHTML='<div class="lu-empty">Line-ups aren\'t published yet — they usually appear about an hour before kickoff. Tap ↻ to retry closer to match time.</div>'
+    Promise.all([fetchTeamLineup("hometeam",fxId),fetchTeamLineup("awayteam",fxId)])
+    .then(function(res){
+      var home=res[0], away=res[1];
+      if((!home||!home.starters.length)&&(!away||!away.starters.length)){
+        return fetchSquads(m).then(function(sq){
+          if(sq){ lineupCache[mid]={squad:sq}; body.innerHTML=renderLineupHTML(m,lineupCache[mid]); }
+          else body.innerHTML='<div class="lu-empty">Line-ups aren\'t published yet — they usually appear about an hour before kickoff. Tap ↻ to retry closer to match time.</div>'
+            +'<div style="margin-top:8px"><button class="lineup-btn" onclick="refreshLineup(event,'+mid+')">↻ Try again</button></div>';
+        });
+      }
+      lineupCache[mid]={home:home,away:away};
+      body.innerHTML=renderLineupHTML(m,lineupCache[mid]);
+    })
+    .catch(function(){
+      body.innerHTML='<div class="lu-empty">Couldn\'t load line-ups right now.</div>'
         +'<div style="margin-top:8px"><button class="lineup-btn" onclick="refreshLineup(event,'+mid+')">↻ Try again</button></div>';
     });
   });
+}
+
+// recursively try each candidate date until the fixture is found in the API
+function findEventId(m,dates,i,cb){
+  if(i>=dates.length){ cb(null); return; }
+  fetch(apiCfg.base+"/football-get-matches-by-date?date="+dates[i],{
+    headers:{"x-rapidapi-host":apiCfg.host,"x-rapidapi-key":apiCfg.key}
+  })
+  .then(function(r){return r.json();})
+  .then(function(d){
+    var matches=(d.response&&d.response.matches)||[];
+    var fx=matches.find(function(x){
+      return x.home&&x.away&&(
+        (teamMatch(m.home,x.home.name,x.home.longName)&&teamMatch(m.away,x.away.name,x.away.longName)) ||
+        (teamMatch(m.home,x.away.name,x.away.longName)&&teamMatch(m.away,x.home.name,x.home.longName))
+      );
+    });
+    if(fx){ cb(fx.id); } else { findEventId(m,dates,i+1,cb); }
+  })
+  .catch(function(){ findEventId(m,dates,i+1,cb); });
 }
 
 function fetchTeamLineup(side,eventId){
