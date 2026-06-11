@@ -64,6 +64,18 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
   .m-mob{display:flex}
   /* при раскрытии карточки прячем мобильный ряд (пики есть внутри панели) */
   .match-card.expanded .m-mob{display:none}
+  /* ── mobile top nav: keep everything on one line ── */
+  nav{padding:0 10px;min-height:46px;gap:2px}
+  .nav-logo{font-size:13px}
+  .nav-logo span{display:none}            /* hide "ESPRIT×CLOUN" subtitle */
+  .nav-tabs{margin-left:6px;gap:0}
+  .nav-tab{padding:12px 9px;font-size:12.5px}
+  .nav-right{gap:5px}
+  .sync-lbl{display:none}                 /* keep only the colored status dot */
+}
+@media(max-width:360px){
+  .nav-tab{padding:12px 7px;font-size:12px}
+  .nav-logo{font-size:12px}
 }
 @media(min-width:641px){
   .m-mob{display:none!important}
@@ -99,6 +111,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 .mstatus.fin{background:var(--bg3);color:var(--text3)}
 .lock-note{font-size:11px;color:var(--text2);background:var(--bg3);padding:7px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border)}
 .match-card.locked{opacity:.96}
+.you-tag{font-size:8px;font-weight:800;letter-spacing:.05em;padding:1px 5px;border-radius:3px;background:var(--gold);color:#0a0c11;margin-left:5px;vertical-align:middle}
 .pb-mt:hover{border-color:var(--text2);color:var(--text2)}
 .pb.correct{box-shadow:0 0 0 1.5px var(--green)!important}
 .pb.wrong{opacity:.38}
@@ -247,7 +260,38 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
+// ═══════════════════════════════════════════════════
+// TELEGRAM IDENTITY
+// Map Telegram username → our two players. Username is case-insensitive.
+// ═══════════════════════════════════════════════════
+var USER_MAP={ "svsergeev":"cloun", "vpesprit":"esprit" };
+var currentUser=null;   // "esprit" | "cloun" | null (viewer/unknown)
+var tgUser=null;        // raw telegram user object
+function initTelegram(){
+  try{
+    var tg=window.Telegram&&window.Telegram.WebApp;
+    if(tg){
+      tg.ready(); tg.expand();
+      tgUser=(tg.initDataUnsafe&&tg.initDataUnsafe.user)||null;
+      if(tgUser&&tgUser.username){
+        var u=tgUser.username.toLowerCase().replace(/^@/,"");
+        if(USER_MAP[u]) currentUser=USER_MAP[u];
+      }
+    }
+  }catch(e){}
+  // fallback: remember a manual choice (for browser use / no username)
+  if(!currentUser){
+    var saved=localStorage.getItem("wc26_me");
+    if(saved==="esprit"||saved==="cloun") currentUser=saved;
+  } else {
+    localStorage.setItem("wc26_me",currentUser);
+  }
+}
+function setMe(who){ currentUser=who; localStorage.setItem("wc26_me",who); render(); }
+function meName(){ return currentUser==="esprit"?"ESPRIT":(currentUser==="cloun"?"CLOUN":"Guest"); }
+
 // ═══════════════════════════════════════════════════
 // CONFIG — настройки API (редактируются в Настройках)
 // ═══════════════════════════════════════════════════
@@ -559,12 +603,14 @@ function initFirebase(){
   }
 }
 
-function ss(s,l){document.getElementById("syncDot").className="sync-dot "+s;document.getElementById("syncLbl").textContent=l;}
+function ss(s,l){var d=document.getElementById("syncDot");d.className="sync-dot "+s;d.title=l;document.getElementById("syncLbl").textContent=l;}
 
 // Запись: в Firebase + локально (локальное как кэш)
 function fw(mid,who,val){
   var m=MATCHES.find(function(x){return x.id===mid;});
   if(m&&isLocked(m)) return; // picks locked once the match has kicked off
+  // identity guard: you can only edit your own pick column (if identity is known)
+  if(currentUser && who!==currentUser) return;
   var c=Object.assign({},picks[mid]||{}); c[who]=val; picks[mid]=c;
   saveLocal();
   if(fbReady){ try{ fbRoot.child("picks/"+mid).set(c); }catch(e){} }
@@ -707,7 +753,20 @@ function renderSettings(){
   var lastTime=lastFetchInfo.time?lastFetchInfo.time.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"}):"no requests yet";
   var stDot=lastFetchInfo.statusClass==="ok"?"var(--green)":(lastFetchInfo.statusClass==="err"?"var(--red)":"var(--text3)");
   root.innerHTML=
-    '<div class="sec">Display timezone</div>'
+    '<div class="sec">You</div>'
+    +'<div class="set-card">'
+    +'<div class="set-row"><span class="set-k">Signed in as</span><span class="set-v"><b style="color:var(--gold2)">'+meName()+'</b>'
+    +(tgUser&&tgUser.username?' <span style="color:var(--text3);font-size:11px">@'+esc(tgUser.username)+'</span>':'')+'</span></div>'
+    +'<div class="set-row"><span class="set-k">Source</span><span class="set-v">'+((window.Telegram&&window.Telegram.WebApp&&tgUser)?"Telegram":"Browser")+'</span></div>'
+    +'<div style="margin-top:10px"><div class="set-k" style="margin-bottom:6px">Play as (if not auto-detected):</div>'
+    +'<div style="display:flex;gap:6px">'
+    +'<button class="set-btn '+(currentUser==="esprit"?"primary":"")+'" onclick="setMe(\'esprit\')">ESPRIT</button>'
+    +'<button class="set-btn '+(currentUser==="cloun"?"primary":"")+'" onclick="setMe(\'cloun\')">CLOUN</button>'
+    +'</div></div>'
+    +'<p class="set-hint">In Telegram you\'re recognised automatically by your username (@Vpesprit → ESPRIT, @Svsergeev → CLOUN). In a normal browser, pick who you are here. You can only edit your own picks and comments; the other player\'s are read-only.</p>'
+    +'</div>'
+
+    +'<div class="sec" style="margin-top:24px">Display timezone</div>'
     +'<div class="set-card">'
     +'<div class="set-row"><span class="set-k">Dates &amp; days are shown in</span></div>'
     +'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">'
@@ -1069,16 +1128,25 @@ function renderCard(m){
     var auScore=auR?auR.split("|")[0]:"";
     var auTag=auR?auR.split("|")[1]:"";
     var optLabel=function(t){ return isTBA(t) ? ('<span style="color:var(--text3)">'+tbaHint(t)+'</span>') : t; };
-    var lockAttr=locked?'':' data-pick="'+m.id+'"';
-    var opts_e=teams.map(function(t){ return'<span class="po'+(pe===t?" se":"")+(locked?" po-lock":"")+'"'+lockAttr+' data-who="esprit" data-team="'+esc(t)+'">'+fvs(t)+optLabel(t)+'</span>'; }).join("");
-    var opts_c=teams.map(function(t){ return'<span class="po'+(pc===t?" sc":"")+(locked?" po-lock":"")+'"'+lockAttr+' data-who="cloun" data-team="'+esc(t)+'">'+fvs(t)+optLabel(t)+'</span>'; }).join("");
+    // a column is editable only if not locked AND (identity unknown OR it's your column)
+    var canE = !locked && (!currentUser || currentUser==="esprit");
+    var canC = !locked && (!currentUser || currentUser==="cloun");
+    var attrE = canE?(' data-pick="'+m.id+'"'):'';
+    var attrC = canC?(' data-pick="'+m.id+'"'):'';
+    var opts_e=teams.map(function(t){ return'<span class="po'+(pe===t?" se":"")+((!canE)?" po-lock":"")+'"'+attrE+' data-who="esprit" data-team="'+esc(t)+'">'+fvs(t)+optLabel(t)+'</span>'; }).join("");
+    var opts_c=teams.map(function(t){ return'<span class="po'+(pc===t?" sc":"")+((!canC)?" po-lock":"")+'"'+attrC+' data-who="cloun" data-team="'+esc(t)+'">'+fvs(t)+optLabel(t)+'</span>'; }).join("");
     var lockNote=locked?'<div class="lock-note">🔒 Picks locked — match has started</div>':"";
+    var youE=currentUser==="esprit"?' <span class="you-tag">YOU</span>':"";
+    var youC=currentUser==="cloun"?' <span class="you-tag">YOU</span>':"";
     var peHint=pe?(isTBA(pe)?tbaHint(pe):pe):"";
     var pcHint=pc?(isTBA(pc)?tbaHint(pc):pc):"";
+    // comment fields: editable only by owner (or unknown identity); else read-only
+    var taE_ro=(currentUser&&currentUser!=="esprit")?" readonly":"";
+    var taC_ro=(currentUser&&currentUser!=="cloun")?" readonly":"";
     expHtml='<div class="exp-panel">'+lockNote+'<div class="exp-inner">'
       +'<div class="exp-col">'
-      +'<div class="exp-lbl"><div class="dot-e"></div>ESPRIT — Vancouver'+(pe?'&nbsp;<span style="font-size:10px;color:var(--text3)">pick: '+peHint+'</span>':"")+'</div>'
-      +'<textarea class="exp-ta" placeholder="Comment, thoughts, prediction..." rows="3" oninput="_pcmt['+m.id+']=_pcmt['+m.id+']||{};_pcmt['+m.id+'].esprit=this.value">'+esc(comE)+'</textarea>'
+      +'<div class="exp-lbl"><div class="dot-e"></div>ESPRIT — Vancouver'+youE+(pe?'&nbsp;<span style="font-size:10px;color:var(--text3)">pick: '+peHint+'</span>':"")+'</div>'
+      +'<textarea class="exp-ta" placeholder="Comment, thoughts, prediction..." rows="3"'+taE_ro+' oninput="_pcmt['+m.id+']=_pcmt['+m.id+']||{};_pcmt['+m.id+'].esprit=this.value">'+esc(comE)+'</textarea>'
       +'<div class="po-lbl">Pick — who wins:</div><div class="po-wrap">'+opts_e+'</div>'
       +'<div class="res-row"><span class="res-lbl">Manual score:</span>'
       +'<input class="res-inp" placeholder="2:1" value="'+esc(manRes)+'" oninput="_pres['+m.id+']=this.value" onclick="event.stopPropagation()">'
@@ -1087,8 +1155,8 @@ function renderCard(m){
       +(auScore?'<div class="auto-res">API: <b style="color:var(--gold)">'+auScore+'</b> ('+auTag+')</div>':"")
       +'</div>'
       +'<div class="exp-col">'
-      +'<div class="exp-lbl"><div class="dot-c"></div>CLOUN — Moscow'+(pc?'&nbsp;<span style="font-size:10px;color:var(--text3)">pick: '+pcHint+'</span>':"")+'</div>'
-      +'<textarea class="exp-ta" placeholder="What CLOUN thinks about the match..." rows="3" oninput="_pcmt['+m.id+']=_pcmt['+m.id+']||{};_pcmt['+m.id+'].cloun=this.value">'+esc(comC)+'</textarea>'
+      +'<div class="exp-lbl"><div class="dot-c"></div>CLOUN — Moscow'+youC+(pc?'&nbsp;<span style="font-size:10px;color:var(--text3)">pick: '+pcHint+'</span>':"")+'</div>'
+      +'<textarea class="exp-ta" placeholder="What CLOUN thinks about the match..." rows="3"'+taC_ro+' oninput="_pcmt['+m.id+']=_pcmt['+m.id+']||{};_pcmt['+m.id+'].cloun=this.value">'+esc(comC)+'</textarea>'
       +'<div class="po-lbl">Pick — who wins:</div><div class="po-wrap">'+opts_c+'</div>'
       +'</div></div>'
       +'<div class="lineup-sec">'
@@ -1297,7 +1365,12 @@ function setPick(mid,who,team){var cur=(picks[mid]||{})[who];fw(mid,who,cur===te
 function doSave(e,mid){
   e.stopPropagation();
   var c=_pcmt[mid];
-  if(c){if(c.esprit!==undefined)fc(mid,"esprit",c.esprit);if(c.cloun!==undefined)fc(mid,"cloun",c.cloun);delete _pcmt[mid];}
+  if(c){
+    // each player can only save their own comment (if identity is known)
+    if(c.esprit!==undefined && (!currentUser||currentUser==="esprit")) fc(mid,"esprit",c.esprit);
+    if(c.cloun!==undefined && (!currentUser||currentUser==="cloun")) fc(mid,"cloun",c.cloun);
+    delete _pcmt[mid];
+  }
   if(_pres[mid]!==undefined){fr(mid,_pres[mid]);delete _pres[mid];}
   var ok=document.getElementById("sok_"+mid);
   if(ok){ok.style.opacity="1";setTimeout(function(){ok.style.opacity="0";},2000);}
@@ -1374,6 +1447,7 @@ document.getElementById("schedRoot").addEventListener("click",function(e){
 });
 
 // BOOT
+initTelegram();
 render();
 setTimeout(applyMob,100);
 initFirebase();
