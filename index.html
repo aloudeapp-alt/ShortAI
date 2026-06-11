@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>WC 2026 — ESPRIT & CLOUN</title>
+<title>WC 2026 — Picks</title>
 <style>
 :root{
   --bg:#0d0f14;--bg2:#13161e;--bg3:#1a1e29;
@@ -16,8 +16,9 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;overflow-x:hidden}
 nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;position:sticky;top:0;z-index:100;min-height:48px}
-.nav-logo{font-size:14px;font-weight:700;color:var(--gold);white-space:nowrap;flex-shrink:0}
-.nav-logo span{color:var(--text2);font-weight:400}
+.nav-logo{font-size:14px;font-weight:700;color:var(--gold);white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:7px}
+.nav-mark{flex-shrink:0;display:block}
+.nav-title{letter-spacing:.02em}
 .nav-tabs{display:flex;margin-left:10px}
 .nav-tab{padding:12px 12px;font-size:13px;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
 .nav-tab:hover{color:var(--text)}
@@ -66,8 +67,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
   .match-card.expanded .m-mob{display:none}
   /* ── mobile top nav: keep everything on one line ── */
   nav{padding:0 10px;min-height:46px;gap:2px}
-  .nav-logo{font-size:13px}
-  .nav-logo span{display:none}            /* hide "ESPRIT×CLOUN" subtitle */
+  .nav-logo{font-size:13px;gap:5px}
   .nav-tabs{margin-left:6px;gap:0}
   .nav-tab{padding:12px 9px;font-size:12.5px}
   .nav-right{gap:5px}
@@ -75,7 +75,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 }
 @media(max-width:360px){
   .nav-tab{padding:12px 7px;font-size:12px}
-  .nav-logo{font-size:12px}
+  .nav-title{display:none}                /* show only the logo mark on tiny screens */
 }
 @media(min-width:641px){
   .m-mob{display:none!important}
@@ -112,6 +112,30 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 .lock-note{font-size:11px;color:var(--text2);background:var(--bg3);padding:7px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border)}
 .match-card.locked{opacity:.96}
 .you-tag{font-size:8px;font-weight:800;letter-spacing:.05em;padding:1px 5px;border-radius:3px;background:var(--gold);color:#0a0c11;margin-left:5px;vertical-align:middle}
+/* multi-user single-column expand */
+.exp-single{padding:14px 16px}
+.m-pc-wide{min-width:120px;display:flex;justify-content:flex-end}
+.mkt-hidden{font-size:12px;color:var(--text2);background:var(--bg3);border-radius:var(--rs);padding:10px 14px;margin:12px 0}
+.mkt{margin:14px 0;background:var(--bg3);border-radius:var(--rs);padding:12px 14px}
+.mkt-h{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);margin-bottom:9px}
+.mkt-row{display:flex;align-items:center;gap:9px;padding:4px 0}
+.mkt-row.win .mkt-name{color:var(--green);font-weight:700}
+.mkt-name{font-size:12.5px;min-width:110px;display:flex;align-items:center;gap:5px}
+.mkt-bar{flex:1;height:7px;background:var(--bg2);border-radius:4px;overflow:hidden}
+.mkt-fill{display:block;height:100%;border-radius:4px;transition:width .4s}
+.mkt-pct{font-size:11px;color:var(--text2);width:34px;text-align:right;font-weight:600}
+.mkt-odds{font-size:11px;color:var(--gold2);width:46px;text-align:right;font-weight:700;font-family:var(--serif,'Georgia',serif)}
+.mkt-mine{margin-top:10px;font-size:12.5px;padding:8px 12px;border-radius:var(--rs)}
+.mkt-mine.pos{background:rgba(80,200,120,.12);color:var(--green)}
+.mkt-mine.neg{background:rgba(224,64,46,.10);color:#ff7a5c}
+/* leaderboard */
+table.lb{width:100%;border-collapse:collapse;font-size:13px}
+table.lb th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);font-weight:700;padding:7px 9px;border-bottom:1px solid var(--border)}
+table.lb td{padding:9px;border-bottom:1px solid var(--border)}
+table.lb tr.lb-me{background:rgba(212,175,55,.08)}
+.lb-rank{font-size:15px;width:34px;text-align:center}
+.lb-name{font-weight:600}
+.lb-pts{color:var(--gold2);font-weight:800;font-family:var(--serif,'Georgia',serif)}
 .pb-mt:hover{border-color:var(--text2);color:var(--text2)}
 .pb.correct{box-shadow:0 0 0 1.5px var(--green)!important}
 .pb.wrong{opacity:.38}
@@ -142,6 +166,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 .save-btn:active{transform:scale(.97)}
 .save-ok{font-size:11px;color:var(--green);opacity:0;transition:opacity .3s;white-space:nowrap}
 .auto-res{font-size:11px;color:var(--green);display:flex;align-items:center;gap:5px;margin-top:6px}
+.res-pending{font-size:11px;color:var(--text3);margin-top:10px;font-style:italic}
 .lineup-sec{grid-column:1/-1;background:var(--bg2);padding:14px 18px;border-top:1px solid var(--border)}
 .lineup-btn{font-size:12.5px;padding:9px 18px;border-radius:var(--rs);border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;font-family:inherit;font-weight:600;transition:all .15s}
 .lineup-btn:hover{background:var(--gold);border-color:var(--gold);color:#0a0c11}
@@ -233,7 +258,11 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 <body>
 
 <nav>
-  <div class="nav-logo">WC 2026 <span>ESPRIT×CLOUN</span></div>
+  <div class="nav-logo"><svg class="nav-mark" viewBox="0 0 32 32" width="22" height="22" aria-hidden="true">
+    <circle cx="16" cy="16" r="15" fill="none" stroke="var(--gold)" stroke-width="1.5" opacity=".35"/>
+    <path d="M16 6.5l2.6 5.3 5.8.85-4.2 4.1 1 5.8L16 24.8l-5.2 2.75 1-5.8-4.2-4.1 5.8-.85z" fill="var(--gold)"/>
+    <circle cx="16" cy="16" r="2.2" fill="var(--bg)"/>
+  </svg><span class="nav-title">WC&nbsp;2026</span></div>
   <div class="nav-tabs">
     <div class="nav-tab active" onclick="switchPage('schedule',this)">Schedule</div>
     <div class="nav-tab" onclick="switchPage('analytics',this)">Analytics</div>
@@ -263,34 +292,43 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <script>
 // ═══════════════════════════════════════════════════
-// TELEGRAM IDENTITY
-// Map Telegram username → our two players. Username is case-insensitive.
+// IDENTITY — multi-user. Each Telegram user is a participant.
+// myId: stable id (telegram user id, or a generated browser id)
+// myName: display name (telegram name/username, or chosen in browser)
 // ═══════════════════════════════════════════════════
-var USER_MAP={ "svsergeev":"cloun", "vpesprit":"esprit" };
-var currentUser=null;   // "esprit" | "cloun" | null (viewer/unknown)
-var tgUser=null;        // raw telegram user object
+var myId=null, myName=null, tgUser=null;
+function genId(){ return "u_"+Math.random().toString(36).slice(2,10); }
 function initTelegram(){
   try{
     var tg=window.Telegram&&window.Telegram.WebApp;
     if(tg){
       tg.ready(); tg.expand();
       tgUser=(tg.initDataUnsafe&&tg.initDataUnsafe.user)||null;
-      if(tgUser&&tgUser.username){
-        var u=tgUser.username.toLowerCase().replace(/^@/,"");
-        if(USER_MAP[u]) currentUser=USER_MAP[u];
+      if(tgUser&&tgUser.id){
+        myId="tg_"+tgUser.id;
+        myName=(tgUser.username?("@"+tgUser.username):((tgUser.first_name||"")+(tgUser.last_name?(" "+tgUser.last_name):""))).trim()||("Player "+String(tgUser.id).slice(-4));
       }
     }
   }catch(e){}
-  // fallback: remember a manual choice (for browser use / no username)
-  if(!currentUser){
-    var saved=localStorage.getItem("wc26_me");
-    if(saved==="esprit"||saved==="cloun") currentUser=saved;
-  } else {
-    localStorage.setItem("wc26_me",currentUser);
+  // browser fallback: persistent local id + chosen name
+  if(!myId){
+    myId=localStorage.getItem("wc26_uid");
+    if(!myId){ myId=genId(); localStorage.setItem("wc26_uid",myId); }
+    myName=localStorage.getItem("wc26_uname")||"";
   }
 }
-function setMe(who){ currentUser=who; localStorage.setItem("wc26_me",who); render(); }
-function meName(){ return currentUser==="esprit"?"ESPRIT":(currentUser==="cloun"?"CLOUN":"Guest"); }
+// ask for a name in browser mode (no telegram)
+function ensureName(){
+  if(myName) return true;
+  var n=prompt("Enter your name to join the pool:");
+  if(n&&n.trim()){ myName=n.trim().slice(0,24); localStorage.setItem("wc26_uname",myName); registerUser(); return true; }
+  return false;
+}
+function meName(){ return myName||"Guest"; }
+function changeName(){
+  var n=prompt("Your display name:", myName||"");
+  if(n&&n.trim()){ myName=n.trim().slice(0,24); localStorage.setItem("wc26_uname",myName); registerUser(); render(); renderSettings(); }
+}
 
 // ═══════════════════════════════════════════════════
 // CONFIG — настройки API (редактируются в Настройках)
@@ -513,12 +551,11 @@ var CITY_COUNTRY={
 };
 
 // ═══════════════════════════════════════════════════
-// STATE — local cache fallback
+// STATE — multi-user. picks[matchId][uid]="Team"; users[uid]={name}
 // ═══════════════════════════════════════════════════
-var picks={}, comments={}, results={}, autoRes={};
+var picks={}, users={}, results={}, autoRes={};
 var expanded={}, activeFilter="all", activeGroup="", activeCity="", searchQ="";
 var autoOn=false, autoTimer=null, cdTimer=null, cdSec=0;
-var _pcmt={}, _pres={};
 
 // Timezone for displaying dates/times. offset in hours from UTC.
 var TZ_OPTIONS=[
@@ -540,15 +577,14 @@ function tzAbbr(){
 }
 function setTZ(k){ displayTZ=k; localStorage.setItem("wc26_tz",k); render(); renderSettings(); }
 
-// Загрузка из localStorage сразу (чтобы пики были видны до Gun)
 function loadLocal(){
   try{
-    var d=JSON.parse(localStorage.getItem("wc26_data")||"{}");
-    picks=d.picks||{}; comments=d.comments||{}; results=d.results||{}; autoRes=d.autoRes||{};
+    var d=JSON.parse(localStorage.getItem("wc26_data2")||"{}");
+    picks=d.picks||{}; users=d.users||{}; results=d.results||{}; autoRes=d.autoRes||{};
   }catch(e){}
 }
 function saveLocal(){
-  try{ localStorage.setItem("wc26_data",JSON.stringify({picks:picks,comments:comments,results:results,autoRes:autoRes})); }catch(e){}
+  try{ localStorage.setItem("wc26_data2",JSON.stringify({picks:picks,users:users,results:results,autoRes:autoRes})); }catch(e){}
 }
 loadLocal();
 
@@ -573,27 +609,23 @@ function initFirebase(){
     fbRoot=fbDB.ref("wc2026/room1");
     fbReady=true;
 
-    // Подписка на изменения в реальном времени
+    // realtime subscriptions
     fbRoot.child("picks").on("value",function(snap){
-      var v=snap.val();
-      if(v){ picks=v; saveLocal(); sr(); }
+      var v=snap.val(); picks=v||{}; saveLocal(); sr();
     });
-    fbRoot.child("comments").on("value",function(snap){
-      var v=snap.val();
-      if(v){ comments=v; saveLocal(); sr(); }
+    fbRoot.child("users").on("value",function(snap){
+      var v=snap.val(); users=v||{}; saveLocal(); sr();
     });
     fbRoot.child("results").on("value",function(snap){
-      var v=snap.val();
-      if(v){ results=v; saveLocal(); sr(); }
+      var v=snap.val(); results=v||{}; saveLocal(); sr();
     });
     fbRoot.child("autoRes").on("value",function(snap){
-      var v=snap.val();
-      if(v){ autoRes=v; saveLocal(); sr(); }
+      var v=snap.val(); autoRes=v||{}; saveLocal(); sr();
     });
 
-    // Статус подключения
+    // connection status
     fbDB.ref(".info/connected").on("value",function(snap){
-      if(snap.val()===true) ss("online","synced");
+      if(snap.val()===true){ ss("online","synced"); registerUser(); }
       else ss("error","offline");
     });
     ss("syncing","connecting...");
@@ -603,34 +635,34 @@ function initFirebase(){
   }
 }
 
-function ss(s,l){var d=document.getElementById("syncDot");d.className="sync-dot "+s;d.title=l;document.getElementById("syncLbl").textContent=l;}
+function ss(s,l){var d=document.getElementById("syncDot");if(d){d.className="sync-dot "+s;d.title=l;}var lb=document.getElementById("syncLbl");if(lb)lb.textContent=l;}
 
-// Запись: в Firebase + локально (локальное как кэш)
-function fw(mid,who,val){
+// register/update myself in the room's user list
+function registerUser(){
+  if(!myId||!myName) return;
+  users[myId]={name:myName};
+  saveLocal();
+  if(fbReady){ try{ fbRoot.child("users/"+myId).set({name:myName}); }catch(e){} }
+}
+
+// place / clear MY pick for a match (multi-user)
+function setPick(mid,val){
   var m=MATCHES.find(function(x){return x.id===mid;});
-  if(m&&isLocked(m)) return; // picks locked once the match has kicked off
-  // identity guard: you can only edit your own pick column (if identity is known)
-  if(currentUser && who!==currentUser) return;
-  var c=Object.assign({},picks[mid]||{}); c[who]=val; picks[mid]=c;
+  if(m&&isLocked(m)) return;          // locked at kickoff
+  if(!myId) return;
+  if(!myName){ if(!ensureName()) return; }
+  var c=Object.assign({},picks[mid]||{});
+  if(val) c[myId]=val; else delete c[myId];
+  picks[mid]=c;
   saveLocal();
-  if(fbReady){ try{ fbRoot.child("picks/"+mid).set(c); }catch(e){} }
-  fs();
-}
-function fc(mid,who,val){
-  var c=Object.assign({},comments[mid]||{}); c[who]=val; comments[mid]=c;
-  saveLocal();
-  if(fbReady){ try{ fbRoot.child("comments/"+mid).set(c); }catch(e){} }
-}
-function fr(mid,val){
-  results[mid]=val; saveLocal();
-  if(fbReady){ try{ fbRoot.child("results/"+mid).set(val); }catch(e){} }
+  if(fbReady){ try{ fbRoot.child("picks/"+mid+"/"+myId).set(val||null); }catch(e){} }
   fs();
 }
 function far(mid,val){
   autoRes[mid]=val; saveLocal();
   if(fbReady){ try{ fbRoot.child("autoRes/"+mid).set(val); }catch(e){} }
 }
-function fs(){ ss("syncing","saving..."); setTimeout(function(){ ss("online","saved"); },700); }
+function fs(){ ss("syncing","saving..."); setTimeout(function(){ ss("online","synced"); },700); }
 
 // ═══════════════════════════════════════════════════
 // API — авто-результаты (управление из Настроек)
@@ -755,15 +787,12 @@ function renderSettings(){
   root.innerHTML=
     '<div class="sec">You</div>'
     +'<div class="set-card">'
-    +'<div class="set-row"><span class="set-k">Signed in as</span><span class="set-v"><b style="color:var(--gold2)">'+meName()+'</b>'
-    +(tgUser&&tgUser.username?' <span style="color:var(--text3);font-size:11px">@'+esc(tgUser.username)+'</span>':'')+'</span></div>'
+    +'<div class="set-row"><span class="set-k">Signed in as</span><span class="set-v"><b style="color:var(--gold2)">'+esc(meName())+'</b></span></div>'
     +'<div class="set-row"><span class="set-k">Source</span><span class="set-v">'+((window.Telegram&&window.Telegram.WebApp&&tgUser)?"Telegram":"Browser")+'</span></div>'
-    +'<div style="margin-top:10px"><div class="set-k" style="margin-bottom:6px">Play as (if not auto-detected):</div>'
-    +'<div style="display:flex;gap:6px">'
-    +'<button class="set-btn '+(currentUser==="esprit"?"primary":"")+'" onclick="setMe(\'esprit\')">ESPRIT</button>'
-    +'<button class="set-btn '+(currentUser==="cloun"?"primary":"")+'" onclick="setMe(\'cloun\')">CLOUN</button>'
-    +'</div></div>'
-    +'<p class="set-hint">In Telegram you\'re recognised automatically by your username (@Vpesprit → ESPRIT, @Svsergeev → CLOUN). In a normal browser, pick who you are here. You can only edit your own picks and comments; the other player\'s are read-only.</p>'
+    +((window.Telegram&&window.Telegram.WebApp&&tgUser)
+        ? '<p class="set-hint">You\'re signed in automatically through Telegram. Your picks are saved under this account and counted on the leaderboard.</p>'
+        : '<div style="margin-top:8px"><button class="set-btn" onclick="changeName()">'+(myName?"Change name":"Set your name")+'</button></div>'
+          +'<p class="set-hint">Opened in a browser, so you set a display name yourself. Open the app from the Telegram bot to be recognised automatically.</p>')
     +'</div>'
 
     +'<div class="sec" style="margin-top:24px">Display timezone</div>'
@@ -797,29 +826,15 @@ function renderSettings(){
         +(lastFetchInfo.debug.totalReturned&&!lastFetchInfo.debug.wcCandidates.length?'<br><span style="color:var(--text3)">Sample of returned matches (to compare names):<br>'+lastFetchInfo.debug.sampleNames.join("<br>")+'</span>':'')
         +'</div>'
       ):'')
-    +'<p class="set-hint">Results are fetched automatically several times a day and synced to both of you via the cloud. Just keep the tab open on one device.</p>'
+    +'<p class="set-hint">Results are fetched automatically several times a day and shared with everyone in the room via the cloud. Just keep the app open on one device.</p>'
     +'</div>'
 
-    +'<div class="sec" style="margin-top:24px">API connection</div>'
+    +'<div class="sec" style="margin-top:24px">Sync &amp; room</div>'
     +'<div class="set-card">'
-    +'<div class="set-row"><span class="set-k">API key (RapidAPI)</span><span class="set-v" style="font-family:monospace">'+keyMasked+'</span></div>'
-    +'<input class="set-input" id="setKey" type="text" placeholder="paste a new key to change..." value="">'
-    +'<div class="set-row" style="margin-top:10px"><span class="set-k">API host</span></div>'
-    +'<input class="set-input" id="setHost" type="text" value="'+esc(apiCfg.host)+'">'
-    +'<div class="set-row" style="margin-top:10px"><span class="set-k">Base URL</span></div>'
-    +'<input class="set-input" id="setBase" type="text" value="'+esc(apiCfg.base)+'">'
-    +'<div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">'
-    +'<button class="set-btn primary" onclick="saveApiFromForm()">Save API settings</button>'
-    +'<button class="set-btn" onclick="resetApiCfg()">Reset to default</button>'
-    +'</div>'
-    +'<p class="set-hint">Default is set to <b>Free API Live Football Data</b> (free-api-live-football-data.p.rapidapi.com), which your key is already subscribed to. It fetches all matches by date and auto-matches World Cup games by team name. If you use another API, enter its host and URL manually.</p>'
-    +'</div>'
-
-    +'<div class="sec" style="margin-top:24px">Sync</div>'
-    +'<div class="set-card">'
-    +'<div class="set-row"><span class="set-k">Cloud (Firebase)</span><span class="set-v" id="setSyncStatus">checking...</span></div>'
-    +'<div class="set-row"><span class="set-k">Room</span><span class="set-v" style="font-family:monospace">esprit_cloun_room1</span></div>'
-    +'<p class="set-hint">Picks, comments and results are saved locally and synced between ESPRIT and CLOUN via Firebase in real time.</p>'
+    +'<div class="set-row"><span class="set-k">Cloud status</span><span class="set-v" id="setSyncStatus">checking...</span></div>'
+    +'<div class="set-row"><span class="set-k">Room</span><span class="set-v" style="font-family:monospace">room1 (shared)</span></div>'
+    +'<div class="set-row"><span class="set-k">Players in room</span><span class="set-v"><b style="color:var(--gold2)">'+Object.keys(users).length+'</b></span></div>'
+    +'<p class="set-hint">Everyone who opens the app from the Telegram bot joins the same shared room. All picks and results sync in real time, and the leaderboard updates live for everyone.</p>'
     +'</div>';
   // обновим статус синхронизации
   var ss2=document.getElementById("setSyncStatus");
@@ -863,7 +878,8 @@ function winner(res,h,a){
   if(g1>g2)return h;if(g2>g1)return a;return"Draw";
 }
 function getBR(mid){
-  var man=results[mid]||"";if(man)return{score:man,auto:false,live:false};
+  // Results come ONLY from the API (autoRes). Manual entry is disabled so
+  // players can't fake scores to climb the leaderboard.
   var au=autoRes[mid]||"";if(!au)return null;
   var p=au.split("|");return{score:p[0],auto:true,live:p[1]==="LIVE"};
 }
@@ -1076,18 +1092,44 @@ function renderGroupTable(g){
 
 function render(){ renderFilters(); renderSchedOnly(); }
 
+// crowd breakdown for a match: {counts:{team:n}, total, myPick}
+function crowd(m){
+  var mp=picks[m.id]||{};
+  var counts={}; var total=0; var mine="";
+  Object.keys(mp).forEach(function(uid){
+    var v=mp[uid]; if(!v) return;
+    counts[v]=(counts[v]||0)+1; total++;
+    if(uid===myId) mine=v;
+  });
+  return {counts:counts,total:total,mine:mine};
+}
+// odds (points) for picking `outcome` given crowd: 1 / share, min share 5%
+function oddsFor(cr,outcome){
+  if(!cr.total) return 1/0.5; // nobody yet → even
+  var share=(cr.counts[outcome]||0)/cr.total;
+  if(share<0.05) share=0.05;
+  return 1/share;
+}
+// points THIS user earned on match m (0 if not finished / wrong / no pick)
+function matchPoints(m,uid){
+  var br=getBR(m.id); if(!br||br.live) return null;
+  var w=winner(br.score,m.home,m.away); if(!w) return null;
+  var pk=(picks[m.id]||{})[uid]; if(!pk) return 0;
+  if(pk!==w) return 0;
+  return oddsFor(crowd(m),w);
+}
+
 function renderCard(m){
-  var vt=tz(m.utcH,m.utcM,-7),mt=tz(m.utcH,m.utcM,+3);
   var selT=tz(m.utcH,m.utcM,tzOff()), selA=tzAbbr();
   var ds=fd(m.date,m.utcH,m.utcM),dw=fw2(m.date,m.utcH,m.utcM);
-  var pe=(picks[m.id]||{}).esprit||"";
-  var pc=(picks[m.id]||{}).cloun||"";
   var br=getBR(m.id);
   var w=br?winner(br.score,m.home,m.away):null;
   var isExp=!!expanded[m.id];
-  var comE=(comments[m.id]||{}).esprit||"";
-  var comC=(comments[m.id]||{}).cloun||"";
   var teams=[m.home,m.away,"Draw"];
+  var locked=isLocked(m);
+  var status=matchStatus(m);
+  var cr=crowd(m);
+  var myPick=cr.mine;
 
   var resPill="";
   if(br){
@@ -1095,22 +1137,6 @@ function renderCard(m){
     var autoTag=br.auto?'<span class="res-auto">auto</span>':"";
     resPill='<span class="'+cls+'">'+br.score+'</span>'+autoTag;
   }
-  var locked=isLocked(m);
-  var status=matchStatus(m); // upcoming | live | finished
-  function pbCls(pick,who){
-    var b="pb "+(who==="e"?"pb-e":"pb-c");
-    if(!pick)return"pb pb-mt"+(locked?" pb-lock":"");
-    if(!w)return b+(locked?" pb-lock":"");
-    return b+(pick===w?" correct":" wrong");
-  }
-  function pbLbl(pick,who){
-    if(!pick)return locked?'<span style="opacity:.6">— no pick</span>':(who==="e"?"+ ESPRIT":"+ CLOUN");
-    var nm=isTBA(pick)?tbaHint(pick):pick;
-    return fvs(pick)+'<span>'+nm+'</span>';
-  }
-  // click target: locked picks just expand the card (to view), don't open a picker
-  var pickClick=locked?("toggleE("+m.id+")"):("openE(event,"+m.id+")");
-  // status badge
   var statusBadge="";
   if(status==="live") statusBadge='<span class="mstatus live">● LIVE</span>';
   else if(status==="finished") statusBadge='<span class="mstatus fin">FT</span>';
@@ -1121,51 +1147,73 @@ function renderCard(m){
     +fv(m.away)+'<span>'+teamNameFull(m.away)+'</span>'
     +(resPill?" "+resPill:"")+'</span>';
 
+  // compact "my pick" chip for the collapsed row
+  var myChip;
+  if(myPick){
+    var pcorrect = w ? (myPick===w?" correct":" wrong") : "";
+    myChip='<span class="pb pb-e'+pcorrect+'">'+fvs(myPick)+'<span>'+(isTBA(myPick)?tbaHint(myPick):myPick)+'</span></span>';
+  } else {
+    myChip='<span class="pb pb-mt'+(locked?" pb-lock":"")+'">'+(locked?'— no pick':'+ pick')+'</span>';
+  }
+  var pickClick="toggleE("+m.id+")";
+
   var expHtml="";
   if(isExp){
-    var manRes=results[m.id]||"";
-    var auR=autoRes[m.id]||"";
-    var auScore=auR?auR.split("|")[0]:"";
-    var auTag=auR?auR.split("|")[1]:"";
-    var optLabel=function(t){ return isTBA(t) ? ('<span style="color:var(--text3)">'+tbaHint(t)+'</span>') : t; };
-    // a column is editable only if not locked AND (identity unknown OR it's your column)
-    var canE = !locked && (!currentUser || currentUser==="esprit");
-    var canC = !locked && (!currentUser || currentUser==="cloun");
-    var attrE = canE?(' data-pick="'+m.id+'"'):'';
-    var attrC = canC?(' data-pick="'+m.id+'"'):'';
-    var opts_e=teams.map(function(t){ return'<span class="po'+(pe===t?" se":"")+((!canE)?" po-lock":"")+'"'+attrE+' data-who="esprit" data-team="'+esc(t)+'">'+fvs(t)+optLabel(t)+'</span>'; }).join("");
-    var opts_c=teams.map(function(t){ return'<span class="po'+(pc===t?" sc":"")+((!canC)?" po-lock":"")+'"'+attrC+' data-who="cloun" data-team="'+esc(t)+'">'+fvs(t)+optLabel(t)+'</span>'; }).join("");
-    var lockNote=locked?'<div class="lock-note">🔒 Picks locked — match has started</div>':"";
-    var youE=currentUser==="esprit"?' <span class="you-tag">YOU</span>':"";
-    var youC=currentUser==="cloun"?' <span class="you-tag">YOU</span>':"";
-    var peHint=pe?(isTBA(pe)?tbaHint(pe):pe):"";
-    var pcHint=pc?(isTBA(pc)?tbaHint(pc):pc):"";
-    // comment fields: editable only by owner (or unknown identity); else read-only
-    var taE_ro=(currentUser&&currentUser!=="esprit")?" readonly":"";
-    var taC_ro=(currentUser&&currentUser!=="cloun")?" readonly":"";
-    expHtml='<div class="exp-panel">'+lockNote+'<div class="exp-inner">'
-      +'<div class="exp-col">'
-      +'<div class="exp-lbl"><div class="dot-e"></div>ESPRIT — Vancouver'+youE+(pe?'&nbsp;<span style="font-size:10px;color:var(--text3)">pick: '+peHint+'</span>':"")+'</div>'
-      +'<textarea class="exp-ta" placeholder="Comment, thoughts, prediction..." rows="3"'+taE_ro+' oninput="_pcmt['+m.id+']=_pcmt['+m.id+']||{};_pcmt['+m.id+'].esprit=this.value">'+esc(comE)+'</textarea>'
-      +'<div class="po-lbl">Pick — who wins:</div><div class="po-wrap">'+opts_e+'</div>'
-      +'<div class="res-row"><span class="res-lbl">Manual score:</span>'
-      +'<input class="res-inp" placeholder="2:1" value="'+esc(manRes)+'" oninput="_pres['+m.id+']=this.value" onclick="event.stopPropagation()">'
-      +'<button class="save-btn" onclick="doSave(event,'+m.id+')">Save</button>'
-      +'<span class="save-ok" id="sok_'+m.id+'">✓ saved</span></div>'
-      +(auScore?'<div class="auto-res">API: <b style="color:var(--gold)">'+auScore+'</b> ('+auTag+')</div>':"")
-      +'</div>'
-      +'<div class="exp-col">'
-      +'<div class="exp-lbl"><div class="dot-c"></div>CLOUN — Moscow'+youC+(pc?'&nbsp;<span style="font-size:10px;color:var(--text3)">pick: '+pcHint+'</span>':"")+'</div>'
-      +'<textarea class="exp-ta" placeholder="What CLOUN thinks about the match..." rows="3"'+taC_ro+' oninput="_pcmt['+m.id+']=_pcmt['+m.id+']||{};_pcmt['+m.id+'].cloun=this.value">'+esc(comC)+'</textarea>'
-      +'<div class="po-lbl">Pick — who wins:</div><div class="po-wrap">'+opts_c+'</div>'
-      +'</div></div>'
+    // ── MY PICK selector (3 outcomes) ──
+    var outLabel=function(t){ return isTBA(t)?('<span style="color:var(--text3)">'+tbaHint(t)+'</span>'):t; };
+    var canPick=!locked;
+    var myOpts=teams.map(function(t){
+      var sel=(myPick===t)?" se":"";
+      var lk=canPick?"":" po-lock";
+      var attr=canPick?(' data-setpick="'+m.id+'" data-team="'+esc(t)+'"'):'';
+      return '<span class="po'+sel+lk+'"'+attr+'>'+fvs(t)+outLabel(t)+'</span>';
+    }).join("");
+    var lockNote=locked?'<div class="lock-note">🔒 Picks locked — match has started</div>':'';
+
+    // ── CROWD / MARKET ──
+    var marketHtml="";
+    if(!locked){
+      // hidden before kickoff — only show participation count
+      marketHtml='<div class="mkt-hidden">📊 '+cr.total+' '+(cr.total===1?'pick':'picks')+' placed · breakdown opens at kickoff</div>';
+    } else {
+      // revealed: show each outcome share + implied points
+      var rows=teams.map(function(t){
+        var n=cr.counts[t]||0;
+        var share=cr.total?Math.round(n/cr.total*100):0;
+        var pts=oddsFor(cr,t);
+        var isWin=w&&t===w;
+        var barColor=isWin?"var(--green)":"var(--gold)";
+        return '<div class="mkt-row'+(isWin?" win":"")+'">'
+          +'<span class="mkt-name">'+fvs(t)+(isTBA(t)?tbaHint(t):t)+(myPick===t?' <span class="you-tag">YOU</span>':'')+'</span>'
+          +'<span class="mkt-bar"><span class="mkt-fill" style="width:'+share+'%;background:'+barColor+'"></span></span>'
+          +'<span class="mkt-pct">'+share+'%</span>'
+          +'<span class="mkt-odds">×'+pts.toFixed(2)+'</span>'
+          +'</div>';
+      }).join("");
+      marketHtml='<div class="mkt"><div class="mkt-h">Room picks ('+cr.total+')</div>'+rows+'</div>';
+      // my result line
+      var mpts=matchPoints(m,myId);
+      if(mpts!==null && myPick){
+        marketHtml+='<div class="mkt-mine '+(mpts>0?"pos":"neg")+'">'
+          +(mpts>0?('✓ You earned <b>+'+mpts.toFixed(2)+'</b> pts'):'✗ Your pick missed — 0 pts')+'</div>';
+      }
+    }
+
+    expHtml='<div class="exp-panel">'+lockNote
+      +'<div class="exp-single">'
+      +'<div class="po-lbl">Your pick — who wins'+(myPick?'':' (tap to choose)')+':</div>'
+      +'<div class="po-wrap">'+myOpts+'</div>'
+      +marketHtml
+      +((autoRes[m.id])
+          ? '<div class="auto-res">Result: <b style="color:var(--gold)">'+autoRes[m.id].split("|")[0]+'</b> ('+autoRes[m.id].split("|")[1]+', auto)</div>'
+          : (locked?'<div class="res-pending">⏳ Result will appear automatically once the match data updates.</div>':''))
       +'<div class="lineup-sec">'
       +(lineupCache[m.id]
           ? renderLineupHTML(m, lineupCache[m.id])
           : '<button class="lineup-btn" onclick="loadLineup(event,'+m.id+')">👥 Show line-ups / squads</button>')
       +'<div class="lineup-body" id="lu_'+m.id+'"></div>'
       +'</div>'
-      +'</div>';
+      +'</div></div>';
   }
 
   return '<div class="match-card'+(isExp?" expanded":"")+(locked?" locked":"")+'" id="mc_'+m.id+'">'
@@ -1175,13 +1223,11 @@ function renderCard(m){
     +'<div class="m-tvk"><div class="m-t-main">'+selT+'</div><div class="m-t-sub">'+selA+'</div></div>'
     +'<div class="m-teams"><div class="m-teams-name">'+teamsHtml+'</div>'
     +'<div class="m-teams-sub">'+m.venue+'</div>'
-    +'<div class="m-teams-sub2">'+selT+' '+selA+'</div></div>'
-    +'<div class="m-pc"><span class="'+pbCls(pe,"e")+'" onclick="'+pickClick+'">'+pbLbl(pe,"e")+'</span></div>'
-    +'<div class="m-pc"><span class="'+pbCls(pc,"c")+'" onclick="'+pickClick+'">'+pbLbl(pc,"c")+'</span></div>'
+    +'<div class="m-teams-sub2">'+selT+' '+selA+' · '+cr.total+' '+(cr.total===1?'pick':'picks')+'</div></div>'
+    +'<div class="m-pc m-pc-wide">'+myChip+'</div>'
     +'</div>'
-    +'<div class="m-mob" id="mob_'+m.id+'" style="padding:0 12px 10px;gap:7px">'
-    +'<span class="'+pbCls(pe,"e")+'" style="flex:1;justify-content:center" onclick="'+pickClick+'">'+pbLbl(pe,"e")+'</span>'
-    +'<span class="'+pbCls(pc,"c")+'" style="flex:1;justify-content:center" onclick="'+pickClick+'">'+pbLbl(pc,"c")+'</span>'
+    +'<div class="m-mob" id="mob_'+m.id+'" style="padding:0 12px 10px">'
+    +'<span class="pb '+(myPick?'pb-e':'pb-mt')+(w&&myPick?(myPick===w?' correct':' wrong'):'')+'" style="flex:1;justify-content:center" onclick="'+pickClick+'">'+(myPick?(fvs(myPick)+'<span>'+(isTBA(myPick)?tbaHint(myPick):myPick)+'</span>'):(locked?'— no pick':'+ tap to pick'))+'</span>'
     +'</div>'+expHtml+'</div>';
 }
 
@@ -1361,66 +1407,71 @@ function refreshLineup(e,mid){ e.stopPropagation(); delete lineupCache[mid]; loa
 function toggleE(id){expanded[id]=!expanded[id];renderSchedOnly();if(expanded[id])scrollC(id);}
 function openE(e,id){e.stopPropagation();expanded[id]=true;renderSchedOnly();scrollC(id);}
 function scrollC(id){setTimeout(function(){var el=document.getElementById("mc_"+id);if(el)el.scrollIntoView({behavior:"smooth",block:"nearest"});},60);}
-function setPick(mid,who,team){var cur=(picks[mid]||{})[who];fw(mid,who,cur===team?"":team);expanded[mid]=true;renderSchedOnly();}
-function doSave(e,mid){
-  e.stopPropagation();
-  var c=_pcmt[mid];
-  if(c){
-    // each player can only save their own comment (if identity is known)
-    if(c.esprit!==undefined && (!currentUser||currentUser==="esprit")) fc(mid,"esprit",c.esprit);
-    if(c.cloun!==undefined && (!currentUser||currentUser==="cloun")) fc(mid,"cloun",c.cloun);
-    delete _pcmt[mid];
-  }
-  if(_pres[mid]!==undefined){fr(mid,_pres[mid]);delete _pres[mid];}
-  var ok=document.getElementById("sok_"+mid);
-  if(ok){ok.style.opacity="1";setTimeout(function(){ok.style.opacity="0";},2000);}
-  renderSchedOnly();
-}
-
 // ═══════════════════════════════════════════════════
-// ANALYTICS
+// ANALYTICS — leaderboard (wisdom-of-crowd points)
 // ═══════════════════════════════════════════════════
 function renderAn(){
   var root=document.getElementById("anRoot");
   var fin=MATCHES.filter(function(m){var br=getBR(m.id);return br&&!br.live&&winner(br.score,m.home,m.away)!==null;});
-  if(!fin.length){root.innerHTML='<div class="empty">Analytics will appear after the first matches.<br>Enter a score manually or enable auto-updates.</div>';return;}
-  var ce=0,cc=0,tw={};
-  fin.forEach(function(m){var br=getBR(m.id);var w=winner(br.score,m.home,m.away);if(!w)return;tw[w]=(tw[w]||0)+1;if((picks[m.id]||{}).esprit===w)ce++;if((picks[m.id]||{}).cloun===w)cc++;});
-  var pet=fin.filter(function(m){return(picks[m.id]||{}).esprit;}).length;
-  var pct2=fin.filter(function(m){return(picks[m.id]||{}).cloun;}).length;
-  function pct(n,d){return d?Math.round(n/d*100):0;}
-  var top=Object.entries(tw).sort(function(a,b){return b[1]-a[1];}).slice(0,8);
-  var mxW=top[0]?top[0][1]:1;
-  var autoC=fin.filter(function(m){var br=getBR(m.id);return br&&br.auto;}).length;
-  var hist=fin.slice(-25).reverse().map(function(m){
-    var br=getBR(m.id);var w=winner(br.score,m.home,m.away);
-    var pe=(picks[m.id]||{}).esprit||"",pc=(picks[m.id]||{}).cloun||"";
-    var bE=!pe?'<span class="bc nd">—</span>':pe===w?'<span class="bc ok">✓</span>':'<span class="bc no">✗</span>';
-    var bC=!pc?'<span class="bc nd">—</span>':pc===w?'<span class="bc ok">✓</span>':'<span class="bc no">✗</span>';
-    var at=br.auto?'<span class="res-auto">auto</span>':"";
-    return'<tr><td>'+fd(m.date,m.utcH,m.utcM)+'</td>'
-      +'<td><span style="display:inline-flex;align-items:center;gap:4px">'+fvs(m.home)+teamName(m.home)+' — '+fvs(m.away)+teamName(m.away)+'</span></td>'
-      +'<td style="color:var(--gold);font-weight:700">'+br.score+at+'</td>'
-      +'<td><span style="display:inline-flex;align-items:center;gap:4px">'+(pe?fvs(pe)+pe:"—")+" "+bE+'</span></td>'
-      +'<td><span style="display:inline-flex;align-items:center;gap:4px">'+(pc?fvs(pc)+pc:"—")+" "+bC+'</span></td></tr>';
+
+  // gather all participant ids: from users map + anyone who has a pick
+  var ids={};
+  Object.keys(users).forEach(function(u){ids[u]=true;});
+  MATCHES.forEach(function(m){ Object.keys(picks[m.id]||{}).forEach(function(u){ids[u]=true;}); });
+  var idList=Object.keys(ids);
+
+  function nameOf(uid){ return (users[uid]&&users[uid].name)|| (uid===myId?meName():("Player "+uid.slice(-4))); }
+
+  // per-user stats
+  var stats=idList.map(function(uid){
+    var pts=0, correct=0, placed=0, total=0;
+    MATCHES.forEach(function(m){
+      var pk=(picks[m.id]||{})[uid];
+      if(pk) total++;
+      var p=matchPoints(m,uid);
+      if(p===null) return;          // not finished
+      if(pk){ placed++; if(p>0){correct++; pts+=p;} }
+    });
+    return {uid:uid, name:nameOf(uid), pts:pts, correct:correct, placed:placed, total:total};
+  }).filter(function(s){return s.total>0;}); // only show people who placed at least one pick
+
+  stats.sort(function(a,b){ return b.pts-a.pts || b.correct-a.correct; });
+
+  if(!stats.length){
+    root.innerHTML='<div class="empty">No picks yet.<br>Open a match and place your pick to join the leaderboard.</div>';
+    return;
+  }
+
+  var myRank=stats.findIndex(function(s){return s.uid===myId;})+1;
+  var played=fin.length;
+
+  // leaderboard rows
+  var rows=stats.map(function(s,i){
+    var isMe=s.uid===myId;
+    var medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":(i+1)+"";
+    var acc=s.placed?Math.round(s.correct/s.placed*100):0;
+    return '<tr'+(isMe?' class="lb-me"':'')+'>'
+      +'<td class="lb-rank">'+medal+'</td>'
+      +'<td class="lb-name">'+esc(s.name)+(isMe?' <span class="you-tag">YOU</span>':'')+'</td>'
+      +'<td class="lb-pts">'+s.pts.toFixed(2)+'</td>'
+      +'<td>'+s.correct+'/'+s.placed+'</td>'
+      +'<td>'+acc+'%</td>'
+      +'<td>'+s.total+'</td>'
+      +'</tr>';
   }).join("");
+
   root.innerHTML=
     '<div class="an-grid">'
-    +'<div class="st"><div class="sv g">'+fin.length+'</div><div class="sl">matches played</div></div>'
-    +'<div class="st"><div class="sv gr">'+autoC+'</div><div class="sl">auto results</div></div>'
-    +'<div class="st"><div class="sv b">'+ce+"/"+pet+'</div><div class="sl">correct — ESPRIT</div></div>'
-    +'<div class="st"><div class="sv c">'+cc+"/"+pct2+'</div><div class="sl">correct — CLOUN</div></div>'
+    +'<div class="st"><div class="sv g">'+played+'</div><div class="sl">matches settled</div></div>'
+    +'<div class="st"><div class="sv gr">'+stats.length+'</div><div class="sl">players</div></div>'
+    +'<div class="st"><div class="sv b">'+(myRank||"—")+'</div><div class="sl">your rank</div></div>'
+    +'<div class="st"><div class="sv c">'+((stats.find(function(s){return s.uid===myId;})||{}).pts||0).toFixed(1)+'</div><div class="sl">your points</div></div>'
     +'</div>'
-    +'<div class="sec">Prediction score</div><div class="duel">'
-    +'<div class="ds"><div class="dn e">ESPRIT</div><div class="dsc e">'+pct(ce,pet)+'<span style="font-size:14px;font-weight:400;color:var(--text2)">%</span></div><div class="dss">'+ce+' of '+pet+' correct</div></div>'
-    +'<div class="dvs">VS</div>'
-    +'<div class="ds"><div class="dn c">CLOUN</div><div class="dsc c">'+pct(cc,pct2)+'<span style="font-size:14px;font-weight:400;color:var(--text2)">%</span></div><div class="dss">'+cc+' of '+pct2+' correct</div></div>'
-    +'</div>'
-    +(top.length?'<div class="sec">Wins by team</div><div style="margin-bottom:22px">'+
-      top.map(function(e){return'<div class="br"><div class="bl">'+fvs(e[0])+e[0]+'</div><div class="bt"><div class="bf" style="width:'+Math.round(e[1]/mxW*100)+'%;background:var(--gold)"></div></div><div class="bv">'+e[1]+'</div></div>';}).join("")
-    +'</div>':"")
-    +'<div class="sec">Match history</div><div style="overflow-x:auto"><table class="ht">'
-    +'<thead><tr><th>Date</th><th>Match</th><th>Score</th><th>ESPRIT</th><th>CLOUN</th></tr></thead><tbody>'+hist+'</tbody></table></div>';
+    +'<div class="sec">Leaderboard</div>'
+    +'<div style="overflow-x:auto"><table class="lb">'
+    +'<thead><tr><th>#</th><th>Player</th><th>Points</th><th>Hits</th><th>Acc</th><th>Bets</th></tr></thead>'
+    +'<tbody>'+rows+'</tbody></table></div>'
+    +'<p class="set-hint" style="margin-top:10px">Points use a "wisdom of the crowd" model: a correct pick is worth <b>1 ÷ its share of the room</b> (capped at 20× for picks under 5%). Backing an unpopular outcome that comes true earns far more than backing the favourite. Odds freeze at kickoff.</p>';
 }
 
 function switchPage(id,el){
@@ -1432,16 +1483,15 @@ function switchPage(id,el){
   if(id==="settings")renderSettings();
 }
 
-// Делегирование кликов по пик-кнопкам (избегаем апострофов в onclick)
+// Делегирование кликов по кнопкам выбора (data-setpick)
 document.getElementById("schedRoot").addEventListener("click",function(e){
-  var el=e.target.closest("[data-pick]");
+  var el=e.target.closest("[data-setpick]");
   if(!el) return;
   e.stopPropagation();
-  var mid=parseInt(el.getAttribute("data-pick"));
-  var who=el.getAttribute("data-who");
+  var mid=parseInt(el.getAttribute("data-setpick"));
   var team=el.getAttribute("data-team");
-  var cur=(picks[mid]||{})[who];
-  fw(mid,who,cur===team?"":team);
+  var cur=(picks[mid]||{})[myId];
+  setPick(mid, cur===team?"":team);
   expanded[mid]=true;
   renderSchedOnly();
 });
