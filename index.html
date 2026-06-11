@@ -15,8 +15,6 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;overflow-x:hidden}
-
-/* NAV */
 nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;position:sticky;top:0;z-index:100;min-height:48px}
 .nav-logo{font-size:14px;font-weight:700;color:var(--gold);white-space:nowrap;flex-shrink:0}
 .nav-logo span{color:var(--text2);font-weight:400}
@@ -32,43 +30,32 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 .sync-lbl{font-size:11px;color:var(--text2)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 
-/* API BAR */
-.api-bar{background:var(--bg3);border-bottom:1px solid var(--border);padding:7px 16px;display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text3);flex-wrap:wrap}
+/* SETTINGS PANEL */
+.set-bar{background:var(--bg3);border-bottom:1px solid var(--border);padding:7px 16px;display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text3);flex-wrap:wrap}
 .api-dot{width:6px;height:6px;border-radius:50%;background:var(--text3);flex-shrink:0}
 .api-dot.ok{background:var(--green)}
 .api-dot.err{background:var(--red)}
 .api-dot.check{background:var(--orange);animation:pulse .8s infinite}
-.api-key-inp{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rs);color:var(--gold);font-size:11px;font-family:monospace;padding:3px 8px;outline:none;width:210px}
-.api-key-inp::placeholder{color:var(--text3);font-family:inherit}
-.api-key-inp:focus{border-color:var(--gold)}
 .btn-xs{font-size:11px;padding:3px 10px;border-radius:var(--rs);border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-family:inherit;white-space:nowrap}
 .btn-xs:hover{background:var(--bg2);color:var(--text)}
 .btn-xs.on{background:var(--green);border-color:var(--green);color:#0d0f14;font-weight:600}
 .cdn{font-variant-numeric:tabular-nums;color:var(--text3)}
+.set-link{color:var(--ace);text-decoration:none;cursor:pointer}
 
-/* PAGES */
 .page{display:none;padding:12px 16px;max-width:920px;margin:0 auto}
 .page.active{display:block}
-
-/* FILTERS */
 .filters-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
 .flt{font-size:12px;padding:5px 11px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap}
 .flt:hover{border-color:var(--text2);color:var(--text)}
 .flt.active{background:var(--gold);border-color:var(--gold);color:#0d0f14;font-weight:600}
 .search-box{margin-left:auto;padding:5px 12px;border-radius:20px;border:1px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;outline:none;width:130px}
 .search-box:focus{border-color:var(--text2)}
-
-/* STAGE HEADER */
 .stage-sep{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:16px 0 6px;border-bottom:1px solid var(--border);margin-bottom:4px;display:flex;align-items:center;gap:8px}
 .stage-sep span{color:var(--text2);font-size:10px;font-weight:400;letter-spacing:0;text-transform:none}
-
-/* MATCH CARD */
 .match-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:4px;overflow:hidden;transition:border-color .15s}
 .match-card.expanded{border-color:var(--border2)}
 .match-card:hover{border-color:var(--border2)}
-
-/* Desktop: num|date|vt|mt|teams|pickE|pickC */
-.match-row{display:grid;grid-template-columns:24px 94px 70px 70px 1fr 106px 106px;align-items:center;padding:10px 12px;cursor:pointer;gap:6px;user-select:none}
+.match-row{display:grid;grid-template-columns:24px 94px 70px 70px 1fr 108px 108px;align-items:center;padding:10px 12px;cursor:pointer;gap:6px;user-select:none}
 @media(max-width:640px){
   .match-row{grid-template-columns:1fr auto;grid-template-rows:auto auto;padding:10px 12px;gap:3px 8px}
   .m-num,.m-tvk,.m-tms,.m-pc{display:none}
@@ -86,26 +73,22 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 .m-teams-sub{font-size:10px;color:var(--text2);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .m-teams-sub2{font-size:10px;color:var(--text3);margin-top:1px}
 
-/* FLAG CIRCLE */
-.fv{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:14px;line-height:1;flex-shrink:0;background:var(--bg3);overflow:hidden;vertical-align:middle}
-.fvs{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;line-height:1;flex-shrink:0;background:var(--bg3);overflow:hidden;vertical-align:middle}
+/* FLAG — real SVG images from flagcdn */
+.fv{width:21px;height:15px;border-radius:2px;object-fit:cover;flex-shrink:0;vertical-align:middle;background:var(--bg3);display:inline-block}
+.fvs{width:18px;height:13px;border-radius:2px;object-fit:cover;flex-shrink:0;vertical-align:middle;background:var(--bg3);display:inline-block}
+.fv-none{display:inline-flex;align-items:center;justify-content:center;width:21px;height:15px;border-radius:2px;background:var(--bg3);font-size:8px;color:var(--text3);font-weight:700;flex-shrink:0;vertical-align:middle}
 
-/* RESULT PILLS */
 .res-fin{font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(201,162,39,.15);color:var(--gold);border:1px solid rgba(201,162,39,.3)}
 .res-live{font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(231,76,60,.15);color:var(--red);border:1px solid rgba(231,76,60,.3);animation:pulse .8s infinite}
 .res-auto{font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(46,204,113,.12);color:var(--green);border:1px solid rgba(46,204,113,.25);margin-left:3px}
-
-/* PICK BADGE */
 .m-pc{display:flex;justify-content:center}
-.pb{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:4px 9px;border-radius:20px;cursor:pointer;border:1px solid transparent;white-space:nowrap;transition:all .12s;max-width:104px;overflow:hidden}
+.pb{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:4px 9px;border-radius:20px;cursor:pointer;border:1px solid transparent;white-space:nowrap;transition:all .12s;max-width:106px;overflow:hidden}
 .pb-e{background:rgba(61,142,240,.14);color:#5ea8f5;border-color:rgba(61,142,240,.35)}
 .pb-c{background:rgba(224,92,48,.14);color:#f07850;border-color:rgba(224,92,48,.35)}
 .pb-mt{color:var(--text3);border:1px dashed var(--border2)}
 .pb-mt:hover{border-color:var(--text2);color:var(--text2)}
 .pb.correct{box-shadow:0 0 0 1.5px var(--green)!important}
 .pb.wrong{opacity:.38}
-
-/* EXPAND */
 .exp-panel{border-top:1px solid var(--border);display:none}
 .match-card.expanded .exp-panel{display:block}
 .exp-inner{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
@@ -119,7 +102,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 .exp-ta::placeholder{color:var(--text3)}
 .po-lbl{font-size:11px;color:var(--text3);margin:8px 0 5px}
 .po-wrap{display:flex;gap:5px;flex-wrap:wrap}
-.po{font-size:12px;padding:5px 10px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:4px;transition:all .12s}
+.po{font-size:12px;padding:5px 10px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;transition:all .12s}
 .po:hover{border-color:var(--text2);color:var(--text)}
 .po.se{background:rgba(61,142,240,.15);color:#5ea8f5;border-color:rgba(61,142,240,.4);font-weight:600}
 .po.sc{background:rgba(224,92,48,.15);color:#f07850;border-color:rgba(224,92,48,.4);font-weight:600}
@@ -134,8 +117,6 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 .save-ok{font-size:11px;color:var(--green);opacity:0;transition:opacity .3s;white-space:nowrap}
 .auto-res{font-size:11px;color:var(--green);display:flex;align-items:center;gap:5px;margin-top:6px}
 .gpill{font-size:9px;padding:1px 5px;border-radius:3px;background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
-
-/* ANALYTICS */
 .an-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:22px}
 .st{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
 .sv{font-size:24px;font-weight:700;line-height:1}
@@ -151,7 +132,7 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 .dss{font-size:10px;color:var(--text3);margin-top:3px}
 .dvs{font-size:15px;font-weight:700;color:var(--text3);text-align:center}
 .br{display:flex;align-items:center;gap:8px;margin-bottom:7px}
-.bl{font-size:12px;color:var(--text2);width:100px;flex-shrink:0;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end;gap:4px}
+.bl{font-size:12px;color:var(--text2);width:110px;flex-shrink:0;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end;gap:5px}
 .bt{flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden}
 .bf{height:100%;border-radius:3px;transition:width .5s ease}
 .bv{font-size:11px;color:var(--text3);width:18px;text-align:right}
@@ -182,15 +163,14 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
   </div>
 </nav>
 
-<div class="api-bar">
+<div class="set-bar" id="setBar" style="display:none">
   <div class="api-dot" id="apiDot"></div>
-  <span id="apiLbl">авто-результаты: нет ключа</span>
-  <input class="api-key-inp" id="apiInp" type="password" placeholder="RapidAPI ключ...">
-  <button class="btn-xs" onclick="testKey()">Проверить</button>
-  <button class="btn-xs" id="autoBtn" onclick="toggleAuto()" style="display:none">Авто: выкл</button>
+  <span id="apiLbl">авто-результаты</span>
+  <button class="btn-xs" id="autoBtn" onclick="toggleAuto()">Авто: выкл</button>
   <span class="cdn" id="cdn" style="display:none"></span>
-  <a href="https://rapidapi.com/Creativesdev/api/free-api-live-football-data" target="_blank"
-     style="color:var(--ace);font-size:11px;text-decoration:none;margin-left:4px">получить ключ</a>
+  <span style="margin-left:auto">
+    <span class="set-link" onclick="document.getElementById('setBar').style.display='none'">скрыть ✕</span>
+  </span>
 </div>
 
 <div id="page-schedule" class="page active">
@@ -204,36 +184,40 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 <script src="https://cdn.jsdelivr.net/npm/gun@0.2020.1240/gun.js"></script>
 <script>
 // ═══════════════════════════════════════════════════
-// FLAGS
+// CONFIG — API ключ прокинут прямо в код
 // ═══════════════════════════════════════════════════
-var F = {
-  "Мексика":"🇲🇽","Польша":"🇵🇱","США":"🇺🇸","Уругвай":"🇺🇾",
-  "Испания":"🇪🇸","Хорватия":"🇭🇷","Марокко":"🇲🇦","Португалия":"🇵🇹",
-  "Германия":"🇩🇪","Япония":"🇯🇵","Аргентина":"🇦🇷","Чили":"🇨🇱",
-  "Франция":"🇫🇷","Нигерия":"🇳🇬","Англия":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Иран":"🇮🇷",
-  "Бразилия":"🇧🇷","ЮАР":"🇿🇦","Нидерланды":"🇳🇱","Сенегал":"🇸🇳",
-  "Италия":"🇮🇹","Эквадор":"🇪🇨","Бельгия":"🇧🇪","Австралия":"🇦🇺",
-  "Сербия":"🇷🇸","Канада":"🇨🇦","Венесуэла":"🇻🇪","Колумбия":"🇨🇴",
-  "Кот-д'Ивуар":"🇨🇮","Дания":"🇩🇰","Тунис":"🇹🇳","Ничья":"⚖️",
-  "Швейцария":"🇨🇭","Швеция":"🇸🇪","Норвегия":"🇳🇴","Австрия":"🇦🇹",
-  "Турция":"🇹🇷","Румыния":"🇷🇴","Греция":"🇬🇷","Словакия":"🇸🇰",
-  "Словения":"🇸🇮","Венгрия":"🇭🇺","Грузия":"🇬🇪","Косово":"🇽🇰",
-  "Украина":"🇺🇦","Шотландия":"🏴󠁧󠁢󠁳󠁣󠁴󠁿","Уэльс":"🏴󠁧󠁢󠁷󠁬󠁳󠁿","Ирландия":"🇮🇪",
-  "Алжир":"🇩🇿","Египет":"🇪🇬","Камерун":"🇨🇲","Гана":"🇬🇭","Мали":"🇲🇱",
-  "Конго":"🇨🇩","Кения":"🇰🇪","Замбия":"🇿🇲","Мозамбик":"🇲🇿",
-  "Саудовская Аравия":"🇸🇦","Австралия":"🇦🇺","Новая Зеландия":"🇳🇿",
-  "Катар":"🇶🇦","ОАЭ":"🇦🇪","Ирак":"🇮🇶","Узбекистан":"🇺🇿",
-  "Гондурас":"🇭🇳","Ямайка":"🇯🇲","Панама":"🇵🇦","Коста-Рика":"🇨🇷",
-  "Перу":"🇵🇪","Парагвай":"🇵🇾","Эквадор":"🇪🇨","Боливия":"🇧🇴",
-  // English names for API matching
-  "Mexico":"🇲🇽","Poland":"🇵🇱","United States":"🇺🇸","Uruguay":"🇺🇾",
-  "Spain":"🇪🇸","Croatia":"🇭🇷","Morocco":"🇲🇦","Portugal":"🇵🇹",
-  "Germany":"🇩🇪","Japan":"🇯🇵","Argentina":"🇦🇷","Chile":"🇨🇱",
-  "France":"🇫🇷","Nigeria":"🇳🇬","England":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Iran":"🇮🇷",
-  "Brazil":"🇧🇷","South Africa":"🇿🇦","Netherlands":"🇳🇱","Senegal":"🇸🇳",
-  "Italy":"🇮🇹","Ecuador":"🇪🇨","Belgium":"🇧🇪","Australia":"🇦🇺",
-  "Serbia":"🇷🇸","Canada":"🇨🇦","Venezuela":"🇻🇪","Colombia":"🇨🇴",
-  "Ivory Coast":"🇨🇮","Cote d'Ivoire":"🇨🇮","Denmark":"🇩🇰","Tunisia":"🇹🇳"
+var API_KEY = "aa4d49595cmsh40c41dabae378afp193e5fjsn5056e2694b74";
+var API_HOST = "api-football-v1.p.rapidapi.com";
+var API_BASE = "https://api-football-v1.p.rapidapi.com/v3";
+var WC_LEAGUE = 1;
+var WC_SEASON = 2026;
+
+// ═══════════════════════════════════════════════════
+// ФЛАГИ — ISO коды стран → flagcdn.com SVG картинки
+// (эмодзи-флаги НЕ работают на Windows!)
+// ═══════════════════════════════════════════════════
+var ISO = {
+  "Мексика":"mx","Польша":"pl","США":"us","Уругвай":"uy","Испания":"es",
+  "Хорватия":"hr","Марокко":"ma","Португалия":"pt","Германия":"de","Япония":"jp",
+  "Аргентина":"ar","Чили":"cl","Франция":"fr","Нигерия":"ng","Англия":"gb-eng",
+  "Иран":"ir","Бразилия":"br","ЮАР":"za","Нидерланды":"nl","Сенегал":"sn",
+  "Италия":"it","Эквадор":"ec","Бельгия":"be","Австралия":"au","Сербия":"rs",
+  "Канада":"ca","Венесуэла":"ve","Колумбия":"co","Кот-д'Ивуар":"ci","Дания":"dk",
+  "Тунис":"tn","Швейцария":"ch","Швеция":"se","Норвегия":"no","Австрия":"at",
+  "Турция":"tr","Румыния":"ro","Греция":"gr","Словакия":"sk","Словения":"si",
+  "Венгрия":"hu","Грузия":"ge","Косово":"xk","Украина":"ua","Шотландия":"gb-sct",
+  "Уэльс":"gb-wls","Ирландия":"ie","Алжир":"dz","Египет":"eg","Камерун":"cm",
+  "Гана":"gh","Мали":"ml","Кения":"ke","Замбия":"zm","Саудовская Аравия":"sa",
+  "Новая Зеландия":"nz","Катар":"qa","ОАЭ":"ae","Ирак":"iq","Узбекистан":"uz",
+  "Гондурас":"hn","Ямайка":"jm","Панама":"pa","Коста-Рика":"cr","Перу":"pe",
+  "Парагвай":"py","Боливия":"bo",
+  // English (для матчинга API)
+  "Mexico":"mx","Poland":"pl","United States":"us","Uruguay":"uy","Spain":"es",
+  "Croatia":"hr","Morocco":"ma","Portugal":"pt","Germany":"de","Japan":"jp",
+  "Argentina":"ar","Chile":"cl","France":"fr","Nigeria":"ng","England":"gb-eng",
+  "Iran":"ir","Brazil":"br","South Africa":"za","Netherlands":"nl","Senegal":"sn",
+  "Italy":"it","Ecuador":"ec","Belgium":"be","Australia":"au","Serbia":"rs",
+  "Canada":"ca","Venezuela":"ve","Colombia":"co","Ivory Coast":"ci","Denmark":"dk","Tunisia":"tn"
 };
 var EN2RU = {
   "Mexico":"Мексика","Poland":"Польша","United States":"США","USA":"США","Uruguay":"Уругвай",
@@ -246,76 +230,72 @@ var EN2RU = {
   "Ivory Coast":"Кот-д'Ивуар","Cote d'Ivoire":"Кот-д'Ивуар","Denmark":"Дания","Tunisia":"Тунис"
 };
 
-function getFlag(t){ return F[t]||"🏳"; }
-function fv(t){ return '<span class="fv">'+getFlag(t)+'</span>'; }
-function fvs(t){ return '<span class="fvs">'+getFlag(t)+'</span>'; }
+// Флаг как <img> с flagcdn. Для "Ничья" — спец-иконка.
+function fv(t){
+  if(t==="Ничья") return '<span class="fv-none">=</span>';
+  var iso=ISO[t];
+  if(!iso) return '<span class="fv-none">'+(t||"?").slice(0,2).toUpperCase()+'</span>';
+  return '<img class="fv" src="https://flagcdn.com/'+iso+'.svg" alt="'+t+'" loading="lazy">';
+}
+function fvs(t){
+  if(t==="Ничья") return '<span class="fv-none" style="width:18px;height:13px">=</span>';
+  var iso=ISO[t];
+  if(!iso) return '<span class="fv-none" style="width:18px;height:13px">'+(t||"?").slice(0,2).toUpperCase()+'</span>';
+  return '<img class="fvs" src="https://flagcdn.com/'+iso+'.svg" alt="'+t+'" loading="lazy">';
+}
 
 // ═══════════════════════════════════════════════════
-// МАТЧИ — ПРАВИЛЬНАЯ СЕТКА ЧМ 2026
-// 12 групп (A-L), затем 1/8, 1/4, 1/2, финал
+// МАТЧИ — групповой этап (упрощённо A-H, по 6 матчей)
 // ═══════════════════════════════════════════════════
 var MATCHES = [
-  // ── Группа A ──
   {id:1, stage:"group",group:"A",date:"2026-06-11",utcH:23,utcM:0, home:"Мексика",    away:"Польша",       venue:"Estadio Azteca",      city:"Мехико"},
   {id:2, stage:"group",group:"A",date:"2026-06-12",utcH:2, utcM:0, home:"США",        away:"Уругвай",      venue:"AT&T Stadium",        city:"Даллас"},
   {id:3, stage:"group",group:"A",date:"2026-06-19",utcH:1, utcM:0, home:"Польша",     away:"Уругвай",      venue:"AT&T Stadium",        city:"Даллас"},
   {id:4, stage:"group",group:"A",date:"2026-06-19",utcH:20,utcM:0, home:"Мексика",    away:"США",          venue:"SoFi Stadium",        city:"Лос-Анджелес"},
   {id:5, stage:"group",group:"A",date:"2026-06-26",utcH:2, utcM:0, home:"Польша",     away:"Мексика",      venue:"NRG Stadium",         city:"Хьюстон"},
   {id:6, stage:"group",group:"A",date:"2026-06-26",utcH:2, utcM:0, home:"Уругвай",    away:"США",          venue:"Arrowhead Stadium",   city:"Канзас-Сити"},
-  // ── Группа B ──
   {id:7, stage:"group",group:"B",date:"2026-06-12",utcH:19,utcM:0, home:"Испания",    away:"Хорватия",     venue:"SoFi Stadium",        city:"Лос-Анджелес"},
   {id:8, stage:"group",group:"B",date:"2026-06-12",utcH:22,utcM:0, home:"Марокко",    away:"Португалия",   venue:"Lumen Field",         city:"Сиэтл"},
   {id:9, stage:"group",group:"B",date:"2026-06-19",utcH:20,utcM:0, home:"Испания",    away:"Марокко",      venue:"MetLife Stadium",     city:"Нью-Йорк"},
   {id:10,stage:"group",group:"B",date:"2026-06-19",utcH:23,utcM:0, home:"Хорватия",   away:"Португалия",   venue:"BC Place",            city:"Ванкувер"},
   {id:11,stage:"group",group:"B",date:"2026-06-26",utcH:22,utcM:0, home:"Хорватия",   away:"Испания",      venue:"Hard Rock Stadium",   city:"Майами"},
   {id:12,stage:"group",group:"B",date:"2026-06-26",utcH:22,utcM:0, home:"Португалия", away:"Марокко",      venue:"Gillette Stadium",    city:"Бостон"},
-  // ── Группа C ──
   {id:13,stage:"group",group:"C",date:"2026-06-13",utcH:0, utcM:0, home:"Германия",   away:"Япония",       venue:"BC Place",            city:"Ванкувер"},
   {id:14,stage:"group",group:"C",date:"2026-06-13",utcH:20,utcM:0, home:"Аргентина",  away:"Чили",         venue:"MetLife Stadium",     city:"Нью-Йорк"},
   {id:15,stage:"group",group:"C",date:"2026-06-20",utcH:0, utcM:0, home:"Германия",   away:"Аргентина",    venue:"BC Place",            city:"Ванкувер"},
   {id:16,stage:"group",group:"C",date:"2026-06-20",utcH:20,utcM:0, home:"Япония",     away:"Чили",         venue:"AT&T Stadium",        city:"Даллас"},
   {id:17,stage:"group",group:"C",date:"2026-06-26",utcH:2, utcM:0, home:"Германия",   away:"Чили",         venue:"MetLife Stadium",     city:"Нью-Йорк"},
   {id:18,stage:"group",group:"C",date:"2026-06-26",utcH:2, utcM:0, home:"Япония",     away:"Аргентина",    venue:"AT&T Stadium",        city:"Даллас"},
-  // ── Группа D ──
   {id:19,stage:"group",group:"D",date:"2026-06-13",utcH:22,utcM:0, home:"Франция",    away:"Нигерия",      venue:"Arrowhead Stadium",   city:"Канзас-Сити"},
   {id:20,stage:"group",group:"D",date:"2026-06-14",utcH:1, utcM:0, home:"Англия",     away:"Иран",         venue:"Gillette Stadium",    city:"Бостон"},
   {id:21,stage:"group",group:"D",date:"2026-06-20",utcH:22,utcM:0, home:"Франция",    away:"Англия",       venue:"Gillette Stadium",    city:"Бостон"},
   {id:22,stage:"group",group:"D",date:"2026-06-20",utcH:22,utcM:0, home:"Нигерия",    away:"Иран",         venue:"Hard Rock Stadium",   city:"Майами"},
   {id:23,stage:"group",group:"D",date:"2026-06-26",utcH:22,utcM:0, home:"Нигерия",    away:"Франция",      venue:"BMO Field",           city:"Торонто"},
   {id:24,stage:"group",group:"D",date:"2026-06-26",utcH:22,utcM:0, home:"Иран",       away:"Англия",       venue:"BC Place",            city:"Ванкувер"},
-  // ── Группа E ──
   {id:25,stage:"group",group:"E",date:"2026-06-14",utcH:22,utcM:0, home:"Бразилия",   away:"ЮАР",          venue:"Hard Rock Stadium",   city:"Майами"},
   {id:26,stage:"group",group:"E",date:"2026-06-15",utcH:2, utcM:0, home:"Нидерланды", away:"Сенегал",      venue:"Lincoln Financial",   city:"Филадельфия"},
   {id:27,stage:"group",group:"E",date:"2026-06-21",utcH:22,utcM:0, home:"Бразилия",   away:"Нидерланды",   venue:"Hard Rock Stadium",   city:"Майами"},
   {id:28,stage:"group",group:"E",date:"2026-06-21",utcH:22,utcM:0, home:"ЮАР",        away:"Сенегал",      venue:"Lumen Field",         city:"Сиэтл"},
   {id:29,stage:"group",group:"E",date:"2026-06-27",utcH:2, utcM:0, home:"Нидерланды", away:"ЮАР",          venue:"Lincoln Financial",   city:"Филадельфия"},
   {id:30,stage:"group",group:"E",date:"2026-06-27",utcH:2, utcM:0, home:"Сенегал",    away:"Бразилия",     venue:"Lumen Field",         city:"Сиэтл"},
-  // ── Группа F ──
   {id:31,stage:"group",group:"F",date:"2026-06-15",utcH:1, utcM:0, home:"Италия",     away:"Эквадор",      venue:"Estadio Guadalajara", city:"Гвадалахара"},
   {id:32,stage:"group",group:"F",date:"2026-06-15",utcH:20,utcM:0, home:"Бельгия",    away:"Австралия",    venue:"BMO Field",           city:"Торонто"},
   {id:33,stage:"group",group:"F",date:"2026-06-21",utcH:20,utcM:0, home:"Италия",     away:"Бельгия",      venue:"Estadio Guadalajara", city:"Гвадалахара"},
   {id:34,stage:"group",group:"F",date:"2026-06-21",utcH:20,utcM:0, home:"Австралия",  away:"Эквадор",      venue:"NRG Stadium",         city:"Хьюстон"},
   {id:35,stage:"group",group:"F",date:"2026-06-27",utcH:22,utcM:0, home:"Бельгия",    away:"Эквадор",      venue:"Estadio Guadalajara", city:"Гвадалахара"},
   {id:36,stage:"group",group:"F",date:"2026-06-27",utcH:22,utcM:0, home:"Австралия",  away:"Италия",       venue:"Arrowhead Stadium",   city:"Канзас-Сити"},
-  // ── Группа G ──
   {id:37,stage:"group",group:"G",date:"2026-06-15",utcH:22,utcM:0, home:"Португалия", away:"Сербия",       venue:"BC Place",            city:"Ванкувер"},
   {id:38,stage:"group",group:"G",date:"2026-06-16",utcH:1, utcM:0, home:"Колумбия",   away:"Кот-д'Ивуар", venue:"NRG Stadium",         city:"Хьюстон"},
   {id:39,stage:"group",group:"G",date:"2026-06-22",utcH:0, utcM:0, home:"Португалия", away:"Колумбия",     venue:"SoFi Stadium",        city:"Лос-Анджелес"},
   {id:40,stage:"group",group:"G",date:"2026-06-22",utcH:0, utcM:0, home:"Сербия",     away:"Кот-д'Ивуар", venue:"AT&T Stadium",        city:"Даллас"},
   {id:41,stage:"group",group:"G",date:"2026-06-28",utcH:2, utcM:0, home:"Кот-д'Ивуар",away:"Португалия",  venue:"Lincoln Financial",   city:"Филадельфия"},
   {id:42,stage:"group",group:"G",date:"2026-06-28",utcH:2, utcM:0, home:"Сербия",     away:"Колумбия",     venue:"Hard Rock Stadium",   city:"Майами"},
-  // ── Группа H ──
   {id:43,stage:"group",group:"H",date:"2026-06-16",utcH:20,utcM:0, home:"Канада",     away:"Венесуэла",    venue:"BMO Field",           city:"Торонто"},
   {id:44,stage:"group",group:"H",date:"2026-06-16",utcH:22,utcM:0, home:"Дания",      away:"Тунис",        venue:"Levi's Stadium",      city:"Сан-Хосе"},
   {id:45,stage:"group",group:"H",date:"2026-06-22",utcH:22,utcM:0, home:"Канада",     away:"Дания",        venue:"BMO Field",           city:"Торонто"},
   {id:46,stage:"group",group:"H",date:"2026-06-22",utcH:22,utcM:0, home:"Венесуэла",  away:"Тунис",        venue:"BC Place",            city:"Ванкувер"},
   {id:47,stage:"group",group:"H",date:"2026-06-28",utcH:22,utcM:0, home:"Тунис",      away:"Канада",       venue:"BMO Field",           city:"Торонто"},
   {id:48,stage:"group",group:"H",date:"2026-06-28",utcH:22,utcM:0, home:"Дания",      away:"Венесуэла",    venue:"Levi's Stadium",      city:"Сан-Хосе"},
-  // ── Группа I ──
-  {id:49,stage:"group",group:"I",date:"2026-06-17",utcH:0, utcM:0, home:"Аргентина",  away:"Польша",       venue:"MetLife Stadium",     city:"Нью-Йорк"},
-  // placeholder — будет обновляться по мере жеребьёвки
-  // ── Группа J-L — TBD ──
-  // 1/8 финала (Round of 32)
   {id:70,stage:"r32",group:"",date:"2026-07-04",utcH:0, utcM:0, home:"1A",away:"2B",venue:"BC Place",            city:"Ванкувер"},
   {id:71,stage:"r32",group:"",date:"2026-07-04",utcH:22,utcM:0, home:"1B",away:"2A",venue:"AT&T Stadium",        city:"Даллас"},
   {id:72,stage:"r32",group:"",date:"2026-07-05",utcH:2, utcM:0, home:"1C",away:"2D",venue:"MetLife Stadium",     city:"Нью-Йорк"},
@@ -324,160 +304,121 @@ var MATCHES = [
   {id:75,stage:"r32",group:"",date:"2026-07-06",utcH:22,utcM:0, home:"1F",away:"2E",venue:"Hard Rock Stadium",   city:"Майами"},
   {id:76,stage:"r32",group:"",date:"2026-07-07",utcH:2, utcM:0, home:"1G",away:"2H",venue:"BMO Field",           city:"Торонто"},
   {id:77,stage:"r32",group:"",date:"2026-07-07",utcH:22,utcM:0, home:"1H",away:"2G",venue:"Gillette Stadium",    city:"Бостон"},
-  // 1/4 финала
   {id:80,stage:"qf",group:"",date:"2026-07-11",utcH:2, utcM:0, home:"TBD",away:"TBD",venue:"MetLife Stadium",   city:"Нью-Йорк"},
   {id:81,stage:"qf",group:"",date:"2026-07-11",utcH:22,utcM:0, home:"TBD",away:"TBD",venue:"SoFi Stadium",      city:"Лос-Анджелес"},
   {id:82,stage:"qf",group:"",date:"2026-07-12",utcH:2, utcM:0, home:"TBD",away:"TBD",venue:"BC Place",          city:"Ванкувер"},
   {id:83,stage:"qf",group:"",date:"2026-07-12",utcH:22,utcM:0, home:"TBD",away:"TBD",venue:"AT&T Stadium",      city:"Даллас"},
-  // Полуфиналы
   {id:84,stage:"sf",group:"",date:"2026-07-14",utcH:2, utcM:0, home:"TBD",away:"TBD",venue:"MetLife Stadium",   city:"Нью-Йорк"},
   {id:85,stage:"sf",group:"",date:"2026-07-15",utcH:2, utcM:0, home:"TBD",away:"TBD",venue:"SoFi Stadium",      city:"Лос-Анджелес"},
-  // 3-е место и финал
   {id:86,stage:"3rd",group:"",date:"2026-07-18",utcH:22,utcM:0, home:"TBD",away:"TBD",venue:"AT&T Stadium",     city:"Даллас"},
   {id:87,stage:"final",group:"",date:"2026-07-19",utcH:22,utcM:0, home:"TBD",away:"TBD",venue:"MetLife Stadium",city:"Нью-Йорк"},
 ];
-
-var STAGE_LABELS={group:"Групповой этап",r32:"1/8 финала (Round of 32)",qf:"Четвертьфиналы",sf:"Полуфиналы","3rd":"Матч за 3-е место",final:"🏆 Финал"};
+var STAGE_LABELS={group:"Групповой этап",r32:"1/8 финала",qf:"Четвертьфиналы",sf:"Полуфиналы","3rd":"Матч за 3-е место",final:"Финал"};
 var STAGE_ORDER=["group","r32","qf","sf","3rd","final"];
 var FILTERS=[{key:"all",label:"Все"},{key:"group",label:"Группы"},{key:"r32",label:"1/8"},{key:"qf",label:"1/4"},{key:"sf",label:"Полуф."},{key:"final",label:"Финал"}];
 
 // ═══════════════════════════════════════════════════
-// STATE
+// STATE — с надёжным localStorage fallback
 // ═══════════════════════════════════════════════════
 var picks={}, comments={}, results={}, autoRes={};
 var expanded={}, activeFilter="all", searchQ="";
-var apiKey=localStorage.getItem("wc26_key")||"";
 var autoOn=false, autoTimer=null, cdTimer=null, cdSec=0;
 var _pcmt={}, _pres={};
 
+// Загрузка из localStorage сразу (чтобы пики были видны до Gun)
+function loadLocal(){
+  try{
+    var d=JSON.parse(localStorage.getItem("wc26_data")||"{}");
+    picks=d.picks||{}; comments=d.comments||{}; results=d.results||{}; autoRes=d.autoRes||{};
+  }catch(e){}
+}
+function saveLocal(){
+  try{ localStorage.setItem("wc26_data",JSON.stringify({picks:picks,comments:comments,results:results,autoRes:autoRes})); }catch(e){}
+}
+loadLocal();
+
 // ═══════════════════════════════════════════════════
-// GUN
+// GUN — рабочие relay + всегда сохраняем локально
 // ═══════════════════════════════════════════════════
-var gun=GUN({peers:["https://gun-rs.alwaysdata.net/gun","https://gun-us.herokuapp.com/gun"],localStorage:true,radisk:false});
-var room=gun.get("wc2026__esprit-cloun-wc2026-v3");
-room.get("picks").map().on(function(v,mid){if(!v)return;try{picks[mid]=JSON.parse(v);}catch(e){picks[mid]=v;}sr();});
-room.get("comments").map().on(function(v,mid){if(!v)return;try{comments[mid]=JSON.parse(v);}catch(e){}sr();});
-room.get("results").map().on(function(v,mid){if(v==null)return;results[mid]=v;sr();});
-room.get("autoRes").map().on(function(v,mid){if(v==null)return;autoRes[mid]=v;sr();});
-gun.on("hi",function(){ss("online","онлайн");});
-gun.on("bye",function(){ss("error","оффлайн");});
+var gun=GUN({peers:["https://relay.peer.ooo/gun","https://gun-manhattan.herokuapp.com/gun","https://peer.wallie.io/gun"],localStorage:true,radisk:false});
+var room=gun.get("wc2026_esprit_cloun_room1");
+
+room.get("picks").map().on(function(v,mid){if(!v)return;try{picks[mid]=JSON.parse(v);saveLocal();sr();}catch(e){}});
+room.get("comments").map().on(function(v,mid){if(!v)return;try{comments[mid]=JSON.parse(v);saveLocal();sr();}catch(e){}});
+room.get("results").map().on(function(v,mid){if(v==null)return;results[mid]=v;saveLocal();sr();});
+room.get("autoRes").map().on(function(v,mid){if(v==null)return;autoRes[mid]=v;saveLocal();sr();});
+
+gun.on("hi",function(){ss("online","синхронизировано");});
+gun.on("bye",function(){ss("error","локально");});
 ss("syncing","подключение...");
-setTimeout(function(){if(document.getElementById("syncDot").classList.contains("syncing"))ss("online","онлайн");},5000);
+setTimeout(function(){ if(document.getElementById("syncDot").classList.contains("syncing")) ss("online","локально+облако"); },4000);
 
 function ss(s,l){document.getElementById("syncDot").className="sync-dot "+s;document.getElementById("syncLbl").textContent=l;}
-function fw(mid,who,val){var c=Object.assign({},picks[mid]||{});c[who]=val;picks[mid]=c;room.get("picks").get(String(mid)).put(JSON.stringify(c));fs();}
-function fc(mid,who,val){var c=Object.assign({},comments[mid]||{});c[who]=val;comments[mid]=c;room.get("comments").get(String(mid)).put(JSON.stringify(c));}
-function fr(mid,val){results[mid]=val;room.get("results").get(String(mid)).put(val);fs();}
-function far(mid,val){autoRes[mid]=val;room.get("autoRes").get(String(mid)).put(val);}
-function fs(){ss("syncing","сохранение...");setTimeout(function(){ss("online","онлайн");},900);}
+
+// Запись: и в Gun, и локально (локальное всегда работает)
+function fw(mid,who,val){
+  var c=Object.assign({},picks[mid]||{}); c[who]=val; picks[mid]=c;
+  saveLocal();
+  try{ room.get("picks").get(String(mid)).put(JSON.stringify(c)); }catch(e){}
+  fs();
+}
+function fc(mid,who,val){
+  var c=Object.assign({},comments[mid]||{}); c[who]=val; comments[mid]=c;
+  saveLocal();
+  try{ room.get("comments").get(String(mid)).put(JSON.stringify(c)); }catch(e){}
+}
+function fr(mid,val){ results[mid]=val; saveLocal(); try{room.get("results").get(String(mid)).put(val);}catch(e){} fs(); }
+function far(mid,val){ autoRes[mid]=val; saveLocal(); try{room.get("autoRes").get(String(mid)).put(val);}catch(e){} }
+function fs(){ ss("syncing","сохранение..."); setTimeout(function(){ ss("online","сохранено"); },800); }
 
 // ═══════════════════════════════════════════════════
-// API — free-api-live-football-data
+// API — авто-результаты (ключ в коде)
 // ═══════════════════════════════════════════════════
-var API_HOST="free-api-live-football-data.p.rapidapi.com";
-var API_BASE="https://"+API_HOST;
-
-if(apiKey){
-  document.getElementById("apiInp").value="●".repeat(20);
-  document.getElementById("apiLbl").textContent="авто-результаты: ключ сохранён";
-  document.getElementById("autoBtn").style.display="";
-}
-
-function onKeyInp(v){if(v&&!/^●+$/.test(v)){apiKey=v;localStorage.setItem("wc26_key",v);}}
-document.getElementById("apiInp").addEventListener("input",function(){onKeyInp(this.value);});
-
-function testKey(){
-  var v=document.getElementById("apiInp").value;
-  if(v&&!/^●+$/.test(v)){apiKey=v;localStorage.setItem("wc26_key",v);}
-  if(!apiKey){alert("Введи API ключ");return;}
-  setApiS("check","проверка...");
-  // Используем эндпоинт поиска (он есть в документации этого API)
-  fetch(API_BASE+"/football-current-season-livescores",{
-    headers:{"x-rapidapi-host":API_HOST,"x-rapidapi-key":apiKey}
-  })
-  .then(function(r){
-    if(r.status===401||r.status===403)throw new Error("неверный ключ");
-    return r.json();
-  })
-  .then(function(d){
-    setApiS("ok","ключ работает ✓");
-    document.getElementById("autoBtn").style.display="";
-  })
-  .catch(function(e){setApiS("err","ошибка: "+e.message);});
-}
-
-function setApiS(s,l){
-  document.getElementById("apiDot").className="api-dot "+s;
-  document.getElementById("apiLbl").textContent="авто-результаты: "+l;
-}
-
 function toggleAuto(){
   autoOn=!autoOn;
   var btn=document.getElementById("autoBtn");
   var cdEl=document.getElementById("cdn");
-  if(autoOn){
-    btn.textContent="Авто: вкл"; btn.className="btn-xs on";
-    cdEl.style.display=""; runFetch();
-  } else {
-    btn.textContent="Авто: выкл"; btn.className="btn-xs";
-    cdEl.style.display="none";
-    clearTimeout(autoTimer); clearInterval(cdTimer);
-  }
+  if(autoOn){ btn.textContent="Авто: вкл"; btn.className="btn-xs on"; cdEl.style.display=""; runFetch(); }
+  else { btn.textContent="Авто: выкл"; btn.className="btn-xs"; cdEl.style.display="none"; clearTimeout(autoTimer); clearInterval(cdTimer); }
 }
-
 function runFetch(){
-  fetchLiveScores();
+  fetchFixtures();
   cdSec=60; clearInterval(cdTimer);
-  cdTimer=setInterval(function(){
-    cdSec--;
-    document.getElementById("cdn").textContent="обновление через "+cdSec+"с";
-    if(cdSec<=0){clearInterval(cdTimer);if(autoOn)runFetch();}
-  },1000);
+  cdTimer=setInterval(function(){ cdSec--; document.getElementById("cdn").textContent="обновление через "+cdSec+"с"; if(cdSec<=0){clearInterval(cdTimer);if(autoOn)runFetch();} },1000);
 }
-
-function fetchLiveScores(){
-  if(!apiKey)return;
-  // Получаем сегодняшние и вчерашние матчи
+function fetchFixtures(){
   var today=new Date().toISOString().slice(0,10);
-  fetch(API_BASE+"/football-get-all-leagues-fixtures-scores-by-date?date="+today,{
-    headers:{"x-rapidapi-host":API_HOST,"x-rapidapi-key":apiKey}
+  setApiS("check","запрос...");
+  fetch(API_BASE+"/fixtures?league="+WC_LEAGUE+"&season="+WC_SEASON+"&date="+today,{
+    headers:{"x-rapidapi-host":API_HOST,"x-rapidapi-key":API_KEY}
   })
-  .then(function(r){return r.json();})
-  .then(function(d){processScores(d);})
-  .catch(function(){});
-  // Также запрашиваем live
-  fetch(API_BASE+"/football-current-season-livescores",{
-    headers:{"x-rapidapi-host":API_HOST,"x-rapidapi-key":apiKey}
+  .then(function(r){ return r.json(); })
+  .then(function(d){
+    if(d.errors&&(d.errors.token||d.errors.key)){ setApiS("err","ошибка ключа"); return; }
+    var n=processFix(d.response||[]);
+    setApiS("ok","обновлено ("+n+" матчей)");
+    sr();
   })
-  .then(function(r){return r.json();})
-  .then(function(d){processScores(d);})
-  .catch(function(){});
+  .catch(function(e){ setApiS("err","сеть: "+e.message); });
 }
-
-function processScores(data){
-  var items=data.response||data.data||[];
-  if(!Array.isArray(items)) return;
-  items.forEach(function(fx){
-    var homeEn=fx.homeTeam||fx.home_team||(fx.teams&&fx.teams.home&&fx.teams.home.name)||"";
-    var awayEn=fx.awayTeam||fx.away_team||(fx.teams&&fx.teams.away&&fx.teams.away.name)||"";
-    var homeRu=EN2RU[homeEn]||homeEn;
-    var awayRu=EN2RU[awayEn]||awayEn;
-    var g1=fx.score&&fx.score.home!=null?fx.score.home:(fx.homeScore!=null?fx.homeScore:null);
-    var g2=fx.score&&fx.score.away!=null?fx.score.away:(fx.awayScore!=null?fx.awayScore:null);
+function setApiS(s,l){ document.getElementById("apiDot").className="api-dot "+s; document.getElementById("apiLbl").textContent="авто-результаты: "+l; }
+function processFix(fixtures){
+  var cnt=0;
+  fixtures.forEach(function(fx){
+    var st=fx.fixture.status.short;
+    var homeEn=fx.teams.home.name, awayEn=fx.teams.away.name;
+    var homeRu=EN2RU[homeEn]||homeEn, awayRu=EN2RU[awayEn]||awayEn;
+    var g1=fx.goals.home, g2=fx.goals.away;
     if(g1==null||g2==null) return;
-    var status=fx.status||fx.matchStatus||"";
-    var isLive=/live|1h|ht|2h|et|bt|in_play/i.test(status);
-    var isFin=/ft|finished|full.time|aet|pen/i.test(status);
+    var isLive=["1H","HT","2H","ET","BT","P","LIVE"].indexOf(st)>=0;
+    var isFin=["FT","AET","PEN"].indexOf(st)>=0;
     if(!isLive&&!isFin) return;
-    var m=MATCHES.find(function(x){
-      return (x.home===homeRu&&x.away===awayRu)||(x.home===homeEn&&x.away===awayEn);
-    });
+    var m=MATCHES.find(function(x){ return (x.home===homeRu&&x.away===awayRu)||(x.home===homeEn&&x.away===awayEn); });
     if(!m) return;
-    var tag=isFin?"FT":"LIVE";
-    var val=g1+":"+g2+"|"+tag;
-    if(autoRes[m.id]!==val) far(m.id,val);
+    var val=g1+":"+g2+"|"+(isFin?"FT":"LIVE");
+    if(autoRes[m.id]!==val){ far(m.id,val); cnt++; }
   });
-  sr();
+  return cnt;
 }
 
 // ═══════════════════════════════════════════════════
@@ -506,18 +447,20 @@ function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").
 // RENDER
 // ═══════════════════════════════════════════════════
 var _rt;
-function sr(){clearTimeout(_rt);_rt=setTimeout(function(){render();if(document.getElementById("page-analytics").classList.contains("active"))renderAn();},60);}
+function sr(){clearTimeout(_rt);_rt=setTimeout(function(){render();if(document.getElementById("page-analytics").classList.contains("active"))renderAn();},80);}
 
 function renderFilters(){
   document.getElementById("filtersRow").innerHTML=
     FILTERS.map(function(f){return'<button class="flt'+(activeFilter===f.key?" active":"")+'" onclick="setF(\''+f.key+'\')">'+f.label+'</button>';}).join("")+
-    '<input class="search-box" placeholder="Поиск..." value="'+searchQ+'" oninput="setS(this.value)">';
+    '<input class="search-box" id="searchBox" placeholder="Поиск..." value="'+esc(searchQ)+'">';
+  // attach listener AFTER insert (избегаем потери фокуса/задержки)
+  var sb=document.getElementById("searchBox");
+  if(sb){ sb.oninput=function(){ searchQ=this.value.toLowerCase(); renderSchedOnly(); }; }
 }
 function setF(k){activeFilter=k;render();}
-function setS(v){searchQ=v.toLowerCase();render();}
 
-function render(){
-  renderFilters();
+// Рендер только списка матчей (не трогаем фильтры — поиск не теряет фокус)
+function renderSchedOnly(){
   var root=document.getElementById("schedRoot");
   var ms=MATCHES.filter(function(m){return activeFilter==="all"||m.stage===activeFilter;});
   if(searchQ)ms=ms.filter(function(m){return m.home.toLowerCase().includes(searchQ)||m.away.toLowerCase().includes(searchQ);});
@@ -534,6 +477,8 @@ function render(){
   applyMob();
 }
 
+function render(){ renderFilters(); renderSchedOnly(); }
+
 function renderCard(m){
   var vt=tz(m.utcH,m.utcM,-7),mt=tz(m.utcH,m.utcM,+3);
   var ds=fd(m.date,m.utcH,m.utcM),dw=fw2(m.date,m.utcH,m.utcM);
@@ -546,73 +491,53 @@ function renderCard(m){
   var comC=(comments[m.id]||{}).cloun||"";
   var teams=[m.home,m.away,"Ничья"];
 
-  // Result pill
   var resPill="";
   if(br){
     var cls=br.live?"res-live":"res-fin";
     var autoTag=br.auto?'<span class="res-auto">авто</span>':"";
     resPill='<span class="'+cls+'">'+br.score+'</span>'+autoTag;
   }
-
-  // Pick badge class
   function pbCls(pick,who){
     var b="pb "+(who==="e"?"pb-e":"pb-c");
     if(!pick)return"pb pb-mt";
     if(!w)return b;
     return b+(pick===w?" correct":" wrong");
   }
-  // Pick badge label — показываем флаг + имя команды, или плейсхолдер
   function pbLbl(pick,who){
     if(!pick)return who==="e"?"+ ESPRIT":"+ CLOUN";
-    return fvs(pick)+" "+pick;
+    return fvs(pick)+'<span>'+pick+'</span>';
   }
 
-  // Teams display
   var teamsHtml='<span style="display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap">'
     +fv(m.home)+'<span>'+m.home+'</span>'
     +'<span style="color:var(--text3)">—</span>'
     +fv(m.away)+'<span>'+m.away+'</span>'
-    +(resPill?" "+resPill:"")
-    +'</span>';
+    +(resPill?" "+resPill:"")+'</span>';
 
-  // Expand
   var expHtml="";
   if(isExp){
     var manRes=results[m.id]||"";
     var auR=autoRes[m.id]||"";
     var auScore=auR?auR.split("|")[0]:"";
     var auTag=auR?auR.split("|")[1]:"";
-    var opts_e=teams.map(function(t){
-      return'<span class="po'+(pe===t?" se":"")+'" onclick="setPick('+m.id+',\'esprit\','+JSON.stringify(t)+')">'+(F[t]?fvs(t)+" ":"")+t+'</span>';
-    }).join("");
-    var opts_c=teams.map(function(t){
-      return'<span class="po'+(pc===t?" sc":"")+'" onclick="setPick('+m.id+',\'cloun\','+JSON.stringify(t)+')">'+(F[t]?fvs(t)+" ":"")+t+'</span>';
-    }).join("");
-
-    expHtml='<div class="exp-panel">'
-      +'<div class="exp-inner">'
-      // ESPRIT col
+    var opts_e=teams.map(function(t){ return'<span class="po'+(pe===t?" se":"")+'" onclick="setPick('+m.id+',\'esprit\','+JSON.stringify(t)+')">'+fvs(t)+t+'</span>'; }).join("");
+    var opts_c=teams.map(function(t){ return'<span class="po'+(pc===t?" sc":"")+'" onclick="setPick('+m.id+',\'cloun\','+JSON.stringify(t)+')">'+fvs(t)+t+'</span>'; }).join("");
+    expHtml='<div class="exp-panel"><div class="exp-inner">'
       +'<div class="exp-col">'
-      +'<div class="exp-lbl"><div class="dot-e"></div>ESPRIT — Ванкувер'+(pe?'&nbsp;<span style="font-size:10px;color:var(--text3)">пик: '+fvs(pe)+' '+pe+'</span>':"")+'</div>'
-      +'<textarea class="exp-ta" placeholder="Комментарий, ощущения, прогноз..." rows="3" oninput="_pcmt['+m.id+']=_pcmt['+m.id+']||{};_pcmt['+m.id+'][\'esprit\']=this.value">'+esc(comE)+'</textarea>'
-      +'<div class="po-lbl">Пик — кто выиграет:</div>'
-      +'<div class="po-wrap">'+opts_e+'</div>'
-      +'<div class="res-row">'
-      +'<span class="res-lbl">Счёт вручную:</span>'
+      +'<div class="exp-lbl"><div class="dot-e"></div>ESPRIT — Ванкувер'+(pe?'&nbsp;<span style="font-size:10px;color:var(--text3)">пик: '+pe+'</span>':"")+'</div>'
+      +'<textarea class="exp-ta" placeholder="Комментарий, ощущения, прогноз..." rows="3" oninput="_pcmt['+m.id+']=_pcmt['+m.id+']||{};_pcmt['+m.id+'].esprit=this.value">'+esc(comE)+'</textarea>'
+      +'<div class="po-lbl">Пик — кто выиграет:</div><div class="po-wrap">'+opts_e+'</div>'
+      +'<div class="res-row"><span class="res-lbl">Счёт вручную:</span>'
       +'<input class="res-inp" placeholder="2:1" value="'+esc(manRes)+'" oninput="_pres['+m.id+']=this.value" onclick="event.stopPropagation()">'
       +'<button class="save-btn" onclick="doSave(event,'+m.id+')">Сохранить</button>'
-      +'<span class="save-ok" id="sok_'+m.id+'">✓ сохранено</span>'
+      +'<span class="save-ok" id="sok_'+m.id+'">✓ сохранено</span></div>'
+      +(auScore?'<div class="auto-res">API: <b style="color:var(--gold)">'+auScore+'</b> ('+auTag+')</div>':"")
       +'</div>'
-      +(auScore?'<div class="auto-res">'+fvs("🤖")+'API: <b style="color:var(--gold)">'+auScore+'</b> ('+auTag+')</div>':"")
-      +'</div>'
-      // CLOUN col
       +'<div class="exp-col">'
-      +'<div class="exp-lbl"><div class="dot-c"></div>CLOUN — Москва'+(pc?'&nbsp;<span style="font-size:10px;color:var(--text3)">пик: '+fvs(pc)+' '+pc+'</span>':"")+'</div>'
-      +'<textarea class="exp-ta" placeholder="Что думает CLOUN о матче..." rows="3" oninput="_pcmt['+m.id+']=_pcmt['+m.id+']||{};_pcmt['+m.id+'][\'cloun\']=this.value">'+esc(comC)+'</textarea>'
-      +'<div class="po-lbl">Пик — кто выиграет:</div>'
-      +'<div class="po-wrap">'+opts_c+'</div>'
-      +'</div>'
-      +'</div></div>';
+      +'<div class="exp-lbl"><div class="dot-c"></div>CLOUN — Москва'+(pc?'&nbsp;<span style="font-size:10px;color:var(--text3)">пик: '+pc+'</span>':"")+'</div>'
+      +'<textarea class="exp-ta" placeholder="Что думает CLOUN о матче..." rows="3" oninput="_pcmt['+m.id+']=_pcmt['+m.id+']||{};_pcmt['+m.id+'].cloun=this.value">'+esc(comC)+'</textarea>'
+      +'<div class="po-lbl">Пик — кто выиграет:</div><div class="po-wrap">'+opts_c+'</div>'
+      +'</div></div></div>';
   }
 
   return '<div class="match-card'+(isExp?" expanded":"")+'" id="mc_'+m.id+'">'
@@ -621,20 +546,16 @@ function renderCard(m){
     +'<div><div class="m-date-main">'+ds+'</div><div class="m-date-sub">'+dw+' · '+m.city+'</div></div>'
     +'<div class="m-tvk"><div class="m-t-main">'+vt+'</div><div class="m-t-sub">PDT Ванкувер</div></div>'
     +'<div class="m-tms"><div class="m-t-main">'+mt+'</div><div class="m-t-sub">MSK Москва</div></div>'
-    +'<div class="m-teams">'
-    +'<div class="m-teams-name">'+teamsHtml+'</div>'
+    +'<div class="m-teams"><div class="m-teams-name">'+teamsHtml+'</div>'
     +'<div class="m-teams-sub">'+m.venue+'</div>'
-    +'<div class="m-teams-sub2">'+vt+' PDT · '+mt+' MSK</div>'
-    +'</div>'
+    +'<div class="m-teams-sub2">'+vt+' PDT · '+mt+' MSK</div></div>'
     +'<div class="m-pc"><span class="'+pbCls(pe,"e")+'" onclick="openE(event,'+m.id+')">'+pbLbl(pe,"e")+'</span></div>'
     +'<div class="m-pc"><span class="'+pbCls(pc,"c")+'" onclick="openE(event,'+m.id+')">'+pbLbl(pc,"c")+'</span></div>'
     +'</div>'
     +'<div class="m-mob" id="mob_'+m.id+'" style="padding:0 12px 10px;gap:7px">'
     +'<span class="'+pbCls(pe,"e")+'" style="flex:1;justify-content:center" onclick="openE(event,'+m.id+')">'+pbLbl(pe,"e")+'</span>'
     +'<span class="'+pbCls(pc,"c")+'" style="flex:1;justify-content:center" onclick="openE(event,'+m.id+')">'+pbLbl(pc,"c")+'</span>'
-    +'</div>'
-    +expHtml
-    +'</div>';
+    +'</div>'+expHtml+'</div>';
 }
 
 function applyMob(){
@@ -643,17 +564,10 @@ function applyMob(){
 }
 window.addEventListener("resize",function(){setTimeout(applyMob,50);});
 
-function toggleE(id){expanded[id]=!expanded[id];render();if(expanded[id])scrollC(id);}
-function openE(e,id){e.stopPropagation();expanded[id]=true;render();scrollC(id);}
+function toggleE(id){expanded[id]=!expanded[id];renderSchedOnly();if(expanded[id])scrollC(id);}
+function openE(e,id){e.stopPropagation();expanded[id]=true;renderSchedOnly();scrollC(id);}
 function scrollC(id){setTimeout(function(){var el=document.getElementById("mc_"+id);if(el)el.scrollIntoView({behavior:"smooth",block:"nearest"});},60);}
-
-function setPick(mid,who,team){
-  var cur=(picks[mid]||{})[who];
-  fw(mid,who,cur===team?"":team);
-  expanded[mid]=true;
-  sr();
-}
-
+function setPick(mid,who,team){var cur=(picks[mid]||{})[who];fw(mid,who,cur===team?"":team);expanded[mid]=true;renderSchedOnly();}
 function doSave(e,mid){
   e.stopPropagation();
   var c=_pcmt[mid];
@@ -661,7 +575,7 @@ function doSave(e,mid){
   if(_pres[mid]!==undefined){fr(mid,_pres[mid]);delete _pres[mid];}
   var ok=document.getElementById("sok_"+mid);
   if(ok){ok.style.opacity="1";setTimeout(function(){ok.style.opacity="0";},2000);}
-  sr();
+  renderSchedOnly();
 }
 
 // ═══════════════════════════════════════════════════
@@ -672,34 +586,25 @@ function renderAn(){
   var fin=MATCHES.filter(function(m){var br=getBR(m.id);return br&&!br.live&&winner(br.score,m.home,m.away)!==null;});
   if(!fin.length){root.innerHTML='<div class="empty">Аналитика появится после первых матчей.<br>Введи счёт вручную или включи авто-обновление.</div>';return;}
   var ce=0,cc=0,tw={};
-  fin.forEach(function(m){
-    var br=getBR(m.id);var w=winner(br.score,m.home,m.away);if(!w)return;
-    tw[w]=(tw[w]||0)+1;
-    if((picks[m.id]||{}).esprit===w)ce++;
-    if((picks[m.id]||{}).cloun===w)cc++;
-  });
+  fin.forEach(function(m){var br=getBR(m.id);var w=winner(br.score,m.home,m.away);if(!w)return;tw[w]=(tw[w]||0)+1;if((picks[m.id]||{}).esprit===w)ce++;if((picks[m.id]||{}).cloun===w)cc++;});
   var pet=fin.filter(function(m){return(picks[m.id]||{}).esprit;}).length;
   var pct2=fin.filter(function(m){return(picks[m.id]||{}).cloun;}).length;
   function pct(n,d){return d?Math.round(n/d*100):0;}
   var top=Object.entries(tw).sort(function(a,b){return b[1]-a[1];}).slice(0,8);
   var mxW=top[0]?top[0][1]:1;
   var autoC=fin.filter(function(m){var br=getBR(m.id);return br&&br.auto;}).length;
-
   var hist=fin.slice(-25).reverse().map(function(m){
     var br=getBR(m.id);var w=winner(br.score,m.home,m.away);
     var pe=(picks[m.id]||{}).esprit||"",pc=(picks[m.id]||{}).cloun||"";
     var bE=!pe?'<span class="bc nd">—</span>':pe===w?'<span class="bc ok">✓</span>':'<span class="bc no">✗</span>';
     var bC=!pc?'<span class="bc nd">—</span>':pc===w?'<span class="bc ok">✓</span>':'<span class="bc no">✗</span>';
     var at=br.auto?'<span class="res-auto">авто</span>':"";
-    return'<tr>'
-      +'<td>'+fd(m.date,m.utcH,m.utcM)+'</td>'
-      +'<td><span style="display:inline-flex;align-items:center;gap:3px">'+fvs(m.home)+m.home+' — '+fvs(m.away)+m.away+'</span></td>'
+    return'<tr><td>'+fd(m.date,m.utcH,m.utcM)+'</td>'
+      +'<td><span style="display:inline-flex;align-items:center;gap:4px">'+fvs(m.home)+m.home+' — '+fvs(m.away)+m.away+'</span></td>'
       +'<td style="color:var(--gold);font-weight:700">'+br.score+at+'</td>'
-      +'<td>'+(pe?fvs(pe)+" "+pe:"—")+" "+bE+'</td>'
-      +'<td>'+(pc?fvs(pc)+" "+pc:"—")+" "+bC+'</td>'
-      +'</tr>';
+      +'<td><span style="display:inline-flex;align-items:center;gap:4px">'+(pe?fvs(pe)+pe:"—")+" "+bE+'</span></td>'
+      +'<td><span style="display:inline-flex;align-items:center;gap:4px">'+(pc?fvs(pc)+pc:"—")+" "+bC+'</span></td></tr>';
   }).join("");
-
   root.innerHTML=
     '<div class="an-grid">'
     +'<div class="st"><div class="sv g">'+fin.length+'</div><div class="sl">матчей сыграно</div></div>'
@@ -707,28 +612,18 @@ function renderAn(){
     +'<div class="st"><div class="sv b">'+ce+"/"+pet+'</div><div class="sl">угаданных — ESPRIT</div></div>'
     +'<div class="st"><div class="sv c">'+cc+"/"+pct2+'</div><div class="sl">угаданных — CLOUN</div></div>'
     +'</div>'
-    +'<div class="sec">Счёт угадывания</div>'
-    +'<div class="duel">'
-    +'<div class="ds"><div class="dn e">ESPRIT</div>'
-    +'<div class="dsc e">'+pct(ce,pet)+'<span style="font-size:14px;font-weight:400;color:var(--text2)">%</span></div>'
-    +'<div class="dss">'+ce+' из '+pet+' пиков верно</div></div>'
+    +'<div class="sec">Счёт угадывания</div><div class="duel">'
+    +'<div class="ds"><div class="dn e">ESPRIT</div><div class="dsc e">'+pct(ce,pet)+'<span style="font-size:14px;font-weight:400;color:var(--text2)">%</span></div><div class="dss">'+ce+' из '+pet+' верно</div></div>'
     +'<div class="dvs">VS</div>'
-    +'<div class="ds"><div class="dn c">CLOUN</div>'
-    +'<div class="dsc c">'+pct(cc,pct2)+'<span style="font-size:14px;font-weight:400;color:var(--text2)">%</span></div>'
-    +'<div class="dss">'+cc+' из '+pct2+' пиков верно</div></div>'
+    +'<div class="ds"><div class="dn c">CLOUN</div><div class="dsc c">'+pct(cc,pct2)+'<span style="font-size:14px;font-weight:400;color:var(--text2)">%</span></div><div class="dss">'+cc+' из '+pct2+' верно</div></div>'
     +'</div>'
     +(top.length?'<div class="sec">Победы по командам</div><div style="margin-bottom:22px">'+
-      top.map(function(e){return'<div class="br"><div class="bl">'+fvs(e[0])+" "+e[0]+'</div><div class="bt"><div class="bf" style="width:'+Math.round(e[1]/mxW*100)+'%;background:var(--gold)"></div></div><div class="bv">'+e[1]+'</div></div>';}).join("")
+      top.map(function(e){return'<div class="br"><div class="bl">'+fvs(e[0])+e[0]+'</div><div class="bt"><div class="bf" style="width:'+Math.round(e[1]/mxW*100)+'%;background:var(--gold)"></div></div><div class="bv">'+e[1]+'</div></div>';}).join("")
     +'</div>':"")
-    +'<div class="sec">История матчей</div>'
-    +'<div style="overflow-x:auto"><table class="ht">'
-    +'<thead><tr><th>Дата</th><th>Матч</th><th>Счёт</th><th>ESPRIT</th><th>CLOUN</th></tr></thead>'
-    +'<tbody>'+hist+'</tbody></table></div>';
+    +'<div class="sec">История матчей</div><div style="overflow-x:auto"><table class="ht">'
+    +'<thead><tr><th>Дата</th><th>Матч</th><th>Счёт</th><th>ESPRIT</th><th>CLOUN</th></tr></thead><tbody>'+hist+'</tbody></table></div>';
 }
 
-// ═══════════════════════════════════════════════════
-// PAGES
-// ═══════════════════════════════════════════════════
 function switchPage(id,el){
   document.querySelectorAll(".page").forEach(function(p){p.classList.remove("active");});
   document.querySelectorAll(".nav-tab").forEach(function(t){t.classList.remove("active");});
@@ -737,9 +632,17 @@ function switchPage(id,el){
   if(id==="analytics")renderAn();
 }
 
+// Двойной клик на лого → показать настройки API
+document.querySelector(".nav-logo").addEventListener("dblclick",function(){
+  var sb=document.getElementById("setBar");
+  sb.style.display=sb.style.display==="none"?"flex":"none";
+});
+
 // BOOT
 render();
 setTimeout(applyMob,100);
+// Авто-старт получения результатов (ключ в коде)
+setTimeout(function(){ setApiS("","готово, вкл «Авто» при матче"); },500);
 </script>
 </body>
 </html>
