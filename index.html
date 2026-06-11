@@ -2,201 +2,175 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>WC 2026 — ESPRIT & CLOUN</title>
 <style>
-:root {
-  --bg:       #0d0f14;
-  --bg2:      #13161e;
-  --bg3:      #1a1e29;
-  --border:   rgba(255,255,255,0.07);
-  --border2:  rgba(255,255,255,0.13);
-  --text:     #e8eaf0;
-  --text2:    #7a8099;
-  --text3:    #4a5068;
-  --ace:      #3d8ef0;
-  --acec:     #e05c30;
-  --gold:     #c9a227;
-  --green:    #2ecc71;
-  --red:      #e74c3c;
-  --r:        10px;
-  --rs:       6px;
+:root{
+  --bg:#0d0f14;--bg2:#13161e;--bg3:#1a1e29;
+  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.14);
+  --text:#e8eaf0;--text2:#7a8099;--text3:#4a5068;
+  --ace:#3d8ef0;--acec:#e05c30;--gold:#c9a227;
+  --green:#2ecc71;--red:#e74c3c;
+  --r:10px;--rs:6px;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.5}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;overflow-x:hidden}
 
-/* NAV */
-nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;position:sticky;top:0;z-index:100;gap:0}
-.nav-logo{font-size:15px;font-weight:600;color:var(--gold);padding:14px 0;margin-right:24px;letter-spacing:.03em;white-space:nowrap}
+/* ── NAV ── */
+nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;position:sticky;top:0;z-index:100;min-height:48px}
+.nav-logo{font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.03em;white-space:nowrap;flex-shrink:0}
 .nav-logo span{color:var(--text2);font-weight:400}
-.nav-tabs{display:flex}
-.nav-tab{padding:14px 18px;font-size:13px;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
+.nav-tabs{display:flex;margin-left:16px}
+.nav-tab{padding:12px 14px;font-size:13px;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
 .nav-tab:hover{color:var(--text)}
 .nav-tab.active{color:var(--text);border-bottom-color:var(--gold)}
-.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px}
-
-/* SYNC STATUS */
-.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);flex-shrink:0;transition:background .3s}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:6px;flex-shrink:0}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);transition:background .3s;flex-shrink:0}
 .sync-dot.online{background:var(--green)}
 .sync-dot.syncing{background:var(--gold);animation:pulse .8s infinite}
 .sync-dot.error{background:var(--red)}
 .sync-label{font-size:11px;color:var(--text2)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 
-/* ROOM KEY */
-.room-bar{background:var(--bg3);border-bottom:1px solid var(--border);padding:8px 24px;display:flex;align-items:center;gap:10px;font-size:12px;color:var(--text2)}
-.room-key-display{font-family:monospace;background:var(--bg2);border:1px solid var(--border2);border-radius:var(--rs);padding:3px 10px;color:var(--gold);font-size:12px;letter-spacing:.04em}
-.room-change-btn{font-size:11px;padding:3px 10px;border-radius:var(--rs);border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer}
-.room-change-btn:hover{color:var(--text);border-color:var(--text2)}
-
-/* BUTTONS */
-.btn-sm{font-size:12px;padding:6px 14px;border-radius:var(--rs);border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s}
-.btn-sm:hover{background:var(--bg3);color:var(--text)}
-.btn-gold{background:var(--gold);color:#0d0f14;border-color:var(--gold);font-weight:600}
-.btn-gold:hover{opacity:.9}
-
-/* PAGES */
-.page{display:none;padding:24px;max-width:1100px;margin:0 auto}
+/* ── PAGES ── */
+.page{display:none;padding:12px 16px;max-width:900px;margin:0 auto}
 .page.active{display:block}
 
-/* FILTERS */
-.filters-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center}
-.flt{font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s}
+/* ── FILTERS ── */
+.filters-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
+.flt{font-size:12px;padding:5px 11px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap}
 .flt:hover{border-color:var(--text2);color:var(--text)}
 .flt.active{background:var(--gold);border-color:var(--gold);color:#0d0f14;font-weight:600}
-.search-box{margin-left:auto;padding:5px 12px;border-radius:20px;border:1px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;outline:none;width:160px}
+.search-box{margin-left:auto;padding:5px 12px;border-radius:20px;border:1px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;outline:none;width:140px;flex-shrink:0}
 .search-box:focus{border-color:var(--text2)}
 
-/* STAGE HEADER */
-.stage-sep{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:20px 0 8px;border-bottom:1px solid var(--border);margin-bottom:4px;display:flex;align-items:center;gap:8px}
-.stage-sep span{color:var(--text2);font-size:11px;font-weight:400;letter-spacing:0;text-transform:none}
+/* ── STAGE HEADER ── */
+.stage-sep{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:16px 0 6px;border-bottom:1px solid var(--border);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.stage-sep span{color:var(--text2);font-size:10px;font-weight:400;letter-spacing:0;text-transform:none}
 
-/* MATCH CARD */
-.match-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:4px;transition:border-color .15s;overflow:hidden}
-.match-card:hover{border-color:var(--border2)}
+/* ── MATCH CARD ── */
+.match-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:4px;overflow:hidden;transition:border-color .15s}
 .match-card.expanded{border-color:var(--border2)}
-.match-row{display:grid;grid-template-columns:28px 100px 78px 78px 1fr 108px 108px;align-items:center;padding:10px 14px;cursor:pointer;gap:8px}
-.m-num{font-size:11px;color:var(--text3)}
-.m-date-main{font-size:12px;font-weight:500}
-.m-date-sub{font-size:11px;color:var(--text2)}
-.m-time-main{font-size:13px;font-weight:600;font-variant-numeric:tabular-nums}
+
+/* Desktop row */
+.match-row{display:grid;grid-template-columns:24px 90px 70px 70px 1fr 100px 100px;align-items:center;padding:10px 12px;cursor:pointer;gap:6px;user-select:none}
+/* Mobile row — stacked */
+@media(max-width:600px){
+  .match-row{grid-template-columns:1fr auto;grid-template-rows:auto auto;gap:4px 8px;padding:10px 12px}
+  .m-num{display:none}
+  .m-time-vk,.m-time-ms{display:none}
+  .m-teams{grid-column:1;grid-row:1}
+  .m-date{grid-column:2;grid-row:1;text-align:right}
+  .m-picks-mobile{grid-column:1/-1;grid-row:2;display:flex;gap:8px}
+  .m-pick-cell{display:none}
+  .m-picks-mobile .pick-badge{flex:1;justify-content:center}
+}
+@media(min-width:601px){.m-picks-mobile{display:none}}
+
+.m-num{font-size:10px;color:var(--text3);text-align:center}
+.m-date-main{font-size:12px;font-weight:500;white-space:nowrap}
+.m-date-sub{font-size:10px;color:var(--text2)}
+.m-time-main{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
 .m-time-sub{font-size:10px;color:var(--text3)}
-.m-teams-name{font-size:13px;font-weight:500}
-.m-teams-sub{font-size:11px;color:var(--text2);margin-top:1px}
-.result-pill{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:4px;background:var(--bg3);color:var(--gold);margin-left:8px;vertical-align:middle}
+.m-teams-name{font-size:13px;font-weight:500;display:flex;align-items:center;flex-wrap:wrap;gap:4px}
+.m-teams-sub{font-size:10px;color:var(--text2);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.result-pill{font-size:11px;font-weight:700;padding:1px 6px;border-radius:4px;background:var(--bg3);color:var(--gold);white-space:nowrap;flex-shrink:0}
 .m-pick-cell{display:flex;justify-content:center}
-.pick-badge{display:inline-flex;align-items:center;font-size:11px;font-weight:500;padding:3px 10px;border-radius:20px;max-width:104px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;transition:all .12s}
-.pick-e{background:rgba(61,142,240,.12);color:#3d8ef0;border:1px solid rgba(61,142,240,.3)}
-.pick-e:hover{background:rgba(61,142,240,.2)}
-.pick-c{background:rgba(224,92,48,.12);color:#e05c30;border:1px solid rgba(224,92,48,.3)}
-.pick-c:hover{background:rgba(224,92,48,.2)}
+.pick-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;max-width:98px;overflow:hidden;cursor:pointer;transition:all .12s;white-space:nowrap;border:1px solid transparent;flex-shrink:0}
+.pick-e{background:rgba(61,142,240,.12);color:#5ea8f5;border-color:rgba(61,142,240,.3)}
+.pick-c{background:rgba(224,92,48,.12);color:#f07850;border-color:rgba(224,92,48,.3)}
 .pick-empty{color:var(--text3);border:1px dashed var(--border2);background:transparent}
 .pick-empty:hover{border-color:var(--text2);color:var(--text2)}
-.pick-correct{box-shadow:0 0 0 1px var(--green)}
-.pick-wrong{opacity:.45}
+.pick-correct{box-shadow:0 0 0 1.5px var(--green)!important}
+.pick-wrong{opacity:.4}
 
-/* EXPAND */
+/* ── FLAG AVATAR ── */
+.flag-av{width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:14px;background:var(--bg3);flex-shrink:0;line-height:1;overflow:hidden}
+.flag-av-sm{width:16px;height:16px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:10px;background:var(--bg3);flex-shrink:0;line-height:1;overflow:hidden}
+
+/* ── EXPAND PANEL ── */
 .expand-panel{border-top:1px solid var(--border);display:none}
 .match-card.expanded .expand-panel{display:block}
 .expand-inner{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
-.exp-col{background:var(--bg2);padding:14px 16px}
-.exp-col-label{font-size:11px;font-weight:600;letter-spacing:.05em;color:var(--text2);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.dot-e{width:7px;height:7px;border-radius:50%;background:var(--ace);flex-shrink:0}
-.dot-c{width:7px;height:7px;border-radius:50%;background:var(--acec);flex-shrink:0}
-.exp-textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:12px;font-family:inherit;padding:8px 10px;resize:vertical;outline:none;min-height:58px;transition:border-color .15s;line-height:1.5}
+@media(max-width:600px){.expand-inner{grid-template-columns:1fr}}
+.exp-col{background:var(--bg2);padding:12px 14px}
+.exp-col-label{font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--text2);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.dot-e{width:6px;height:6px;border-radius:50%;background:var(--ace);flex-shrink:0}
+.dot-c{width:6px;height:6px;border-radius:50%;background:var(--acec);flex-shrink:0}
+.exp-textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:13px;font-family:inherit;padding:8px 10px;resize:vertical;outline:none;min-height:56px;transition:border-color .15s;line-height:1.5;-webkit-appearance:none}
 .exp-textarea:focus{border-color:var(--border2)}
 .exp-textarea::placeholder{color:var(--text3)}
-.exp-pick-row{margin-top:10px}
-.exp-pick-label{font-size:11px;color:var(--text3);margin-bottom:6px}
-.pick-opts{display:flex;gap:6px;flex-wrap:wrap}
-.pick-opt{font-size:11px;padding:4px 10px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .12s}
+.exp-pick-label{font-size:11px;color:var(--text3);margin:8px 0 5px}
+.pick-opts{display:flex;gap:5px;flex-wrap:wrap}
+.pick-opt{font-size:12px;padding:5px 11px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .12s;white-space:nowrap}
 .pick-opt:hover{border-color:var(--text2);color:var(--text)}
-.pick-opt.sel-e{background:rgba(61,142,240,.15);color:#3d8ef0;border-color:rgba(61,142,240,.4)}
-.pick-opt.sel-c{background:rgba(224,92,48,.15);color:#e05c30;border-color:rgba(224,92,48,.4)}
+.pick-opt.sel-e{background:rgba(61,142,240,.15);color:#5ea8f5;border-color:rgba(61,142,240,.4);font-weight:600}
+.pick-opt.sel-c{background:rgba(224,92,48,.15);color:#f07850;border-color:rgba(224,92,48,.4);font-weight:600}
 .result-row{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .result-label{font-size:11px;color:var(--text3)}
-.result-input{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);color:var(--gold);font-size:12px;font-weight:600;font-family:inherit;padding:4px 8px;outline:none;width:76px}
-.result-input:focus{border-color:var(--border2)}
-.result-input::placeholder{color:var(--text3);font-weight:400}
-.save-ok{font-size:11px;color:var(--green);opacity:0;transition:opacity .3s}
+.result-input{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);color:var(--gold);font-size:13px;font-weight:700;font-family:inherit;padding:5px 9px;outline:none;width:72px;-webkit-appearance:none;text-align:center}
+.result-input:focus{border-color:var(--gold)}
+.result-input::placeholder{color:var(--text3);font-weight:400;font-size:12px}
+.save-btn{font-size:12px;padding:5px 14px;border-radius:var(--rs);border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all .15s;font-family:inherit}
+.save-btn:hover{background:var(--gold);border-color:var(--gold);color:#0d0f14;font-weight:600}
+.save-btn:active{opacity:.8;transform:scale(.97)}
+.save-ok{font-size:11px;color:var(--green);opacity:0;transition:opacity .3s;white-space:nowrap}
 
-/* ANALYTICS */
-.analytics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:28px}
-.stat-tile{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px}
-.stat-tile-val{font-size:28px;font-weight:700;line-height:1}
+/* ── ANALYTICS ── */
+.analytics-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:24px}
+.stat-tile{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
+.stat-tile-val{font-size:26px;font-weight:700;line-height:1}
 .stat-tile-val.gold{color:var(--gold)}
 .stat-tile-val.blue{color:var(--ace)}
 .stat-tile-val.coral{color:var(--acec)}
-.stat-tile-lbl{font-size:11px;color:var(--text2);margin-top:4px}
-.section-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-.duel-row{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;margin-bottom:24px}
-.duel-side{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px}
-.duel-name{font-size:12px;font-weight:600;letter-spacing:.04em;margin-bottom:10px}
+.stat-tile-lbl{font-size:11px;color:var(--text2);margin-top:3px}
+.section-title{font-size:13px;font-weight:600;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.duel-row{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:24px}
+.duel-side{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
+.duel-name{font-size:11px;font-weight:600;letter-spacing:.04em;margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .duel-name.e{color:var(--ace)}
 .duel-name.c{color:var(--acec)}
-.duel-score{font-size:36px;font-weight:700;line-height:1}
+.duel-score{font-size:32px;font-weight:700;line-height:1}
 .duel-score.e{color:var(--ace)}
 .duel-score.c{color:var(--acec)}
-.duel-sub{font-size:11px;color:var(--text3);margin-top:4px}
-.duel-vs{font-size:18px;font-weight:700;color:var(--text3);text-align:center}
-.chart-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.chart-bar-label{font-size:12px;color:var(--text2);width:90px;flex-shrink:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.chart-bar-track{flex:1;height:6px;background:var(--bg3);border-radius:3px;overflow:hidden}
-.chart-bar-fill{height:100%;border-radius:3px;transition:width .5s}
-.chart-bar-val{font-size:11px;color:var(--text3);width:24px;flex-shrink:0}
-.history-table{width:100%;border-collapse:collapse}
-.history-table th{font-size:11px;font-weight:500;color:var(--text3);text-align:left;padding:6px 10px;border-bottom:1px solid var(--border)}
-.history-table td{font-size:12px;padding:8px 10px;border-bottom:1px solid var(--border);color:var(--text2)}
+.duel-sub{font-size:10px;color:var(--text3);margin-top:3px}
+.duel-vs{font-size:16px;font-weight:700;color:var(--text3);text-align:center}
+.chart-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.chart-bar-label{font-size:12px;color:var(--text2);width:96px;flex-shrink:0;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;justify-content:flex-end;gap:5px}
+.chart-bar-track{flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.chart-bar-fill{height:100%;border-radius:3px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.chart-bar-val{font-size:11px;color:var(--text3);width:20px;flex-shrink:0;text-align:right}
+.history-table{width:100%;border-collapse:collapse;font-size:12px}
+.history-table th{font-size:10px;font-weight:600;color:var(--text3);text-align:left;padding:5px 8px;border-bottom:1px solid var(--border);letter-spacing:.05em;text-transform:uppercase}
+.history-table td{padding:7px 8px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle}
 .history-table tr:last-child td{border-bottom:none}
 .history-table tr:hover td{background:var(--bg3)}
-.badge-correct{font-size:10px;padding:2px 6px;border-radius:3px;background:rgba(46,204,113,.15);color:var(--green);font-weight:600}
-.badge-wrong{font-size:10px;padding:2px 6px;border-radius:3px;background:rgba(231,76,60,.12);color:var(--red);font-weight:600}
-.badge-pending{font-size:10px;padding:2px 6px;border-radius:3px;background:var(--bg3);color:var(--text3)}
-.empty-state{text-align:center;padding:48px;color:var(--text3);font-size:13px;line-height:2}
-
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;display:none;align-items:center;justify-content:center}
-.modal-overlay.open{display:flex}
-.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r);padding:24px;width:460px;max-width:95vw}
-.modal-title{font-size:15px;font-weight:600;margin-bottom:12px}
-.modal-desc{font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.6}
-.modal-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:14px;font-family:monospace;padding:10px 12px;outline:none;letter-spacing:.04em}
-.modal-input:focus{border-color:var(--border2)}
-.modal-actions{margin-top:14px;display:flex;gap:8px;justify-content:flex-end}
-.group-pill{display:inline-block;font-size:10px;padding:1px 5px;border-radius:3px;background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
+.badge-correct{font-size:10px;padding:1px 5px;border-radius:3px;background:rgba(46,204,113,.15);color:var(--green);font-weight:700}
+.badge-wrong{font-size:10px;padding:1px 5px;border-radius:3px;background:rgba(231,76,60,.12);color:var(--red);font-weight:700}
+.badge-pending{font-size:10px;padding:1px 5px;border-radius:3px;background:var(--bg3);color:var(--text3)}
+.empty-state{text-align:center;padding:48px 16px;color:var(--text3);font-size:13px;line-height:2}
+.group-pill{font-size:9px;padding:1px 5px;border-radius:3px;background:var(--bg3);color:var(--text3);border:1px solid var(--border);flex-shrink:0}
 .no-results{text-align:center;padding:32px;color:var(--text3)}
 
-@media(max-width:768px){
-  .match-row{grid-template-columns:22px 1fr 64px 64px}
-  .m-pick-cell{display:none}
-  nav{overflow-x:auto}
-  .nav-tabs{flex-shrink:0}
-  .page{padding:12px}
-  .expand-inner{grid-template-columns:1fr}
-  .duel-row{grid-template-columns:1fr auto 1fr}
-}
+/* ── MOBILE NAV HINT ── */
+.mobile-times{display:none;font-size:10px;color:var(--text3);margin-top:2px}
+@media(max-width:600px){.mobile-times{display:block}}
 </style>
 </head>
 <body>
 
 <nav>
-  <div class="nav-logo">WC 2026 <span>ESPRIT × CLOUN</span></div>
+  <div class="nav-logo">WC 2026 <span>ESPRIT×CLOUN</span></div>
   <div class="nav-tabs">
     <div class="nav-tab active" onclick="switchPage('schedule',this)">Расписание</div>
     <div class="nav-tab" onclick="switchPage('analytics',this)">Аналитика</div>
   </div>
   <div class="nav-right">
     <div class="sync-dot" id="syncDot"></div>
-    <span class="sync-label" id="syncLabel">подключение...</span>
+    <span class="sync-label" id="syncLabel">...</span>
   </div>
 </nav>
-
-<div class="room-bar">
-  <span>Комната:</span>
-  <span class="room-key-display" id="roomKeyDisplay">—</span>
-  <button class="room-change-btn" onclick="openRoomModal()">сменить</button>
-  <span style="color:var(--text3);font-size:11px">· Поделись этим ключом с CLOUN — и вы увидите одни данные</span>
-</div>
 
 <div id="page-schedule" class="page active">
   <div class="filters-row" id="filtersRow"></div>
@@ -207,26 +181,33 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 24px;d
   <div id="analyticsRoot"></div>
 </div>
 
-<!-- Room key modal -->
-<div class="modal-overlay" id="roomModal">
-  <div class="modal">
-    <div class="modal-title">Ключ комнаты</div>
-    <div class="modal-desc">
-      Это общий ключ для синхронизации. Оба должны открыть страницу с одним и тем же ключом.<br><br>
-      Поделись им с CLOUN в мессенджере. Ключ — это просто строка, можно написать любую.
-    </div>
-    <input class="modal-input" id="roomKeyInput" placeholder="например: esprit-cloun-wc2026" maxlength="80">
-    <div class="modal-actions">
-      <button class="btn-sm" onclick="closeModal()">Отмена</button>
-      <button class="btn-sm btn-gold" onclick="applyRoomKey()">Подключиться</button>
-    </div>
-  </div>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/gun/gun.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gun/sea.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gun@0.2020.1240/gun.js"></script>
 <script>
-// ── MATCHES DATA ──
+// ══════════════════════════════════════════════
+//  КОНФИГ — захардкоженная комната
+// ══════════════════════════════════════════════
+const ROOM_KEY = "esprit-cloun-wc2026-v3";
+
+// ══════════════════════════════════════════════
+//  ФЛАГИ
+// ══════════════════════════════════════════════
+const FLAGS = {
+  "Мексика":"🇲🇽","Польша":"🇵🇱","США":"🇺🇸","Уругвай":"🇺🇾",
+  "Испания":"🇪🇸","Хорватия":"🇭🇷","Марокко":"🇲🇦","Португалия":"🇵🇹",
+  "Германия":"🇩🇪","Япония":"🇯🇵","Аргентина":"🇦🇷","Чили":"🇨🇱",
+  "Франция":"🇫🇷","Нигерия":"🇳🇬","Англия":"🏴󠁧󠁢󠁥󠁮󠁧󠁿","Иран":"🇮🇷",
+  "Бразилия":"🇧🇷","ЮАР":"🇿🇦","Нидерланды":"🇳🇱","Сенегал":"🇸🇳",
+  "Италия":"🇮🇹","Эквадор":"🇪🇨","Бельгия":"🇧🇪","Австралия":"🇦🇺",
+  "Сербия":"🇷🇸","Канада":"🇨🇦","Венесуэла":"🇻🇪",
+  "Колумбия":"🇨🇴","Кот-д'Ивуар":"🇨🇮","Дания":"🇩🇰","Тунис":"🇹🇳",
+  "Ничья":"⚖️"
+};
+function flag(team){ return FLAGS[team]||"🏳️"; }
+function flagAv(team,sm){ return `<span class="flag-av${sm?'-sm':''}">${flag(team)}</span>`; }
+
+// ══════════════════════════════════════════════
+//  МАТЧИ
+// ══════════════════════════════════════════════
 const MATCHES = [
   {id:1, stage:"group",group:"A",date:"2026-06-11",utcH:23,utcM:0, home:"Мексика",    away:"Польша",      venue:"Estadio Azteca",      city:"Мехико"},
   {id:2, stage:"group",group:"A",date:"2026-06-12",utcH:2, utcM:0, home:"США",        away:"Уругвай",     venue:"AT&T Stadium",        city:"Даллас"},
@@ -293,335 +274,413 @@ const MATCHES = [
   {id:63,stage:"3rd",  group:"", date:"2026-07-25",utcH:2, utcM:0, home:"TBD",        away:"TBD",         venue:"AT&T Stadium",        city:"Даллас"},
   {id:64,stage:"final",group:"", date:"2026-07-19",utcH:22,utcM:0, home:"TBD",        away:"TBD",         venue:"MetLife Stadium",     city:"Нью-Йорк"},
 ];
-
 const STAGE_LABELS = {group:"Групповой этап",r32:"1/8 финала",qf:"Четвертьфиналы",sf:"Полуфиналы","3rd":"Матч за 3-е место",final:"Финал"};
 const STAGE_ORDER  = ["group","r32","qf","sf","3rd","final"];
 const FILTERS_CFG  = [{key:"all",label:"Все"},{key:"group",label:"Группы"},{key:"r32",label:"1/8"},{key:"qf",label:"Четвертьф."},{key:"sf",label:"Полуф."},{key:"final",label:"Финал"}];
 
-// ── STATE ──
+// ══════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════
 let picks = {}, comments = {}, results = {};
 let expanded = {}, activeFilter = "all", searchQ = "";
-let gun, roomNode;
-let currentRoomKey = localStorage.getItem("wc26_room") || "esprit-cloun-wc2026";
 
-// ── GUN INIT ──
-function initGun(roomKey) {
-  currentRoomKey = roomKey;
-  localStorage.setItem("wc26_room", roomKey);
-  document.getElementById("roomKeyDisplay").textContent = roomKey;
+// ══════════════════════════════════════════════
+//  GUN — подключение к рабочим relay
+// ══════════════════════════════════════════════
+const gun = GUN({
+  peers: [
+    "https://gun-rs.alwaysdata.net/gun",
+    "https://gun-us.herokuapp.com/gun",
+    "wss://gun-manhattan.herokuapp.com/gun"
+  ],
+  localStorage: true,
+  radisk: false
+});
 
-  setSyncStatus("syncing", "подключение...");
+const room = gun.get("wc2026__" + ROOM_KEY);
 
-  gun = GUN({
-    peers: [
-      "https://gun-manhattan.herokuapp.com/gun",
-      "https://gunjs.herokuapp.com/gun",
-    ],
-    localStorage: true,
-  });
+// Подписка
+room.get("picks").map().on(function(val, mid){
+  if(!val) return;
+  try { picks[mid] = JSON.parse(val); } catch(e){ picks[mid]=val; }
+  scheduleRender();
+});
+room.get("comments").map().on(function(val, mid){
+  if(!val) return;
+  try { comments[mid] = JSON.parse(val); } catch(e){}
+  scheduleRender();
+});
+room.get("results").map().on(function(val, mid){
+  if(val===null||val===undefined) return;
+  results[mid] = val;
+  scheduleRender();
+});
 
-  roomNode = gun.get("wc2026_v1_" + roomKey);
+// Статус
+gun.on("hi",  function(){ setSyncStatus("online","онлайн"); });
+gun.on("bye", function(){ setSyncStatus("error","оффлайн"); });
+setSyncStatus("syncing","подключение...");
+setTimeout(function(){
+  if(document.getElementById("syncDot").classList.contains("syncing"))
+    setSyncStatus("online","онлайн");
+}, 5000);
 
-  // Subscribe to picks
-  roomNode.get("picks").map().on((val, matchId) => {
-    if (!val) return;
-    try {
-      picks[matchId] = typeof val === "string" ? JSON.parse(val) : val;
-    } catch(e) {
-      picks[matchId] = val;
-    }
-    scheduleRender();
-  });
-
-  // Subscribe to comments
-  roomNode.get("comments").map().on((val, matchId) => {
-    if (!val) return;
-    try {
-      comments[matchId] = typeof val === "string" ? JSON.parse(val) : val;
-    } catch(e) {}
-    scheduleRender();
-  });
-
-  // Subscribe to results
-  roomNode.get("results").map().on((val, matchId) => {
-    if (val === null || val === undefined) return;
-    results[matchId] = val;
-    scheduleRender();
-  });
-
-  // Connection status
-  gun.on("hi",  () => setSyncStatus("online",  "онлайн"));
-  gun.on("bye", () => setSyncStatus("error",   "оффлайн"));
-  setTimeout(() => {
-    const dot = document.getElementById("syncDot");
-    if(dot.classList.contains("syncing")) setSyncStatus("online","онлайн");
-  }, 4000);
+function setSyncStatus(s,l){
+  document.getElementById("syncDot").className = "sync-dot " + s;
+  document.getElementById("syncLabel").textContent = l;
 }
 
-function setSyncStatus(state, label) {
-  const dot = document.getElementById("syncDot");
-  const lbl = document.getElementById("syncLabel");
-  dot.className = "sync-dot " + state;
-  lbl.textContent = label;
-}
-
-// debounce render
-let renderTimer;
-function scheduleRender() {
-  clearTimeout(renderTimer);
-  renderTimer = setTimeout(() => {
-    render();
-    if(document.getElementById("page-analytics").classList.contains("active"))
-      renderAnalytics();
-  }, 80);
-}
-
-// ── WRITE HELPERS ──
-function writePick(matchId, who, val) {
-  const cur = picks[matchId] || {};
+// ══════════════════════════════════════════════
+//  ЗАПИСЬ в GUN
+// ══════════════════════════════════════════════
+function writePick(mid, who, val){
+  var cur = picks[mid] ? Object.assign({},picks[mid]) : {};
   cur[who] = val;
-  picks[matchId] = cur;
-  roomNode.get("picks").get(String(matchId)).put(JSON.stringify(cur));
-  setSyncStatus("syncing","сохранение...");
-  setTimeout(() => setSyncStatus("online","онлайн"), 800);
+  picks[mid] = cur;
+  room.get("picks").get(String(mid)).put(JSON.stringify(cur));
+  flashSync();
 }
-function writeComment(matchId, who, val) {
-  const cur = comments[matchId] || {};
+function writeComment(mid, who, val){
+  var cur = comments[mid] ? Object.assign({},comments[mid]) : {};
   cur[who] = val;
-  comments[matchId] = cur;
-  roomNode.get("comments").get(String(matchId)).put(JSON.stringify(cur));
+  comments[mid] = cur;
+  room.get("comments").get(String(mid)).put(JSON.stringify(cur));
 }
-function writeResult(matchId, val) {
-  results[matchId] = val;
-  roomNode.get("results").get(String(matchId)).put(val);
+function writeResult(mid, val){
+  results[mid] = val;
+  room.get("results").get(String(mid)).put(val);
+  flashSync();
+}
+function flashSync(){
   setSyncStatus("syncing","сохранение...");
-  setTimeout(() => setSyncStatus("online","онлайн"), 800);
+  setTimeout(function(){ setSyncStatus("online","онлайн"); }, 900);
 }
 
-// ── UTILS ──
+// ══════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════
 function pad(n){ return n<10?"0"+n:String(n); }
-function toTZ(h,m,off){ let hh=h+off; if(hh<0)hh+=24; if(hh>=24)hh-=24; return pad(hh)+":"+pad(m); }
-function fmtDate(ds,h,m){ const d=new Date(ds+"T"+pad(h)+":"+pad(m)+":00Z"); return d.toLocaleDateString("ru-RU",{month:"short",day:"numeric"}); }
-function fmtDow(ds,h,m){  const d=new Date(ds+"T"+pad(h)+":"+pad(m)+":00Z"); return d.toLocaleDateString("ru-RU",{weekday:"short"}); }
+function toTZ(h,m,off){ var hh=h+off; if(hh<0)hh+=24; if(hh>=24)hh-=24; return pad(hh)+":"+pad(m); }
+function fmtDate(ds,h,m){ var d=new Date(ds+"T"+pad(h)+":"+pad(m)+":00Z"); return d.toLocaleDateString("ru-RU",{month:"short",day:"numeric"}); }
+function fmtDow(ds,h,m){  var d=new Date(ds+"T"+pad(h)+":"+pad(m)+":00Z"); return d.toLocaleDateString("ru-RU",{weekday:"short"}); }
 function pickWinner(res,home,away){
   if(!res) return null;
-  const p=res.trim().split(/[:\-]/);
+  var p=res.trim().split(/[:\-]/);
   if(p.length<2) return null;
-  const g1=parseInt(p[0]),g2=parseInt(p[1]);
+  var g1=parseInt(p[0]),g2=parseInt(p[1]);
   if(isNaN(g1)||isNaN(g2)) return null;
   if(g1>g2) return home; if(g2>g1) return away; return "Ничья";
 }
 
-// ── SCHEDULE RENDER ──
+// ══════════════════════════════════════════════
+//  RENDER debounce
+// ══════════════════════════════════════════════
+var _rt;
+function scheduleRender(){
+  clearTimeout(_rt);
+  _rt = setTimeout(function(){
+    render();
+    if(document.getElementById("page-analytics").classList.contains("active")) renderAnalytics();
+  }, 60);
+}
+
+// ══════════════════════════════════════════════
+//  FILTERS
+// ══════════════════════════════════════════════
 function renderFilters(){
   document.getElementById("filtersRow").innerHTML =
-    FILTERS_CFG.map(f=>`<button class="flt${activeFilter===f.key?" active":""}" onclick="setFilter('${f.key}')">${f.label}</button>`).join("")+
-    `<input class="search-box" placeholder="Поиск команды..." value="${searchQ}" oninput="setSearch(this.value)">`;
+    FILTERS_CFG.map(function(f){
+      return '<button class="flt'+(activeFilter===f.key?" active":"")+'" onclick="setFilter(\''+f.key+'\')">'+f.label+'</button>';
+    }).join("")+
+    '<input class="search-box" placeholder="Поиск..." value="'+searchQ+'" oninput="setSearch(this.value)">';
 }
 function setFilter(k){ activeFilter=k; render(); }
 function setSearch(v){ searchQ=v.toLowerCase(); render(); }
 
+// ══════════════════════════════════════════════
+//  MAIN RENDER
+// ══════════════════════════════════════════════
 function render(){
   renderFilters();
-  const root = document.getElementById("scheduleRoot");
-  let ms = MATCHES.filter(m => activeFilter==="all" || m.stage===activeFilter);
-  if(searchQ) ms = ms.filter(m =>
-    m.home.toLowerCase().includes(searchQ) ||
-    m.away.toLowerCase().includes(searchQ) ||
-    (m.venue||"").toLowerCase().includes(searchQ)
-  );
+  var root = document.getElementById("scheduleRoot");
+  var ms = MATCHES.filter(function(m){ return activeFilter==="all"||m.stage===activeFilter; });
+  if(searchQ) ms = ms.filter(function(m){
+    return m.home.toLowerCase().includes(searchQ)||m.away.toLowerCase().includes(searchQ);
+  });
   if(!ms.length){ root.innerHTML='<div class="no-results">Матчи не найдены</div>'; return; }
-  const byStage = {};
-  STAGE_ORDER.forEach(s=>byStage[s]=[]);
-  ms.forEach(m=>{ if(byStage[m.stage]) byStage[m.stage].push(m); });
-  let html = "";
-  STAGE_ORDER.forEach(stage=>{
-    const list = byStage[stage];
+  var byStage = {};
+  STAGE_ORDER.forEach(function(s){ byStage[s]=[]; });
+  ms.forEach(function(m){ if(byStage[m.stage]) byStage[m.stage].push(m); });
+  var html = "";
+  STAGE_ORDER.forEach(function(stage){
+    var list = byStage[stage];
     if(!list.length) return;
-    html += `<div class="stage-sep">${STAGE_LABELS[stage]||stage} <span>${list.length} матч${list.length===1?"":"ей"}</span></div>`;
-    list.forEach(m => html += renderMatchCard(m));
+    html += '<div class="stage-sep">'+STAGE_LABELS[stage]+' <span>'+list.length+' матч'+(list.length===1?"":"ей")+'</span></div>';
+    list.forEach(function(m){ html += renderCard(m); });
   });
   root.innerHTML = html;
 }
 
-function renderMatchCard(m){
-  const vtTime = toTZ(m.utcH,m.utcM,-7);
-  const msTime = toTZ(m.utcH,m.utcM,+3);
-  const dateStr = fmtDate(m.date,m.utcH,m.utcM);
-  const dow     = fmtDow(m.date,m.utcH,m.utcM);
-  const pe = (picks[m.id]||{}).esprit||"";
-  const pc = (picks[m.id]||{}).cloun||"";
-  const res = results[m.id]||"";
-  const winner = pickWinner(res,m.home,m.away);
-  const resPill = res ? `<span class="result-pill">${res}</span>` : "";
-  const isExp = !!expanded[m.id];
-  const comE = (comments[m.id]||{}).esprit||"";
-  const comC = (comments[m.id]||{}).cloun||"";
-  const teams = [m.home,m.away,"Ничья"];
+function renderCard(m){
+  var vt = toTZ(m.utcH,m.utcM,-7);
+  var mt = toTZ(m.utcH,m.utcM,+3);
+  var ds = fmtDate(m.date,m.utcH,m.utcM);
+  var dw = fmtDow(m.date,m.utcH,m.utcM);
+  var pe = (picks[m.id]||{}).esprit||"";
+  var pc = (picks[m.id]||{}).cloun||"";
+  var res = results[m.id]||"";
+  var winner = pickWinner(res,m.home,m.away);
+  var resPill = res ? '<span class="result-pill">'+res+'</span>' : "";
+  var isExp = !!expanded[m.id];
+  var comE = (comments[m.id]||{}).esprit||"";
+  var comC = (comments[m.id]||{}).cloun||"";
+  var teams = [m.home, m.away, "Ничья"];
 
-  const pickCls = (pick,who) => {
-    if(!pick) return "pick-empty";
-    const base = who==="e"?"pick-e":"pick-c";
-    if(!winner) return base;
-    return base+(pick===winner?" pick-correct":" pick-wrong");
-  };
+  function pickCls(pick,who){
+    if(!pick) return "pick-badge pick-empty";
+    var b = "pick-badge "+(who==="e"?"pick-e":"pick-c");
+    if(!winner) return b;
+    return b+(pick===winner?" pick-correct":" pick-wrong");
+  }
+  function pickLabel(pick,who){
+    var team = pick || (who==="e"?"+ ESPRIT":"+ CLOUN");
+    var f = pick ? flagAv(pick,true) : "";
+    return f+team;
+  }
 
-  return `
-<div class="match-card${isExp?" expanded":""}" id="mc_${m.id}">
-  <div class="match-row" onclick="toggleExpand(${m.id})">
-    <div class="m-num">${m.group?`<span class="group-pill">${m.group}</span>`:m.id}</div>
-    <div><div class="m-date-main">${dateStr}</div><div class="m-date-sub">${dow} · ${m.city}</div></div>
-    <div><div class="m-time-main">${vtTime}</div><div class="m-time-sub">PDT Ванкувер</div></div>
-    <div><div class="m-time-main">${msTime}</div><div class="m-time-sub">MSK Москва</div></div>
-    <div><div class="m-teams-name">${m.home} — ${m.away}${resPill}</div><div class="m-teams-sub">${m.venue}</div></div>
-    <div class="m-pick-cell"><span class="pick-badge ${pickCls(pe,"e")}" onclick="openExpand(event,${m.id})">${pe||"+ пик ESPRIT"}</span></div>
-    <div class="m-pick-cell"><span class="pick-badge ${pickCls(pc,"c")}" onclick="openExpand(event,${m.id})">${pc||"+ пик CLOUN"}</span></div>
-  </div>
-  <div class="expand-panel">
-    <div class="expand-inner">
-      <div class="exp-col">
-        <div class="exp-col-label"><div class="dot-e"></div>ESPRIT — Ванкувер</div>
-        <textarea class="exp-textarea" placeholder="Комментарий, ощущения, прогноз..." rows="3"
-          oninput="writeComment(${m.id},'esprit',this.value)">${comE}</textarea>
-        <div class="exp-pick-row">
-          <div class="exp-pick-label">Пик:</div>
-          <div class="pick-opts">${teams.map(t=>`<span class="pick-opt${pe===t?" sel-e":""}" onclick="setPick(${m.id},'esprit',${JSON.stringify(t)})">${t}</span>`).join("")}</div>
-        </div>
-        <div class="result-row">
-          <span class="result-label">Счёт:</span>
-          <input class="result-input" placeholder="2:1" value="${res}"
-            oninput="writeResult(${m.id},this.value)" onclick="event.stopPropagation()">
-          <span class="save-ok" id="sok_${m.id}">✓</span>
-        </div>
-      </div>
-      <div class="exp-col">
-        <div class="exp-col-label"><div class="dot-c"></div>CLOUN — Москва</div>
-        <textarea class="exp-textarea" placeholder="Что думает CLOUN о матче..." rows="3"
-          oninput="writeComment(${m.id},'cloun',this.value)">${comC}</textarea>
-        <div class="exp-pick-row">
-          <div class="exp-pick-label">Пик:</div>
-          <div class="pick-opts">${teams.map(t=>`<span class="pick-opt${pc===t?" sel-c":""}" onclick="setPick(${m.id},'cloun',${JSON.stringify(t)})">${t}</span>`).join("")}</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>`;
+  // Teams display with flags
+  var homeDisp = flagAv(m.home,false)+" "+m.home;
+  var awayDisp = flagAv(m.away,false)+" "+m.away;
+  var teamsName = '<span style="display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap">'
+    + flagAv(m.home,false)+' <span>'+m.home+'</span>'
+    + '<span style="color:var(--text3);margin:0 2px">—</span>'
+    + flagAv(m.away,false)+' <span>'+m.away+'</span>'
+    + (resPill ? " "+resPill : "")
+    + '</span>';
+
+  var expandPanel = "";
+  if(isExp){
+    var opts_e = teams.map(function(t){
+      var hasFlag = FLAGS[t] ? flagAv(t,true)+" " : "";
+      return '<span class="pick-opt'+(pe===t?" sel-e":"")
+        +'" onclick="setPick('+m.id+',\'esprit\','+JSON.stringify(t)+')">'+hasFlag+t+'</span>';
+    }).join("");
+    var opts_c = teams.map(function(t){
+      var hasFlag = FLAGS[t] ? flagAv(t,true)+" " : "";
+      return '<span class="pick-opt'+(pc===t?" sel-c":"")
+        +'" onclick="setPick('+m.id+',\'cloun\','+JSON.stringify(t)+')">'+hasFlag+t+'</span>';
+    }).join("");
+
+    var peLabel = pe ? (flagAv(pe,true)+" "+pe) : "не выбран";
+    var pcLabel = pc ? (flagAv(pc,true)+" "+pc) : "не выбран";
+
+    expandPanel = '<div class="expand-panel">'
+      +'<div class="expand-inner">'
+      // ESPRIT col
+      +'<div class="exp-col">'
+      +'<div class="exp-col-label"><div class="dot-e"></div>ESPRIT — Ванкувер'
+      +(pe ? ' &nbsp;<span style="font-size:11px;color:var(--text2)">пик: '+peLabel+'</span>' : '')
+      +'</div>'
+      +'<textarea class="exp-textarea" id="tE_'+m.id+'" placeholder="Комментарий, ощущения, прогноз..." rows="3"'
+      +' oninput="onCommentInput('+m.id+',\'esprit\',this.value)">'+escHtml(comE)+'</textarea>'
+      +'<div class="exp-pick-label">Пик — кто выиграет:</div>'
+      +'<div class="pick-opts">'+opts_e+'</div>'
+      +'<div class="result-row">'
+      +'<span class="result-label">Счёт:</span>'
+      +'<input class="result-input" id="ri_'+m.id+'" placeholder="2:1" value="'+escHtml(res)+'"'
+      +' oninput="onResultInput('+m.id+',this.value)" onclick="event.stopPropagation()">'
+      +'<button class="save-btn" onclick="doSave(event,'+m.id+')">Сохранить</button>'
+      +'<span class="save-ok" id="sok_'+m.id+'">✓ сохранено</span>'
+      +'</div>'
+      +'</div>'
+      // CLOUN col
+      +'<div class="exp-col">'
+      +'<div class="exp-col-label"><div class="dot-c"></div>CLOUN — Москва'
+      +(pc ? ' &nbsp;<span style="font-size:11px;color:var(--text2)">пик: '+pcLabel+'</span>' : '')
+      +'</div>'
+      +'<textarea class="exp-textarea" id="tC_'+m.id+'" placeholder="Что думает CLOUN о матче..." rows="3"'
+      +' oninput="onCommentInput('+m.id+',\'cloun\',this.value)">'+escHtml(comC)+'</textarea>'
+      +'<div class="exp-pick-label">Пик — кто выиграет:</div>'
+      +'<div class="pick-opts">'+opts_c+'</div>'
+      +'</div>'
+      +'</div>'
+      +'</div>';
+  }
+
+  return '<div class="match-card'+(isExp?" expanded":"")+('" id="mc_'+m.id+'">')
+    +'<div class="match-row" onclick="toggleExpand('+m.id+')">'
+    +'<div class="m-num">'+(m.group?'<span class="group-pill">'+m.group+'</span>':m.id)+'</div>'
+    +'<div class="m-date"><div class="m-date-main">'+ds+'</div><div class="m-date-sub">'+dw+' · '+m.city+'</div></div>'
+    +'<div class="m-time-vk"><div class="m-time-main">'+vt+'</div><div class="m-time-sub">PDT Ванкувер</div></div>'
+    +'<div class="m-time-ms"><div class="m-time-main">'+mt+'</div><div class="m-time-sub">MSK Москва</div></div>'
+    +'<div class="m-teams">'
+    +'<div class="m-teams-name">'+teamsName+'</div>'
+    +'<div class="m-teams-sub">'+m.venue+'</div>'
+    +'<div class="mobile-times">'+vt+' PDT · '+mt+' MSK</div>'
+    +'</div>'
+    // desktop pick columns
+    +'<div class="m-pick-cell"><span class="'+pickCls(pe,"e")+'" onclick="openExpand(event,'+m.id+')">'+pickLabel(pe,"e")+'</span></div>'
+    +'<div class="m-pick-cell"><span class="'+pickCls(pc,"c")+'" onclick="openExpand(event,'+m.id+')">'+pickLabel(pc,"c")+'</span></div>'
+    +'</div>'
+    // mobile picks row (inside card, below main row)
+    +'<div class="m-picks-mobile" style="padding:0 12px 10px;gap:8px;display:none" id="mob_'+m.id+'">'
+    +'<span class="pick-badge '+pickCls(pe,"e")+'" onclick="openExpand(event,'+m.id+')">'+pickLabel(pe,"e")+'</span>'
+    +'<span class="pick-badge '+pickCls(pc,"c")+'" onclick="openExpand(event,'+m.id+')">'+pickLabel(pc,"c")+'</span>'
+    +'</div>'
+    + expandPanel
+    +'</div>';
 }
 
-function toggleExpand(id){ expanded[id]=!expanded[id]; render(); if(expanded[id]) scrollTo(id); }
-function openExpand(e,id){ e.stopPropagation(); expanded[id]=true; render(); scrollTo(id); }
-function scrollTo(id){ setTimeout(()=>{ const el=document.getElementById("mc_"+id); if(el) el.scrollIntoView({behavior:"smooth",block:"nearest"}); },60); }
+function escHtml(s){ return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
 
-function setPick(id,who,team){
-  const cur = (picks[id]||{})[who];
-  writePick(id, who, cur===team ? "" : team);
-  expanded[id]=true;
-  render();
+// Pending comment/result buffers (save on button)
+var _pendingComments = {};
+var _pendingResults = {};
+
+function onCommentInput(mid, who, val){
+  if(!_pendingComments[mid]) _pendingComments[mid] = {};
+  _pendingComments[mid][who] = val;
+}
+function onResultInput(mid, val){
+  _pendingResults[mid] = val;
+}
+function doSave(e, mid){
+  e.stopPropagation();
+  // save comment
+  if(_pendingComments[mid]){
+    var c = _pendingComments[mid];
+    if(c.esprit !== undefined) writeComment(mid,"esprit",c.esprit);
+    if(c.cloun  !== undefined) writeComment(mid,"cloun", c.cloun);
+    delete _pendingComments[mid];
+  }
+  // save result
+  if(_pendingResults[mid] !== undefined){
+    writeResult(mid, _pendingResults[mid]);
+    delete _pendingResults[mid];
+  }
+  var ok = document.getElementById("sok_"+mid);
+  if(ok){ ok.style.opacity="1"; setTimeout(function(){ ok.style.opacity="0"; },2000); }
+  scheduleRender();
 }
 
-// ── ANALYTICS ──
+function toggleExpand(id){ expanded[id]=!expanded[id]; render(); if(expanded[id]) scrollToCard(id); }
+function openExpand(e,id){ e.stopPropagation(); expanded[id]=true; render(); scrollToCard(id); }
+function scrollToCard(id){ setTimeout(function(){ var el=document.getElementById("mc_"+id); if(el) el.scrollIntoView({behavior:"smooth",block:"nearest"}); },60); }
+
+function setPick(mid,who,team){
+  var cur = (picks[mid]||{})[who];
+  writePick(mid, who, cur===team?"":team);
+  expanded[mid]=true;
+  scheduleRender();
+}
+
+// Show mobile picks rows after render
+function applyMobilePicks(){
+  var isMobile = window.innerWidth <= 600;
+  MATCHES.forEach(function(m){
+    var el = document.getElementById("mob_"+m.id);
+    if(el) el.style.display = isMobile ? "flex" : "none";
+  });
+}
+
+// ══════════════════════════════════════════════
+//  ANALYTICS
+// ══════════════════════════════════════════════
 function renderAnalytics(){
-  const root = document.getElementById("analyticsRoot");
-  const finished = MATCHES.filter(m => results[m.id] && pickWinner(results[m.id],m.home,m.away)!==null);
+  var root = document.getElementById("analyticsRoot");
+  var finished = MATCHES.filter(function(m){ return results[m.id] && pickWinner(results[m.id],m.home,m.away)!==null; });
   if(!finished.length){
-    root.innerHTML=`<div class="empty-state">Аналитика появится после первых матчей.<br>Введи счёт в карточке матча — и всё посчитается автоматически.</div>`;
+    root.innerHTML='<div class="empty-state">Аналитика появится после первых матчей.<br>Введи счёт в карточке матча и нажми «Сохранить».</div>';
     return;
   }
-  let ce=0,cc=0;
-  const teamWins={};
-  finished.forEach(m=>{
-    const winner=pickWinner(results[m.id],m.home,m.away);
-    if(!winner) return;
-    teamWins[winner]=(teamWins[winner]||0)+1;
-    const pe=(picks[m.id]||{}).esprit;
-    const pc=(picks[m.id]||{}).cloun;
-    if(pe && pe===winner) ce++;
-    if(pc && pc===winner) cc++;
+  var ce=0,cc=0;
+  var teamWins={};
+  finished.forEach(function(m){
+    var w=pickWinner(results[m.id],m.home,m.away);
+    if(!w) return;
+    teamWins[w]=(teamWins[w]||0)+1;
+    if((picks[m.id]||{}).esprit===w) ce++;
+    if((picks[m.id]||{}).cloun===w)  cc++;
   });
-  const pe_total=finished.filter(m=>(picks[m.id]||{}).esprit).length;
-  const pc_total=finished.filter(m=>(picks[m.id]||{}).cloun).length;
-  const pct=(n,d)=>d?Math.round(n/d*100):0;
-  const topTeams=Object.entries(teamWins).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  const maxW=topTeams[0]?.[1]||1;
-  const histRows=finished.slice(-20).reverse().map(m=>{
-    const res=results[m.id];
-    const winner=pickWinner(res,m.home,m.away);
-    const pe=(picks[m.id]||{}).esprit||"—";
-    const pc=(picks[m.id]||{}).cloun||"—";
-    const bE=!(picks[m.id]||{}).esprit?'<span class="badge-pending">—</span>':pe===winner?'<span class="badge-correct">✓</span>':'<span class="badge-wrong">✗</span>';
-    const bC=!(picks[m.id]||{}).cloun ?'<span class="badge-pending">—</span>':pc===winner?'<span class="badge-correct">✓</span>':'<span class="badge-wrong">✗</span>';
-    return `<tr><td>${fmtDate(m.date,m.utcH,m.utcM)}</td><td>${m.home} — ${m.away}</td><td style="color:var(--gold);font-weight:600">${res}</td><td>${pe} ${bE}</td><td>${pc} ${bC}</td></tr>`;
+  var pe_t=finished.filter(function(m){ return (picks[m.id]||{}).esprit; }).length;
+  var pc_t=finished.filter(function(m){ return (picks[m.id]||{}).cloun;  }).length;
+  function pct(n,d){ return d?Math.round(n/d*100):0; }
+  var topTeams=Object.entries(teamWins).sort(function(a,b){ return b[1]-a[1]; }).slice(0,8);
+  var maxW=topTeams[0]?topTeams[0][1]:1;
+
+  var histRows=finished.slice(-20).reverse().map(function(m){
+    var res=results[m.id];
+    var w=pickWinner(res,m.home,m.away);
+    var pe=(picks[m.id]||{}).esprit||"—";
+    var pc=(picks[m.id]||{}).cloun||"—";
+    var bE=!(picks[m.id]||{}).esprit?'<span class="badge-pending">—</span>':pe===w?'<span class="badge-correct">✓</span>':'<span class="badge-wrong">✗</span>';
+    var bC=!(picks[m.id]||{}).cloun ?'<span class="badge-pending">—</span>':pc===w?'<span class="badge-correct">✓</span>':'<span class="badge-wrong">✗</span>';
+    var peDisp = pe!=="—" ? (flagAv(pe,true)+" "+pe) : "—";
+    var pcDisp = pc!=="—" ? (flagAv(pc,true)+" "+pc) : "—";
+    return '<tr>'
+      +'<td>'+fmtDate(m.date,m.utcH,m.utcM)+'</td>'
+      +'<td style="display:flex;align-items:center;gap:4px">'+flagAv(m.home,true)+' '+m.home+' — '+flagAv(m.away,true)+' '+m.away+'</td>'
+      +'<td style="color:var(--gold);font-weight:700">'+res+'</td>'
+      +'<td>'+peDisp+' '+bE+'</td>'
+      +'<td>'+pcDisp+' '+bC+'</td>'
+      +'</tr>';
   }).join("");
 
-  root.innerHTML=`
-<div class="analytics-grid">
-  <div class="stat-tile"><div class="stat-tile-val gold">${finished.length}</div><div class="stat-tile-lbl">матчей сыграно</div></div>
-  <div class="stat-tile"><div class="stat-tile-val blue">${ce} / ${pe_total}</div><div class="stat-tile-lbl">угаданных — ESPRIT</div></div>
-  <div class="stat-tile"><div class="stat-tile-val coral">${cc} / ${pc_total}</div><div class="stat-tile-lbl">угаданных — CLOUN</div></div>
-  <div class="stat-tile"><div class="stat-tile-val">${MATCHES.length-finished.length}</div><div class="stat-tile-lbl">матчей впереди</div></div>
-</div>
-<div class="section-title">Счёт угадывания</div>
-<div class="duel-row">
-  <div class="duel-side">
-    <div class="duel-name e">ESPRIT</div>
-    <div class="duel-score e">${pct(ce,pe_total)}<span style="font-size:18px;font-weight:400;color:var(--text2)">%</span></div>
-    <div class="duel-sub">${ce} из ${pe_total} пиков верно</div>
-  </div>
-  <div class="duel-vs">VS</div>
-  <div class="duel-side">
-    <div class="duel-name c">CLOUN</div>
-    <div class="duel-score c">${pct(cc,pc_total)}<span style="font-size:18px;font-weight:400;color:var(--text2)">%</span></div>
-    <div class="duel-sub">${cc} из ${pc_total} пиков верно</div>
-  </div>
-</div>
-${topTeams.length?`
-<div class="section-title">Побед по командам</div>
-<div style="margin-bottom:28px">${topTeams.map(([t,w])=>`
-  <div class="chart-bar-row">
-    <div class="chart-bar-label">${t}</div>
-    <div class="chart-bar-track"><div class="chart-bar-fill" style="width:${Math.round(w/maxW*100)}%;background:var(--gold)"></div></div>
-    <div class="chart-bar-val">${w}</div>
-  </div>`).join("")}</div>`:""}
-<div class="section-title">История матчей</div>
-<table class="history-table">
-  <thead><tr><th>Дата</th><th>Матч</th><th>Счёт</th><th>ESPRIT</th><th>CLOUN</th></tr></thead>
-  <tbody>${histRows}</tbody>
-</table>`;
+  root.innerHTML=
+    '<div class="analytics-grid">'
+    +'<div class="stat-tile"><div class="stat-tile-val gold">'+finished.length+'</div><div class="stat-tile-lbl">матчей сыграно</div></div>'
+    +'<div class="stat-tile"><div class="stat-tile-val blue">'+ce+' / '+pe_t+'</div><div class="stat-tile-lbl">угаданных — ESPRIT</div></div>'
+    +'<div class="stat-tile"><div class="stat-tile-val coral">'+cc+' / '+pc_t+'</div><div class="stat-tile-lbl">угаданных — CLOUN</div></div>'
+    +'<div class="stat-tile"><div class="stat-tile-val">'+(MATCHES.length-finished.length)+'</div><div class="stat-tile-lbl">матчей впереди</div></div>'
+    +'</div>'
+    +'<div class="section-title">Счёт угадывания</div>'
+    +'<div class="duel-row">'
+    +'<div class="duel-side">'
+    +'<div class="duel-name e">ESPRIT</div>'
+    +'<div class="duel-score e">'+pct(ce,pe_t)+'<span style="font-size:16px;font-weight:400;color:var(--text2)">%</span></div>'
+    +'<div class="duel-sub">'+ce+' из '+pe_t+' пиков верно</div>'
+    +'</div>'
+    +'<div class="duel-vs">VS</div>'
+    +'<div class="duel-side">'
+    +'<div class="duel-name c">CLOUN</div>'
+    +'<div class="duel-score c">'+pct(cc,pc_t)+'<span style="font-size:16px;font-weight:400;color:var(--text2)">%</span></div>'
+    +'<div class="duel-sub">'+cc+' из '+pc_t+' пиков верно</div>'
+    +'</div>'
+    +'</div>'
+    +(topTeams.length?
+      '<div class="section-title">Победы по командам</div>'
+      +'<div style="margin-bottom:24px">'+topTeams.map(function(e){
+        return '<div class="chart-bar-row">'
+          +'<div class="chart-bar-label">'+flagAv(e[0],true)+' '+e[0]+'</div>'
+          +'<div class="chart-bar-track"><div class="chart-bar-fill" style="width:'+Math.round(e[1]/maxW*100)+'%;background:var(--gold)"></div></div>'
+          +'<div class="chart-bar-val">'+e[1]+'</div>'
+          +'</div>';
+      }).join("")+'</div>'
+    :'')
+    +'<div class="section-title">История матчей</div>'
+    +'<div style="overflow-x:auto"><table class="history-table">'
+    +'<thead><tr><th>Дата</th><th>Матч</th><th>Счёт</th><th>ESPRIT</th><th>CLOUN</th></tr></thead>'
+    +'<tbody>'+histRows+'</tbody>'
+    +'</table></div>';
 }
 
-// ── PAGES ──
+// ══════════════════════════════════════════════
+//  PAGE SWITCH
+// ══════════════════════════════════════════════
 function switchPage(id,el){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".page").forEach(function(p){ p.classList.remove("active"); });
+  document.querySelectorAll(".nav-tab").forEach(function(t){ t.classList.remove("active"); });
   document.getElementById("page-"+id).classList.add("active");
   el.classList.add("active");
   if(id==="analytics") renderAnalytics();
 }
 
-// ── ROOM MODAL ──
-function openRoomModal(){
-  document.getElementById("roomKeyInput").value = currentRoomKey;
-  document.getElementById("roomModal").classList.add("open");
-  setTimeout(()=>document.getElementById("roomKeyInput").select(),50);
-}
-function closeModal(){
-  document.querySelectorAll(".modal-overlay").forEach(m=>m.classList.remove("open"));
-}
-function applyRoomKey(){
-  const val = document.getElementById("roomKeyInput").value.trim();
-  if(!val) return;
-  picks={}; comments={}; results={};
-  closeModal();
-  initGun(val);
-  render();
-}
-document.querySelectorAll(".modal-overlay").forEach(o=>{
-  o.addEventListener("click",e=>{ if(e.target===o) closeModal(); });
-});
-
-// ── BOOT ──
-initGun(currentRoomKey);
+// ══════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════
 render();
+window.addEventListener("resize", function(){ applyMobilePicks(); });
+setTimeout(applyMobilePicks, 100);
 </script>
 </body>
 </html>
