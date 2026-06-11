@@ -121,6 +121,42 @@ nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;d
 .save-btn:active{transform:scale(.97)}
 .save-ok{font-size:11px;color:var(--green);opacity:0;transition:opacity .3s;white-space:nowrap}
 .auto-res{font-size:11px;color:var(--green);display:flex;align-items:center;gap:5px;margin-top:6px}
+.lineup-sec{grid-column:1/-1;background:var(--bg2);padding:14px 18px;border-top:1px solid var(--border)}
+.lineup-btn{font-size:12.5px;padding:9px 18px;border-radius:var(--rs);border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;font-family:inherit;font-weight:600;transition:all .15s}
+.lineup-btn:hover{background:var(--gold);border-color:var(--gold);color:#0a0c11}
+.lu-loading{display:flex;align-items:center;gap:10px;color:var(--text3);font-size:12.5px;padding:8px 0}
+.lu-spin{width:18px;height:18px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:lspin .8s linear infinite}
+@keyframes lspin{to{transform:rotate(360deg)}}
+.lu-empty,.lu-empty-sm{color:var(--text3);font-size:12px;line-height:1.6;padding:6px 0}
+.lu-empty-sm{font-size:11px;opacity:.7}
+.lu-wrap{margin-top:2px}
+.lu-title{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text2);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.lu-refresh{font-size:10px;color:var(--text3);cursor:pointer;font-weight:500;text-transform:none;letter-spacing:0}
+.lu-refresh:hover{color:var(--gold2)}
+.lu-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:600px){.lu-cols{grid-template-columns:1fr;gap:14px}}
+.lu-team{display:flex;align-items:center;gap:7px;font-size:13px;margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid var(--border)}
+.lu-form{margin-left:auto;font-size:10px;color:var(--text3);background:var(--bg3);padding:2px 7px;border-radius:4px;font-weight:600}
+.lu-list{display:flex;flex-direction:column;gap:1px}
+.lu-p{display:flex;align-items:center;gap:9px;padding:5px 6px;border-radius:5px}
+.lu-p:hover{background:var(--bg3)}
+.lu-num{font-family:var(--serif,'Georgia',serif);font-size:12px;font-weight:700;color:var(--gold2);width:20px;text-align:center;flex-shrink:0}
+.lu-name{font-size:12.5px;color:var(--text)}
+.lu-pos{margin-left:auto;font-size:9.5px;color:var(--text3);font-weight:600}
+.lu-p .lu-pos+.lu-rate{margin-left:8px}
+.lu-p:has(.lu-pos) .lu-rate{margin-left:8px}
+.lu-sub-h{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);margin:11px 0 5px}
+.lu-bench .lu-name{font-size:11.5px;color:var(--text2)}
+.lu-note{font-size:11px;color:var(--text3);margin-bottom:10px;font-style:italic}
+.lu-cap{display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:3px;background:var(--gold);color:#0a0c11;font-size:8px;font-weight:800;margin-left:5px;vertical-align:middle}
+.lu-ev{font-size:10px;margin-left:4px}
+.lu-yc{display:inline-block;width:7px;height:10px;border-radius:1px;background:#f0c020;margin-left:4px;vertical-align:middle}
+.lu-rc{display:inline-block;width:7px;height:10px;border-radius:1px;background:#e0402e;margin-left:4px;vertical-align:middle}
+.lu-rate{margin-left:auto;font-size:10px;font-weight:700;color:var(--gold2);background:var(--bg3);padding:1px 5px;border-radius:3px}
+.lu-coach{font-size:11px;color:var(--text2);margin-top:10px;padding-top:8px;border-top:1px solid var(--border)}
+.lu-coach b{color:var(--text)}
+.lu-unav{font-size:11px;color:var(--text3);padding:2px 0}
+.lu-unav span{opacity:.7;font-style:italic}
 .gpill{font-size:9px;padding:1px 5px;border-radius:3px;background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
 .an-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:22px}
 .st{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
@@ -991,7 +1027,14 @@ function renderCard(m){
       +'<div class="exp-lbl"><div class="dot-c"></div>CLOUN — Moscow'+(pc?'&nbsp;<span style="font-size:10px;color:var(--text3)">pick: '+pcHint+'</span>':"")+'</div>'
       +'<textarea class="exp-ta" placeholder="What CLOUN thinks about the match..." rows="3" oninput="_pcmt['+m.id+']=_pcmt['+m.id+']||{};_pcmt['+m.id+'].cloun=this.value">'+esc(comC)+'</textarea>'
       +'<div class="po-lbl">Pick — who wins:</div><div class="po-wrap">'+opts_c+'</div>'
-      +'</div></div></div>';
+      +'</div></div>'
+      +'<div class="lineup-sec">'
+      +(lineupCache[m.id]
+          ? renderLineupHTML(m, lineupCache[m.id])
+          : '<button class="lineup-btn" onclick="loadLineup(event,'+m.id+')">👥 Show line-ups / squads</button>')
+      +'<div class="lineup-body" id="lu_'+m.id+'"></div>'
+      +'</div>'
+      +'</div>';
   }
 
   return '<div class="match-card'+(isExp?" expanded":"")+'" id="mc_'+m.id+'">'
@@ -1013,13 +1056,155 @@ function renderCard(m){
 
 function applyMob(){
   // Управление видимостью мобильного ряда теперь полностью на CSS
-  // (медиазапрос + .expanded). JS только убирает возможный inline display.
   MATCHES.forEach(function(m){
     var el=document.getElementById("mob_"+m.id);
     if(el) el.style.removeProperty("display");
   });
 }
 window.addEventListener("resize",function(){setTimeout(applyMob,50);});
+
+// ═══════════════════════════════════════════════════
+// LINE-UPS / SQUADS — free-api-live-football-data
+// Endpoints: /football-get-hometeam-lineup?eventid=N
+//            /football-get-awayteam-lineup?eventid=N
+// response.lineup = {name, formation, starters[], subs[], coach, unavailable[]}
+// player: name, shirtNumber, usualPlayingPositionId(0GK 1DEF 2MID 3FWD),
+//         isCaptain, performance{rating, events[], substitutionEvents[]}
+// ═══════════════════════════════════════════════════
+var lineupCache={}; // m.id -> {home:{...lineup}, away:{...lineup}}
+var POS_NAME={0:"GK",1:"DEF",2:"MID",3:"FWD"};
+
+function loadLineup(e,mid){
+  e.stopPropagation();
+  var m=MATCHES.find(function(x){return x.id===mid;});
+  var body=document.getElementById("lu_"+mid);
+  if(!body)return;
+  body.innerHTML='<div class="lu-loading"><div class="lu-spin"></div>Loading line-ups…</div>';
+  var btn=body.parentNode.querySelector(".lineup-btn"); if(btn)btn.style.display="none";
+
+  // 1) resolve API eventId via matches-by-date for this fixture's UTC date
+  var apiDate=fmtDateAPI(new Date(m.date+"T"+pad(m.utcH)+":"+pad(m.utcM)+":00Z"));
+  fetch(apiCfg.base+"/football-get-matches-by-date?date="+apiDate,{
+    headers:{"x-rapidapi-host":apiCfg.host,"x-rapidapi-key":apiCfg.key}
+  })
+  .then(function(r){ if(r.status===401||r.status===403)throw new Error("key not subscribed"); if(r.status===429)throw new Error("rate limit"); return r.json(); })
+  .then(function(d){
+    var matches=(d.response&&d.response.matches)||[];
+    var fx=matches.find(function(x){
+      return x.home&&x.away&&teamMatch(m.home,x.home.name,x.home.longName)&&teamMatch(m.away,x.away.name,x.away.longName);
+    });
+    if(!fx) throw new Error("no-fixture");
+    // 2) fetch home + away lineups in parallel
+    return Promise.all([
+      fetchTeamLineup("hometeam",fx.id),
+      fetchTeamLineup("awayteam",fx.id)
+    ]);
+  })
+  .then(function(res){
+    var home=res[0], away=res[1];
+    if((!home||!home.starters.length)&&(!away||!away.starters.length)){
+      // no lineups yet → fallback to squads
+      return fetchSquads(m).then(function(sq){
+        if(sq){ lineupCache[mid]={squad:sq}; body.innerHTML=renderLineupHTML(m,lineupCache[mid]); }
+        else throw new Error("no-data");
+      });
+    }
+    lineupCache[mid]={home:home,away:away};
+    body.innerHTML=renderLineupHTML(m,lineupCache[mid]);
+  })
+  .catch(function(){
+    fetchSquads(m).then(function(sq){
+      if(sq){ lineupCache[mid]={squad:sq}; body.innerHTML=renderLineupHTML(m,lineupCache[mid]); }
+      else body.innerHTML='<div class="lu-empty">Line-ups aren\'t published yet — they usually appear about an hour before kickoff. Tap ↻ to retry closer to match time.</div>'
+        +'<div style="margin-top:8px"><button class="lineup-btn" onclick="refreshLineup(event,'+mid+')">↻ Try again</button></div>';
+    });
+  });
+}
+
+function fetchTeamLineup(side,eventId){
+  return fetch(apiCfg.base+"/football-get-"+side+"-lineup?eventid="+eventId,{
+    headers:{"x-rapidapi-host":apiCfg.host,"x-rapidapi-key":apiCfg.key}
+  }).then(function(r){return r.json();}).then(function(d){
+    var L=(d.response&&d.response.lineup)||null;
+    if(!L) return {name:"",formation:"",starters:[],subs:[],coach:null};
+    var norm=function(p){
+      var perf=p.performance||{};
+      var ev=(perf.events||[]).map(function(x){return x.type;});
+      return {
+        name:p.name||((p.firstName||"")+" "+(p.lastName||"")).trim(),
+        num:p.shirtNumber||"",
+        pos:POS_NAME[p.usualPlayingPositionId]||"",
+        cap:!!p.isCaptain,
+        rating:perf.rating||null,
+        goal:ev.indexOf("goal")>=0,
+        yellow:ev.indexOf("yellowCard")>=0,
+        red:ev.indexOf("redCard")>=0
+      };
+    };
+    return {
+      name:L.name||"", formation:L.formation||"",
+      starters:(L.starters||[]).map(norm),
+      subs:(L.subs||[]).map(norm),
+      coach:L.coach?(L.coach.name||((L.coach.firstName||"")+" "+(L.coach.lastName||"")).trim()):"",
+      unavailable:(L.unavailable||[]).map(function(p){return {name:p.name||"", reason:(p.unavailability&&p.unavailability.expectedReturn)||"out"};})
+    };
+  }).catch(function(){return {name:"",formation:"",starters:[],subs:[],coach:""};});
+}
+
+function fetchSquads(m){
+  function searchTeam(team){
+    return fetch(apiCfg.base+"/football-players-search?search="+encodeURIComponent(team),{
+      headers:{"x-rapidapi-host":apiCfg.host,"x-rapidapi-key":apiCfg.key}
+    }).then(function(r){return r.json();}).then(function(d){
+      var arr=(d.response&&(d.response.suggestions||d.response.players||d.response.list))||[];
+      return arr.map(function(x){return {name:x.name||x.longName||x.title||"",num:"",pos:""};}).filter(function(x){return x.name;});
+    }).catch(function(){return [];});
+  }
+  return Promise.all([searchTeam(m.home),searchTeam(m.away)]).then(function(res){
+    if(!res[0].length&&!res[1].length) return null;
+    return {home:res[0], away:res[1]};
+  });
+}
+
+function playerRow(p){
+  var marks="";
+  if(p.cap) marks+='<span class="lu-cap" title="Captain">C</span>';
+  if(p.goal) marks+='<span class="lu-ev" title="Goal">⚽</span>';
+  if(p.yellow) marks+='<span class="lu-yc" title="Yellow card"></span>';
+  if(p.red) marks+='<span class="lu-rc" title="Red card"></span>';
+  var rating=p.rating?'<span class="lu-rate">'+p.rating.toFixed(1)+'</span>':"";
+  return '<div class="lu-p"><span class="lu-num">'+(p.num||"")+'</span>'
+    +'<span class="lu-name">'+esc(p.name)+marks+'</span>'
+    +(p.pos?'<span class="lu-pos">'+p.pos+'</span>':"")+rating+'</div>';
+}
+
+function renderLineupHTML(m,data){
+  // squad fallback shape
+  if(data.squad){
+    function sqCol(team,arr){
+      return '<div class="lu-col"><div class="lu-team">'+fvs(team)+'<b>'+team+'</b></div>'
+        +(arr.length?'<div class="lu-list">'+arr.map(function(p){return '<div class="lu-p"><span class="lu-name">'+esc(p.name)+'</span></div>';}).join("")+'</div>'
+                    :'<div class="lu-empty-sm">No data</div>')+'</div>';
+    }
+    return '<div class="lu-wrap"><div class="lu-title">Squads (full roster) <span class="lu-refresh" onclick="refreshLineup(event,'+m.id+')">↻ refresh</span></div>'
+      +'<div class="lu-note">Match line-ups not published yet — showing available squads.</div>'
+      +'<div class="lu-cols">'+sqCol(m.home,data.squad.home)+sqCol(m.away,data.squad.away)+'</div></div>';
+  }
+  // full lineup shape
+  function col(team,L){
+    if(!L) L={starters:[],subs:[],formation:"",coach:"",unavailable:[]};
+    var head='<div class="lu-team">'+fvs(team)+'<b>'+team+'</b>'+(L.formation?'<span class="lu-form">'+L.formation+'</span>':"")+'</div>';
+    var starters=L.starters.length?'<div class="lu-list">'+L.starters.map(playerRow).join("")+'</div>':'<div class="lu-empty-sm">No starting XI yet</div>';
+    var subs=L.subs&&L.subs.length?'<div class="lu-sub-h">Substitutes</div><div class="lu-list lu-bench">'+L.subs.map(playerRow).join("")+'</div>':"";
+    var coach=L.coach?'<div class="lu-coach">Coach: <b>'+esc(L.coach)+'</b></div>':"";
+    var unav=L.unavailable&&L.unavailable.length?'<div class="lu-sub-h">Unavailable</div>'+L.unavailable.map(function(p){return '<div class="lu-unav">'+esc(p.name)+' <span>'+esc(p.reason)+'</span></div>';}).join(""):"";
+    return '<div class="lu-col">'+head+starters+subs+coach+unav+'</div>';
+  }
+  return '<div class="lu-wrap"><div class="lu-title">Starting line-ups <span class="lu-refresh" onclick="refreshLineup(event,'+m.id+')">↻ refresh</span></div>'
+    +'<div class="lu-cols">'+col(m.home,data.home)+col(m.away,data.away)+'</div></div>';
+}
+function refreshLineup(e,mid){ e.stopPropagation(); delete lineupCache[mid]; loadLineup(e,mid); }
+
 
 function toggleE(id){expanded[id]=!expanded[id];renderSchedOnly();if(expanded[id])scrollC(id);}
 function openE(e,id){e.stopPropagation();expanded[id]=true;renderSchedOnly();scrollC(id);}
