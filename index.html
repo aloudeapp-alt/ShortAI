@@ -520,8 +520,8 @@ function renderCard(m){
     var auR=autoRes[m.id]||"";
     var auScore=auR?auR.split("|")[0]:"";
     var auTag=auR?auR.split("|")[1]:"";
-    var opts_e=teams.map(function(t){ return'<span class="po'+(pe===t?" se":"")+'" onclick="setPick('+m.id+',\'esprit\','+JSON.stringify(t)+')">'+fvs(t)+t+'</span>'; }).join("");
-    var opts_c=teams.map(function(t){ return'<span class="po'+(pc===t?" sc":"")+'" onclick="setPick('+m.id+',\'cloun\','+JSON.stringify(t)+')">'+fvs(t)+t+'</span>'; }).join("");
+    var opts_e=teams.map(function(t){ return'<span class="po'+(pe===t?" se":"")+'" data-pick="'+m.id+'" data-who="esprit" data-team="'+esc(t)+'">'+fvs(t)+t+'</span>'; }).join("");
+    var opts_c=teams.map(function(t){ return'<span class="po'+(pc===t?" sc":"")+'" data-pick="'+m.id+'" data-who="cloun" data-team="'+esc(t)+'">'+fvs(t)+t+'</span>'; }).join("");
     expHtml='<div class="exp-panel"><div class="exp-inner">'
       +'<div class="exp-col">'
       +'<div class="exp-lbl"><div class="dot-e"></div>ESPRIT — Ванкувер'+(pe?'&nbsp;<span style="font-size:10px;color:var(--text3)">пик: '+pe+'</span>':"")+'</div>'
@@ -560,7 +560,13 @@ function renderCard(m){
 
 function applyMob(){
   var mob=window.innerWidth<=640;
-  MATCHES.forEach(function(m){var el=document.getElementById("mob_"+m.id);if(el)el.style.display=mob?"flex":"none";});
+  MATCHES.forEach(function(m){
+    var el=document.getElementById("mob_"+m.id);
+    if(el){
+      // на мобиле показываем мобильный ряд, НО скрываем если карточка раскрыта
+      el.style.display=(mob && !expanded[m.id])?"flex":"none";
+    }
+  });
 }
 window.addEventListener("resize",function(){setTimeout(applyMob,50);});
 
@@ -636,6 +642,20 @@ function switchPage(id,el){
 document.querySelector(".nav-logo").addEventListener("dblclick",function(){
   var sb=document.getElementById("setBar");
   sb.style.display=sb.style.display==="none"?"flex":"none";
+});
+
+// Делегирование кликов по пик-кнопкам (избегаем апострофов в onclick)
+document.getElementById("schedRoot").addEventListener("click",function(e){
+  var el=e.target.closest("[data-pick]");
+  if(!el) return;
+  e.stopPropagation();
+  var mid=parseInt(el.getAttribute("data-pick"));
+  var who=el.getAttribute("data-who");
+  var team=el.getAttribute("data-team");
+  var cur=(picks[mid]||{})[who];
+  fw(mid,who,cur===team?"":team);
+  expanded[mid]=true;
+  renderSchedOnly();
 });
 
 // BOOT
