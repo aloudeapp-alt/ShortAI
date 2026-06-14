@@ -724,6 +724,13 @@ function scheduleAllChecks(){
 var lastFetchInfo={time:null,status:"",count:0};
 
 function setApiInfo(s,l){ lastFetchInfo.statusClass=s; lastFetchInfo.statusText=l; }
+// admin-only manual trigger: force an immediate API result check
+function adminRefresh(btn){
+  if(!isAdmin) return;
+  if(btn){ btn.disabled=true; var t=btn.textContent; btn.textContent="↻ Refreshing…";
+    setTimeout(function(){ try{ btn.disabled=false; btn.textContent=t; renderSettings(); }catch(e){} }, 4000); }
+  fetchFixtures();
+}
 
 // Date in YYYYMMDD format (required by free-api-live-football-data)
 function fmtDateAPI(d){
@@ -859,8 +866,9 @@ function renderSettings(){
         +(lastFetchInfo.debug.wcCandidates.length?'<br><span style="color:var(--green)">'+lastFetchInfo.debug.wcCandidates.join("<br>")+'</span>':'')
         +'</div>'
       ):'')
+    +(isAdmin?'<div style="margin-top:14px"><button class="set-btn primary" onclick="adminRefresh(this)">↻ Refresh results now</button></div>':'')
     +'<p class="set-hint">'+(isAdmin
-        ? 'You\'re an admin: your open app pulls match results from the official feed (~100 min after kickoff) and shares them with the whole room. Keep the app open on match days so results sync for everyone.'
+        ? 'You\'re an admin: your open app pulls match results from the official feed (~100 min after kickoff) and shares them with the whole room. Use “Refresh results now” to fetch immediately instead of waiting. Keep the app open on match days so results sync for everyone.'
         : 'Results are pulled automatically by an admin and synced to you in real time — your app never calls the sports API directly. Scores can\'t be edited by hand.')+'</p>'
     +'</div>'
 
@@ -926,11 +934,16 @@ function isLocked(m){
   return Date.now() >= matchTS(m);       // kickoff time reached
 }
 // Status of a match: "upcoming" | "live" | "finished"
+// A match is only "live" within a realistic match window (~2.5h after kickoff).
+// After that, if there's still no score, it's treated as finished/ended (no blinking LIVE).
+var LIVE_WINDOW_MS = 150*60*1000; // 2.5 hours
 function matchStatus(m){
   var br=getBR(m.id);
   if(br) return br.live?"live":"finished";
-  if(Date.now()>=matchTS(m)) return "live";   // started by clock, no score yet
-  return "upcoming";
+  var now=Date.now(), ks=matchTS(m);
+  if(now < ks) return "upcoming";
+  if(now - ks <= LIVE_WINDOW_MS) return "live";  // genuinely in progress
+  return "finished";                              // kicked off long ago, no score yet → not live
 }
 function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
 
@@ -1174,7 +1187,7 @@ function renderCard(m){
   }
   var statusBadge="";
   if(status==="live") statusBadge='<span class="mstatus live">● LIVE</span>';
-  else if(status==="finished") statusBadge='<span class="mstatus fin">FT</span>';
+  else if(status==="finished") statusBadge='<span class="mstatus fin">'+(br?"FT":"ended")+'</span>';
 
   var teamsHtml='<span style="display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap">'
     +fv(m.home)+'<span>'+teamNameFull(m.home)+'</span>'
