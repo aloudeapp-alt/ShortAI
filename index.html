@@ -340,6 +340,19 @@ input[type=range]::-moz-range-thumb{width:22px;height:32px;border:0;border-radiu
 .switch input:focus-visible + .toggle{outline:2px solid var(--amber);outline-offset:2px}
 .sheet .field{margin:14px 0}
 .sheet-note{font-size:10px;line-height:1.8;color:#6e746a;letter-spacing:.03em;margin:14px 0 16px}
+.diag{margin:2px 0 12px;display:flex;flex-direction:column;gap:3px}
+.diag-row{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:5px;
+  background:rgba(0,0,0,.22);font-size:10px;letter-spacing:.06em;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04)}
+.diag-row .n{color:var(--steel-dim);flex:none;letter-spacing:.14em}
+.diag-row .v{margin-left:auto;text-align:right;color:var(--steel-dim);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.diag-row.ok .v{color:var(--link)}
+.diag-row.warn .v{color:var(--amber)}
+.diag-row.dead .v{color:#ff8f7c}
+.diag-row.me{box-shadow:inset 0 0 0 1px rgba(255,176,46,.32)}
+.diag-head{font-size:9px;letter-spacing:.12em;color:#5f645a;line-height:1.8;
+  margin:0 0 8px;word-break:break-all}
 .hidden{display:none !important}
 
 /* когда открыта клавиатура — прячем тангенту, чтобы поле ввода было видно */
@@ -537,6 +550,16 @@ body.kb .tangenta{display:none}
       <input type="checkbox" id="awake" checked>
       <span class="toggle"></span><span class="sw-txt">Не гасить экран в эфире</span>
     </label>
+    <label class="switch">
+      <input type="checkbox" id="verbose">
+      <span class="toggle"></span><span class="sw-txt">Подробный лог соединений</span>
+    </label>
+
+    <div class="sheet-title" style="margin-top:20px">Диагностика</div>
+    <p class="diag-head" id="diagHead">—</p>
+    <div class="diag" id="diag"></div>
+    <button class="btn wide" id="rescan" style="margin-bottom:10px">Пересканировать канал</button>
+
     <p class="sheet-note" id="sheetNote"></p>
     <button class="btn danger wide" id="leave">Отключиться от канала</button>
   </div>
@@ -564,15 +587,23 @@ const el = {};
  'carrier','ledPwr','ledLink','ledTx','ledRx','ledPwrWrap','ledLinkWrap','ledTxWrap','ledRxWrap',
  'ptt','pttLabel','pttSub','vuBar','latch','gear','scrim','sheet','tabRoster','tabLog','tabCount',
  'tabPip','panelRoster','panelLog','roster','rosterEmpty','shareWrap','share','log','msg','send',
- 'vol','volOut','sq','sqOut','micSel','beep','duck','buzz','awake','sheetNote','leave']
+ 'vol','volOut','sq','sqOut','micSel','beep','duck','buzz','awake','verbose','diag','diagHead',
+ 'rescan','sheetNote','leave']
  .forEach(k => el[k] = $(k));
 
 const S = {
   code:'', nick:'', slot:0, peer:null, prefix:'',
   stream:null, track:null, ac:null, analyser:null, buf:null,
   peers:new Map(), tx:false, latch:false, txStart:0,
-  gateOpenUntil:0, joined:false, raf:0, wake:null, unread:0
+  gateOpenUntil:0, joined:false, raf:0, wake:null, unread:0,
+  attempts:new Map(),      // id -> {media:ts, data:ts} последняя попытка дозвона
+  scanTimer:0, beatTimer:0, diagTimer:0, brokerOk:false
 };
+
+const RETRY_MS = 9000;     // не чаще одной попытки на канал раз в 9 с
+const SCAN_MS  = 6000;     // как часто перепроверяем посты
+const BEAT_MS  = 5000;     // пульс по data-каналу
+const DEAD_MS  = 16000;    // нет пульса столько — считаем пост мёртвым
 
 const coarse = window.matchMedia('(pointer:coarse)').matches;
 
@@ -622,6 +653,7 @@ function logEntry(kind, html){
 const sys  = t => logEntry('sys', esc(t));
 const air  = t => logEntry('air', esc(t));
 const fail = t => logEntry('err', esc(t));
+const dbg  = t => { if (el.verbose.checked) logEntry('sys', esc('· ' + t)); };
 
 function setStatus(text, cls){
   el.setupStatus.textContent = text;
@@ -710,8 +742,7 @@ el.join.addEventListener('click', async () => {
   S.slot = claimed.slot;
   if (!S.nick) S.nick = slotName(S.slot);
   wirePeer();
-  enterDeck();
-  for (let i = 1; i <= SLOTS; i++) if (i !== S.slot) reachOut(S.prefix + i);
+  enterDeck();          // scan() внутри сам обойдёт все посты и будет повторять обход
 });
 
 function micError(err){
@@ -804,7 +835,8 @@ async function claimSlot(){
   }
   throw new Error(brokerDown
     ? 'Сервер поиска участников не отвечает. Проверьте интернет и попробуйте через минуту.'
-    : 'Канал ' + S.code + ' занят: в нём уже ' + SLOTS + ' участников. Возьмите другой код.');
+    : 'Все 6 постов канала ' + S.code + ' заняты. Если вы только что перезагружали страницу — '
+      + 'старый пост освобождается примерно минуту. Подождите или возьмите другой код.');
 }
 function tryClaim(id){
   return new Promise(resolve => {
@@ -825,22 +857,84 @@ function tryClaim(id){
   });
 }
 function wirePeer(){
+  S.brokerOk = true;
   S.peer.on('error', e => {
     const t = e && e.type;
-    if (t === 'peer-unavailable') return;                    // пустой пост — норма
-    if (t === 'network' || t === 'socket-closed' || t === 'socket-error'){
-      fail('связь с сервером поиска потеряна — текущие соединения работают, новые не подключатся');
+    const msg = String((e && e.message) || '');
+    if (t === 'peer-unavailable'){
+      // пост свободен — убираем недоделанную запись, чтобы она не висела в списке
+      const m = msg.match(/(prm6a-[^\s]+)/);
+      if (m) forget(m[1]);
+      dbg('пост свободен: ' + (m ? m[1].slice(S.prefix.length) : '?'));
       return;
     }
-    fail('сбой связи: ' + t);
+    if (t === 'network' || t === 'socket-closed' || t === 'socket-error'){
+      S.brokerOk = false;
+      fail('связь с сервером поиска потеряна — переподключаюсь');
+      try{ S.peer.reconnect(); }catch(x){}
+      return;
+    }
+    fail('сбой связи: ' + t + (msg ? ' · ' + msg : ''));
   });
-  S.peer.on('disconnected', () => { try{ S.peer.reconnect(); }catch(e){} });
-  S.peer.on('connection', conn => bindData(conn));
-  S.peer.on('call', call => { call.answer(S.stream); bindCall(call); });
+  S.peer.on('disconnected', () => {
+    S.brokerOk = false;
+    dbg('брокер отключился, переподключаюсь');
+    try{ S.peer.reconnect(); }catch(e){}
+  });
+  S.peer.on('open', () => { S.brokerOk = true; dbg('брокер снова на связи'); scan(true); });
+  S.peer.on('connection', conn => { dbg('входящий чат от ' + short(conn.peer)); bindData(conn); });
+  S.peer.on('call', call => {
+    dbg('входящий вызов от ' + short(call.peer));
+    try{ call.answer(S.stream); }catch(e){ dbg('не смог ответить: ' + e.message); }
+    bindCall(call);
+  });
 }
-function reachOut(id){
-  try{ const call = S.peer.call(id, S.stream); if (call) bindCall(call); }catch(e){}
-  try{ const conn = S.peer.connect(id, { reliable:true, serialization:'json' }); if (conn) bindData(conn); }catch(e){}
+
+const short = id => 'пост ' + String(id).slice(S.prefix.length);
+
+/* Периодический обход постов. Чинит любую гонку при входе: если чей-то
+   вызов не дошёл, следующий проход поднимет соединение заново. */
+function scan(force){
+  if (!S.joined || !S.peer || S.peer.destroyed || S.peer.disconnected) return;
+  const now = Date.now();
+  for (let i = 1; i <= SLOTS; i++){
+    if (i === S.slot) continue;
+    const id = S.prefix + i;
+    const p = S.peers.get(id);
+    const a = S.attempts.get(id) || { media:0, data:0 };
+
+    const hasMedia = !!(p && p.call && p.call.open);
+    const hasData  = !!(p && p.conn && p.conn.open);
+
+    if (!hasMedia && (force || now - a.media > RETRY_MS)){
+      a.media = now;
+      try{ const c = S.peer.call(id, S.stream); if (c) bindCall(c); }
+      catch(e){ dbg('вызов на ' + short(id) + ' не создан'); }
+    }
+    if (!hasData && (force || now - a.data > RETRY_MS)){
+      a.data = now;
+      try{ const c = S.peer.connect(id, { reliable:true }); if (c) bindData(c); }
+      catch(e){ dbg('чат к ' + short(id) + ' не создан'); }
+    }
+    S.attempts.set(id, a);
+  }
+  pruneDead();
+}
+
+/* Пост, который не подаёт признаков жизни, убираем из списка честно. */
+function pruneDead(){
+  const now = Date.now();
+  S.peers.forEach(p => {
+    if (!p.announced) return;
+    const pc = p.call && p.call.peerConnection;
+    const st = pc ? pc.connectionState : null;
+    if (st === 'failed' || st === 'closed'){
+      dropPeer(p.id, 'соединение разорвано'); return;
+    }
+    if (p.lastBeat && now - p.lastBeat > DEAD_MS && !(p.call && p.call.open)){
+      dropPeer(p.id, 'нет ответа'); return;
+    }
+  });
 }
 
 /* ---------------- участники ---------------- */
@@ -852,35 +946,73 @@ function rec(peerId){
   let p = S.peers.get(peerId);
   if (!p){
     p = { id:peerId, slot:slotOf(peerId), name:'', conn:null, call:null, audio:null,
-          analyser:null, buf:null, talking:false, level:0, announced:false };
+          analyser:null, buf:null, talking:false, level:0, announced:false, lastBeat:0 };
     S.peers.set(peerId, p);
   }
   return p;
+}
+/* удалить запись о посте, с которым соединение так и не состоялось */
+function forget(id){
+  const p = S.peers.get(id);
+  if (p && !p.announced) S.peers.delete(id);
 }
 const display = p => p.name || slotName(p.slot);
 
 function announce(p){
   if (p.announced) return;
   p.announced = true;
+  p.lastBeat = Date.now();
   sys(display(p) + ' в канале');
   joinBeep(); buzz(15);
-  renderRoster();
+  renderRoster(); updateLink();
 }
+
+/* Оба участника могут позвонить друг другу одновременно. Тогда одно
+   соединение вытесняет другое — и закрытие вытесненного НЕ должно
+   удалять участника. Отсюда проверка «это всё ещё моё соединение?». */
 function bindCall(call){
   const p = rec(call.peer);
-  if (p.call && p.call !== call){ try{ p.call.close(); }catch(e){} }
+  const old = p.call;
   p.call = call;
-  call.on('stream', remote => attachAudio(p, remote));
-  call.on('close', () => dropPeer(p.id, 'голосовой канал закрыт'));
-  call.on('error', () => dropPeer(p.id, 'ошибка голосового канала'));
+  if (old && old !== call){ dbg('вытеснил дубль вызова ' + short(p.id)); try{ old.close(); }catch(e){} }
+
+  call.on('stream', remote => { if (p.call === call) attachAudio(p, remote); });
+  call.on('close', () => {
+    if (p.call !== call) return;                       // это был вытесненный дубль
+    dbg('голос закрыт: ' + short(p.id));
+    dropPeer(p.id, 'отключился');
+  });
+  call.on('error', e => {
+    if (p.call !== call) return;
+    dbg('ошибка голоса ' + short(p.id) + ': ' + (e && e.type));
+    if (p.announced) dropPeer(p.id, 'ошибка голосового канала'); else forget(p.id);
+  });
 }
+
 function bindData(conn){
   const p = rec(conn.peer);
-  if (p.conn && p.conn !== conn){ try{ p.conn.close(); }catch(e){} }
+  const old = p.conn;
   p.conn = conn;
-  conn.on('open', () => { send(conn, { t:'hi', name:S.nick, slot:S.slot }); announce(p); });
+  if (old && old !== conn){ dbg('вытеснил дубль чата ' + short(p.id)); try{ old.close(); }catch(e){} }
+
+  conn.on('open', () => {
+    if (p.conn !== conn) return;
+    dbg('чат открыт: ' + short(p.id));
+    send(conn, { t:'hi', name:S.nick, slot:S.slot });
+    p.lastBeat = Date.now();
+    announce(p);
+    renderDiag();
+  });
   conn.on('data', d => onData(p, d));
-  conn.on('close', () => dropPeer(p.id, 'отключился'));
+  conn.on('close', () => {
+    if (p.conn !== conn) return;
+    p.conn = null;
+    dbg('чат закрыт: ' + short(p.id));
+    // голос жив — участник на месте, просто пропал текстовый канал.
+    // Обход постов поднимет его заново.
+    if (!(p.call && p.call.open)) dropPeer(p.id, 'отключился');
+    else renderRoster();
+  });
   conn.on('error', () => {});
 }
 function attachAudio(p, stream){
@@ -898,29 +1030,39 @@ function attachAudio(p, stream){
     src.connect(an);                        // только измерение; звук идёт через <audio>
     p.analyser = an; p.buf = new Uint8Array(an.fftSize);
   }catch(e){}
-  announce(p); updateLink();
+  announce(p); updateLink(); renderDiag();
 }
 function dropPeer(id, why){
   const p = S.peers.get(id);
   if (!p) return;
   S.peers.delete(id);
+  S.attempts.delete(id);                // разрешаем немедленную повторную попытку
   if (p.audio){ try{ p.audio.pause(); p.audio.srcObject = null; p.audio.remove(); }catch(e){} }
   try{ if (p.conn) p.conn.close(); }catch(e){}
   try{ if (p.call) p.call.close(); }catch(e){}
   if (p.announced) sys(display(p) + ' — ' + why);
-  renderRoster(); updateLink(); updateCarrier();
+  renderRoster(); updateLink(); updateCarrier(); renderDiag();
 }
 function send(conn, obj){ try{ if (conn && conn.open) conn.send(obj); }catch(e){} }
 function broadcast(obj){ S.peers.forEach(p => send(p.conn, obj)); }
 
 function onData(p, d){
   if (!d || typeof d !== 'object') return;
+  p.lastBeat = Date.now();
   if (d.t === 'hi'){
     p.name = String(d.name || '').slice(0,18);
     if (d.slot) p.slot = d.slot;
     announce(p); renderRoster();
+    send(p.conn, { t:'hey', name:S.nick, slot:S.slot });   // ответное представление
     if (S.tx) send(p.conn, { t:'tx', v:1 });
   }
+  else if (d.t === 'hey'){
+    p.name = String(d.name || '').slice(0,18);
+    if (d.slot) p.slot = d.slot;
+    announce(p); renderRoster();
+  }
+  else if (d.t === 'ping'){ send(p.conn, { t:'pong' }); }
+  else if (d.t === 'pong'){ /* пульс учтён выше */ }
   else if (d.t === 'tx'){
     p.talking = !!d.v;
     if (p.talking){ air(display(p) + ' на связи'); buzz(12); }
@@ -1049,8 +1191,13 @@ function meterLoop(){
   lamp(el.ledRx, el.ledRxWrap, rx && !S.tx ? 'on-amber' : '');
 }
 
+function live(){                        // только подтверждённые участники
+  const out = [];
+  S.peers.forEach(p => { if (p.announced) out.push(p); });
+  return out;
+}
 function updateLink(){
-  const n = S.peers.size;
+  const n = live().length;
   lamp(el.ledLink, el.ledLinkWrap, n ? 'on-green' : 'on-amber');
   el.lcdCount.textContent = String(n + 1);
   renderRoster();
@@ -1058,7 +1205,7 @@ function updateLink(){
 function updateCarrier(){
   const talkers = [];
   if (S.tx) talkers.push('вы');
-  S.peers.forEach(p => { if (p.talking) talkers.push(display(p)); });
+  live().forEach(p => { if (p.talking) talkers.push(display(p)); });
   if (talkers.length){
     el.carrier.classList.add('live');
     el.carrier.textContent = '◉ в эфире: ' + talkers.join(', ');
@@ -1068,8 +1215,9 @@ function updateCarrier(){
   }
 }
 function renderRoster(){
+  const others = live();
   const rows = [{ slot:S.slot, name:S.nick, me:true, talking:S.tx }];
-  S.peers.forEach(p => rows.push({ slot:p.slot, name:display(p), me:false, talking:p.talking }));
+  others.forEach(p => rows.push({ slot:p.slot, name:display(p), me:false, talking:p.talking }));
   rows.sort((a,b) => a.slot - b.slot);
   el.roster.innerHTML = '';
   rows.forEach(r => {
@@ -1082,8 +1230,8 @@ function renderRoster(){
       '<span class="st">' + (r.talking ? 'говорит' : 'слушает') + '</span>';
     el.roster.appendChild(li);
   });
-  el.tabCount.textContent = (S.peers.size + 1) + '/' + SLOTS;
-  const alone = S.peers.size === 0;
+  el.tabCount.textContent = (others.length + 1) + '/' + SLOTS;
+  const alone = others.length === 0;
   el.rosterEmpty.classList.toggle('hidden', !alone);
   el.shareWrap.classList.toggle('hidden', !alone);
 }
@@ -1122,10 +1270,80 @@ function showPanel(which){
 el.tabRoster.addEventListener('click', () => showPanel('roster'));
 el.tabLog.addEventListener('click', () => showPanel('log'));
 
-function openSheet(){ el.sheet.classList.add('open'); el.scrim.classList.add('open'); }
+function openSheet(){ el.sheet.classList.add('open'); el.scrim.classList.add('open'); renderDiag(); }
 function closeSheet(){ el.sheet.classList.remove('open'); el.scrim.classList.remove('open'); }
 el.gear.addEventListener('click', openSheet);
 el.scrim.addEventListener('click', closeSheet);
+
+el.rescan.addEventListener('click', () => {
+  S.attempts.clear();
+  if (S.peer && S.peer.disconnected){ try{ S.peer.reconnect(); }catch(e){} }
+  scan(true);
+  sys('обход постов запущен вручную');
+  el.rescan.textContent = 'Сканирую…';
+  setTimeout(() => { el.rescan.textContent = 'Пересканировать канал'; renderDiag(); }, 2500);
+});
+
+/* ---------------- диагностика ---------------- */
+const ICE_RU = { new:'готовится', checking:'проверка', connected:'соединён',
+                 completed:'соединён', disconnected:'потерян', failed:'не поднялся', closed:'закрыт' };
+
+function renderDiag(){
+  if (!S.joined) return;
+  el.diagHead.textContent =
+    'брокер: ' + (S.peer && !S.peer.disconnected ? 'подключён' : 'нет связи') +
+    ' · ваш id: ' + (S.peer ? S.peer.id : '—');
+
+  el.diag.innerHTML = '';
+  for (let i = 1; i <= SLOTS; i++){
+    const row = document.createElement('div');
+    const num = String(i).padStart(2,'0');
+    let cls = '', val;
+
+    if (i === S.slot){ cls = 'me'; val = 'вы · ' + S.nick; }
+    else{
+      const p = S.peers.get(S.prefix + i);
+      if (!p) val = 'свободен';
+      else if (!p.announced) val = 'дозвон…';
+      else{
+        const pc = p.call && p.call.peerConnection;
+        const ice = pc ? (ICE_RU[pc.connectionState] || pc.connectionState) : 'нет';
+        const chat = p.conn && p.conn.open ? 'чат есть' : 'чат нет';
+        val = display(p) + ' · ' + ice + ' · ' + chat;
+        cls = (pc && (pc.connectionState === 'connected' || pc.connectionState === 'completed'))
+              ? (p.conn && p.conn.open ? 'ok' : 'warn')
+              : 'dead';
+      }
+    }
+    row.className = 'diag-row' + (cls ? ' ' + cls : '');
+    row.innerHTML = '<span class="n">ПОСТ ' + num + '</span><span class="v">' + esc(val) + '</span>';
+    el.diag.appendChild(row);
+  }
+}
+
+/* ---------------- пульс ---------------- */
+function beat(){
+  if (!S.joined) return;
+  broadcast({ t:'ping' });
+  pruneDead();
+}
+
+/* при возврате из фона телефон часто рвёт соединения — поднимаем заново */
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState !== 'visible' || !S.joined) return;
+  if (S.peer && S.peer.disconnected){ try{ S.peer.reconnect(); }catch(e){} }
+  S.attempts.clear();
+  setTimeout(() => scan(true), 400);
+  dbg('вернулись из фона — проверяю соединения');
+});
+window.addEventListener('online', () => {
+  if (!S.joined) return;
+  sys('сеть вернулась — восстанавливаю канал');
+  if (S.peer && S.peer.disconnected){ try{ S.peer.reconnect(); }catch(e){} }
+  S.attempts.clear();
+  setTimeout(() => scan(true), 600);
+});
+window.addEventListener('offline', () => { if (S.joined) fail('сеть пропала'); });
 
 el.share.addEventListener('click', async () => {
   const text = 'Канал рации: ' + S.code;
@@ -1171,10 +1389,21 @@ function enterDeck(){
   sys('канал ' + S.code + ' · пост ' + String(S.slot).padStart(2,'0'));
   holdWake();
   syncViewport();
+
+  scan(true);                                        // первый обход постов
+  S.scanTimer = setInterval(scan, SCAN_MS);          // и дальше регулярно
+  S.beatTimer = setInterval(beat, BEAT_MS);
+  S.diagTimer = setInterval(() => {
+    if (el.sheet.classList.contains('open')) renderDiag();
+  }, 1200);
+  renderDiag();
 }
 function leave(){
   stopTx();
   broadcast({ t:'bye' });
+  clearInterval(S.scanTimer); clearInterval(S.beatTimer); clearInterval(S.diagTimer);
+  S.scanTimer = S.beatTimer = S.diagTimer = 0;
+  S.attempts.clear();
   S.peers.forEach(p => {
     if (p.audio){ try{ p.audio.pause(); p.audio.srcObject = null; p.audio.remove(); }catch(e){} }
     try{ if (p.conn) p.conn.close(); }catch(e){}
