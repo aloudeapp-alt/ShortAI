@@ -1,1572 +1,1209 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>WC 2026 — Picks</title>
-<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1a1b18">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>ПРМ-6 · рация</title>
 <style>
 :root{
-  --bg:#0d0f14;--bg2:#13161e;--bg3:#1a1e29;
-  --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.14);
-  --text:#e8eaf0;--text2:#7a8099;--text3:#4a5068;
-  --ace:#3d8ef0;--acec:#e05c30;--gold:#c9a227;
-  --green:#2ecc71;--red:#e74c3c;--orange:#e8890c;
-  --r:10px;--rs:6px;
+  --chassis:#262824;
+  --chassis-hi:#33362f;
+  --panel:#3b3e37;
+  --recess:#1b1c19;
+  --steel:#8f958a;
+  --steel-dim:#6b7066;
+  --ink:#e8e6df;
+  --amber:#ffb02e;
+  --amber-dim:#7a5416;
+  --tx:#ff3f26;
+  --link:#79d16d;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, "DejaVu Sans Mono", Consolas, monospace;
+  --ui: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --brushed: repeating-linear-gradient(90deg, rgba(255,255,255,.028) 0 1px, rgba(0,0,0,.028) 1px 2px, transparent 2px 5px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-t: env(safe-area-inset-top, 0px);
 }
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;overflow-x:hidden}
-nav{background:var(--bg2);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;position:sticky;top:0;z-index:100;min-height:48px}
-.nav-logo{font-size:14px;font-weight:700;color:var(--gold);white-space:nowrap;flex-shrink:0;display:flex;align-items:center;gap:7px}
-.nav-mark{flex-shrink:0;display:block;width:24px;height:24px;border-radius:5px;object-fit:cover}
-.nav-title{letter-spacing:.02em}
-.nav-tabs{display:flex;margin-left:10px}
-.nav-tab{padding:12px 12px;font-size:13px;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
-.nav-tab:hover{color:var(--text)}
-.nav-tab.active{color:var(--text);border-bottom-color:var(--gold)}
-.nav-right{margin-left:auto;display:flex;align-items:center;gap:6px;flex-shrink:0}
-.sync-dot{width:7px;height:7px;border-radius:50%;background:var(--text3);flex-shrink:0}
-.sync-dot.online{background:var(--green)}
-.sync-dot.syncing{background:var(--gold);animation:pulse .8s infinite}
-.sync-dot.error{background:var(--red)}
-.sync-lbl{font-size:11px;color:var(--text2)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  background:radial-gradient(1100px 620px at 50% -12%, #34372f 0%, #191a17 58%, #101110 100%);
+  background-attachment:fixed;
+  color:var(--ink);
+  font-family:var(--mono);
+  overscroll-behavior:none;
+  -webkit-font-smoothing:antialiased;
+  -webkit-tap-highlight-color:transparent;
+}
+/* режим «в эфире»: страница не скроллится, скроллится только контент */
+body.live{
+  height:var(--appH, 100dvh);
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+}
+button, input, select{font-family:inherit}
 
-/* SETTINGS PANEL */
-.set-bar{background:var(--bg3);border-bottom:1px solid var(--border);padding:7px 16px;display:flex;align-items:center;gap:8px;font-size:11px;color:var(--text3);flex-wrap:wrap}
-.api-dot{width:6px;height:6px;border-radius:50%;background:var(--text3);flex-shrink:0}
-.api-dot.ok{background:var(--green)}
-.api-dot.err{background:var(--red)}
-.api-dot.check{background:var(--orange);animation:pulse .8s infinite}
-.btn-xs{font-size:11px;padding:3px 10px;border-radius:var(--rs);border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;font-family:inherit;white-space:nowrap}
-.btn-xs:hover{background:var(--bg2);color:var(--text)}
-.btn-xs.on{background:var(--green);border-color:var(--green);color:#0d0f14;font-weight:600}
-.cdn{font-variant-numeric:tabular-nums;color:var(--text3)}
-.set-link{color:var(--ace);text-decoration:none;cursor:pointer}
+/* ================= ЭКРАН ВХОДА ================= */
+#setup{padding:calc(var(--safe-t) + 20px) 14px calc(var(--safe-b) + 28px)}
+body.live #setup{display:none}
+.card{
+  max-width:520px;margin:0 auto;
+  background:linear-gradient(180deg,var(--chassis-hi) 0%, var(--chassis) 15%, #212320 100%), var(--brushed);
+  border-radius:12px;padding:20px 18px;position:relative;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.14),
+    inset 0 -1px 0 rgba(0,0,0,.6),
+    0 24px 54px -20px rgba(0,0,0,.9);
+}
+.screw{
+  position:absolute;width:12px;height:12px;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%, #b8bdb2, #5e635a 60%, #3a3e37 100%);
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.5), inset 0 -1px 2px rgba(0,0,0,.6), 0 1px 2px rgba(0,0,0,.7);
+}
+.screw::after{content:"";position:absolute;inset:3px;border-radius:2px;
+  background:linear-gradient(90deg,transparent 44%, #23251f 44% 56%, transparent 56%)}
+.screw.tl{top:9px;left:9px}.screw.tr{top:9px;right:9px}
+.screw.bl{bottom:9px;left:9px}.screw.br{bottom:9px;right:9px}
 
-.page{display:none;padding:12px 16px;max-width:920px;margin:0 auto}
-.page.active{display:block}
-.filters-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;align-items:center}
-.flt{font-size:12px;padding:5px 11px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap}
-.flt:hover{border-color:var(--text2);color:var(--text)}
-.flt.active{background:var(--gold);border-color:var(--gold);color:#0d0f14;font-weight:600}
-.search-box{margin-left:auto;padding:5px 12px;border-radius:20px;border:1px solid var(--border2);background:var(--bg2);color:var(--text);font-size:12px;outline:none;width:130px}
-.search-box:focus{border-color:var(--text2)}
-.stage-sep{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);padding:16px 0 6px;border-bottom:1px solid var(--border);margin-bottom:4px;display:flex;align-items:center;gap:8px}
-.stage-sep span{color:var(--text2);font-size:10px;font-weight:400;letter-spacing:0;text-transform:none}
-.match-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);margin-bottom:4px;overflow:hidden;transition:border-color .15s}
-.match-card.expanded{border-color:var(--border2)}
-.match-card:hover{border-color:var(--border2)}
-.match-row{display:grid;grid-template-columns:24px 94px 78px 1fr 108px 108px;align-items:center;padding:10px 12px;cursor:pointer;gap:6px;user-select:none}
-@media(max-width:640px){
-  .match-row{grid-template-columns:1fr auto;grid-template-rows:auto auto;padding:10px 12px;gap:3px 8px}
-  .m-num,.m-tvk,.m-pc{display:none}
-  .m-teams{grid-column:1;grid-row:1;min-width:0}
-  .m-date{grid-column:2;grid-row:1;text-align:right;justify-self:end}
-  .m-mob{display:flex;grid-column:1 / -1;grid-row:2}
-  /* при раскрытии карточки прячем мобильный ряд (пики есть внутри панели) */
-  .match-card.expanded .m-mob{display:none}
-  /* ── mobile top nav: keep everything on one line ── */
-  nav{padding:0 10px;min-height:46px;gap:2px}
-  .nav-logo{font-size:11.5px;gap:5px}
-  .nav-title{font-size:11px;letter-spacing:.01em}
-  .nav-tabs{margin-left:6px;gap:0}
-  .nav-tab{padding:12px 9px;font-size:12.5px}
-  .nav-right{gap:5px}
-  .sync-lbl{display:none}                 /* keep only the colored status dot */
-}
-@media(max-width:480px){
-  .nav-title{display:none}                /* longer title doesn't fit — show only the trophy icon */
-}
-@media(max-width:360px){
-  .nav-tab{padding:12px 7px;font-size:12px}
-}
-@media(min-width:641px){
-  .m-mob{display:none!important}
-}
-.m-mob{display:none;grid-column:1/-1;grid-row:2;gap:7px}
-.m-mob .pb{max-width:none;flex:1;justify-content:center}
-.m-num{font-size:10px;color:var(--text3);text-align:center}
-.m-date-main{font-size:12px;font-weight:500;white-space:nowrap}
-.m-date-sub{font-size:10px;color:var(--text2)}
-.m-t-main{font-size:13px;font-weight:700;font-variant-numeric:tabular-nums}
-.m-t-sub{font-size:10px;color:var(--text3)}
-.m-teams-name{display:flex;align-items:center;flex-wrap:wrap;gap:5px;font-size:13px;font-weight:500}
-.m-teams-sub{font-size:10px;color:var(--text2);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.m-teams-sub2{font-size:10px;color:var(--text3);margin-top:1px}
+.brand{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  padding-bottom:14px;margin-bottom:18px;
+  border-bottom:1px solid rgba(0,0,0,.55);box-shadow:0 1px 0 rgba(255,255,255,.07)}
+.brand .model{font-size:18px;letter-spacing:.30em;font-weight:700;color:var(--steel);
+  text-shadow:0 1px 0 rgba(0,0,0,.8)}
+.brand .sub{font-size:9px;letter-spacing:.24em;color:var(--steel-dim);text-transform:uppercase}
 
-/* FLAG — real SVG images from flagcdn */
-.fv{width:21px;height:15px;border-radius:2px;object-fit:cover;flex-shrink:0;vertical-align:middle;background:var(--bg3);display:inline-block}
-.fvs{width:18px;height:13px;border-radius:2px;object-fit:cover;flex-shrink:0;vertical-align:middle;background:var(--bg3);display:inline-block}
-.fv-none{display:inline-flex;align-items:center;justify-content:center;width:21px;height:15px;border-radius:2px;background:var(--bg3);font-size:8px;color:var(--text3);font-weight:700;flex-shrink:0;vertical-align:middle}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:9px;letter-spacing:.22em;color:var(--steel-dim);
+  text-transform:uppercase;margin-bottom:8px}
+input[type=text], select{
+  width:100%;font-size:16px;letter-spacing:.08em;color:var(--amber);
+  background:linear-gradient(180deg,#191b17,#22241f);border:0;border-radius:6px;
+  padding:14px 14px;min-height:50px;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,.85), 0 1px 0 rgba(255,255,255,.07);
+}
+input[type=text]::placeholder{color:#5d5230;letter-spacing:.04em}
+select{color:var(--ink);font-size:15px}
+input:focus-visible, select:focus-visible, button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
 
-.res-fin{font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(201,162,39,.15);color:var(--gold);border:1px solid rgba(201,162,39,.3)}
-.res-live{font-size:11px;font-weight:700;padding:2px 7px;border-radius:4px;background:rgba(231,76,60,.15);color:var(--red);border:1px solid rgba(231,76,60,.3);animation:pulse .8s infinite}
-.res-auto{font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(46,204,113,.12);color:var(--green);border:1px solid rgba(46,204,113,.25);margin-left:3px}
-.m-pc{display:flex;justify-content:center}
-.pb{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;padding:4px 9px;border-radius:20px;cursor:pointer;border:1px solid transparent;white-space:nowrap;transition:all .12s;max-width:106px;overflow:hidden}
-.pb-e{background:rgba(61,142,240,.14);color:#5ea8f5;border-color:rgba(61,142,240,.35)}
-.pb-c{background:rgba(224,92,48,.14);color:#f07850;border-color:rgba(224,92,48,.35)}
-.pb-mt{color:var(--text3);border:1px dashed var(--border2)}
-.pb-lock{opacity:.5;cursor:default}
-.po-lock{cursor:default;opacity:.85}
-.po-lock:hover{border-color:var(--border2)}
-.mstatus{font-size:9px;font-weight:800;letter-spacing:.05em;padding:1px 6px;border-radius:4px;margin-left:7px;vertical-align:middle}
-.mstatus.live{background:rgba(224,64,46,.18);color:#ff7a5c;animation:pulse 1s infinite}
-.mstatus.fin{background:var(--bg3);color:var(--text3)}
-.lock-note{font-size:11px;color:var(--text2);background:var(--bg3);padding:7px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border)}
-.match-card.locked{opacity:.96}
-.you-tag{font-size:8px;font-weight:800;letter-spacing:.05em;padding:1px 5px;border-radius:3px;background:var(--gold);color:#0a0c11;margin-left:5px;vertical-align:middle}
-/* multi-user single-column expand */
-.exp-single{padding:14px 16px}
-.m-pc-wide{min-width:120px;display:flex;justify-content:flex-end}
-.mkt-hidden{font-size:12px;color:var(--text2);background:var(--bg3);border-radius:var(--rs);padding:10px 14px;margin:12px 0}
-.mkt{margin:14px 0;background:var(--bg3);border-radius:var(--rs);padding:12px 14px}
-.mkt-h{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);margin-bottom:9px}
-.mkt-row{display:flex;align-items:center;gap:9px;padding:4px 0}
-.mkt-row.win .mkt-name{color:var(--green);font-weight:700}
-.mkt-name{font-size:12.5px;min-width:110px;display:flex;align-items:center;gap:5px}
-.mkt-bar{flex:1;height:7px;background:var(--bg2);border-radius:4px;overflow:hidden}
-.mkt-fill{display:block;height:100%;border-radius:4px;transition:width .4s}
-.mkt-pct{font-size:11px;color:var(--text2);width:34px;text-align:right;font-weight:600}
-.mkt-odds{font-size:11px;color:var(--gold2);width:46px;text-align:right;font-weight:700;font-family:var(--serif,'Georgia',serif)}
-.mkt-mine{margin-top:10px;font-size:12.5px;padding:8px 12px;border-radius:var(--rs)}
-.mkt-mine.pos{background:rgba(80,200,120,.12);color:var(--green)}
-.mkt-mine.neg{background:rgba(224,64,46,.10);color:#ff7a5c}
-/* leaderboard */
-table.lb{width:100%;border-collapse:collapse;font-size:13px}
-table.lb th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);font-weight:700;padding:7px 9px;border-bottom:1px solid var(--border)}
-table.lb td{padding:9px;border-bottom:1px solid var(--border)}
-table.lb tr.lb-me{background:rgba(212,175,55,.08)}
-.lb-rank{font-size:15px;width:34px;text-align:center}
-.lb-name{font-weight:600}
-.lb-pts{color:var(--gold2);font-weight:800;font-family:var(--serif,'Georgia',serif)}
-.pb-mt:hover{border-color:var(--text2);color:var(--text2)}
-.pb.correct{box-shadow:0 0 0 1.5px var(--green)!important}
-.pb.wrong{opacity:.38}
-.exp-panel{border-top:1px solid var(--border);display:none}
-.match-card.expanded .exp-panel{display:block}
-.exp-inner{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
-@media(max-width:580px){.exp-inner{grid-template-columns:1fr}}
-.exp-col{background:var(--bg2);padding:12px 14px}
-.exp-lbl{font-size:11px;font-weight:600;letter-spacing:.04em;color:var(--text2);margin-bottom:8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.dot-e{width:6px;height:6px;border-radius:50%;background:var(--ace);flex-shrink:0}
-.dot-c{width:6px;height:6px;border-radius:50%;background:var(--acec);flex-shrink:0}
-.exp-ta{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:13px;font-family:inherit;padding:8px 10px;resize:vertical;outline:none;min-height:58px;line-height:1.5;-webkit-appearance:none}
-.exp-ta:focus{border-color:var(--border2)}
-.exp-ta::placeholder{color:var(--text3)}
-.po-lbl{font-size:11px;color:var(--text3);margin:8px 0 5px}
-.po-wrap{display:flex;gap:5px;flex-wrap:wrap}
-.po{font-size:12px;padding:5px 10px;border-radius:20px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;white-space:nowrap;display:inline-flex;align-items:center;gap:5px;transition:all .12s}
-.po:hover{border-color:var(--text2);color:var(--text)}
-.po.se{background:rgba(61,142,240,.15);color:#5ea8f5;border-color:rgba(61,142,240,.4);font-weight:600}
-.po.sc{background:rgba(224,92,48,.15);color:#f07850;border-color:rgba(224,92,48,.4);font-weight:600}
-.res-row{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.res-lbl{font-size:11px;color:var(--text3)}
-.res-inp{background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);color:var(--gold);font-size:13px;font-weight:700;font-family:inherit;padding:5px 9px;outline:none;width:70px;text-align:center;-webkit-appearance:none}
-.res-inp:focus{border-color:var(--gold)}
-.res-inp::placeholder{color:var(--text3);font-weight:400;font-size:12px}
-.save-btn{font-size:12px;padding:5px 14px;border-radius:var(--rs);border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;font-family:inherit;transition:all .15s}
-.save-btn:hover{background:var(--gold);border-color:var(--gold);color:#0d0f14;font-weight:600}
-.save-btn:active{transform:scale(.97)}
-.save-ok{font-size:11px;color:var(--green);opacity:0;transition:opacity .3s;white-space:nowrap}
-.auto-res{font-size:11px;color:var(--green);display:flex;align-items:center;gap:5px;margin-top:6px}
-.res-pending{font-size:11px;color:var(--text3);margin-top:10px;font-style:italic}
-.lineup-sec{grid-column:1/-1;background:var(--bg2);padding:14px 18px;border-top:1px solid var(--border)}
-.lineup-btn{font-size:12.5px;padding:9px 18px;border-radius:var(--rs);border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;font-family:inherit;font-weight:600;transition:all .15s}
-.lineup-btn:hover{background:var(--gold);border-color:var(--gold);color:#0a0c11}
-.lu-loading{display:flex;align-items:center;gap:10px;color:var(--text3);font-size:12.5px;padding:8px 0}
-.lu-spin{width:18px;height:18px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:lspin .8s linear infinite}
-@keyframes lspin{to{transform:rotate(360deg)}}
-.lu-empty,.lu-empty-sm{color:var(--text3);font-size:12px;line-height:1.6;padding:6px 0}
-.lu-empty-sm{font-size:11px;opacity:.7}
-.lu-wrap{margin-top:2px}
-.lu-title{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text2);margin-bottom:12px;display:flex;align-items:center;gap:10px}
-.lu-refresh{font-size:10px;color:var(--text3);cursor:pointer;font-weight:500;text-transform:none;letter-spacing:0}
-.lu-refresh:hover{color:var(--gold2)}
-.lu-cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-@media(max-width:600px){.lu-cols{grid-template-columns:1fr;gap:14px}}
-.lu-team{display:flex;align-items:center;gap:7px;font-size:13px;margin-bottom:9px;padding-bottom:7px;border-bottom:1px solid var(--border)}
-.lu-form{margin-left:auto;font-size:10px;color:var(--text3);background:var(--bg3);padding:2px 7px;border-radius:4px;font-weight:600}
-.lu-list{display:flex;flex-direction:column;gap:1px}
-.lu-p{display:flex;align-items:center;gap:9px;padding:5px 6px;border-radius:5px}
-.lu-p:hover{background:var(--bg3)}
-.lu-num{font-family:var(--serif,'Georgia',serif);font-size:12px;font-weight:700;color:var(--gold2);width:20px;text-align:center;flex-shrink:0}
-.lu-name{font-size:12.5px;color:var(--text)}
-.lu-pos{margin-left:auto;font-size:9.5px;color:var(--text3);font-weight:600}
-.lu-p .lu-pos+.lu-rate{margin-left:8px}
-.lu-p:has(.lu-pos) .lu-rate{margin-left:8px}
-.lu-sub-h{font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text3);margin:11px 0 5px}
-.lu-bench .lu-name{font-size:11.5px;color:var(--text2)}
-.lu-note{font-size:11px;color:var(--text3);margin-bottom:10px;font-style:italic}
-.lu-cap{display:inline-flex;align-items:center;justify-content:center;width:13px;height:13px;border-radius:3px;background:var(--gold);color:#0a0c11;font-size:8px;font-weight:800;margin-left:5px;vertical-align:middle}
-.lu-ev{font-size:10px;margin-left:4px}
-.lu-yc{display:inline-block;width:7px;height:10px;border-radius:1px;background:#f0c020;margin-left:4px;vertical-align:middle}
-.lu-rc{display:inline-block;width:7px;height:10px;border-radius:1px;background:#e0402e;margin-left:4px;vertical-align:middle}
-.lu-rate{margin-left:auto;font-size:10px;font-weight:700;color:var(--gold2);background:var(--bg3);padding:1px 5px;border-radius:3px}
-.lu-coach{font-size:11px;color:var(--text2);margin-top:10px;padding-top:8px;border-top:1px solid var(--border)}
-.lu-coach b{color:var(--text)}
-.lu-unav{font-size:11px;color:var(--text3);padding:2px 0}
-.lu-unav span{opacity:.7;font-style:italic}
-.gpill{font-size:9px;padding:1px 5px;border-radius:3px;background:var(--bg3);color:var(--text3);border:1px solid var(--border)}
-.an-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:22px}
-.st{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
-.sv{font-size:24px;font-weight:700;line-height:1}
-.sv.g{color:var(--gold)}.sv.b{color:var(--ace)}.sv.c{color:var(--acec)}.sv.gr{color:var(--green)}
-.sl{font-size:11px;color:var(--text2);margin-top:3px}
-.sec{font-size:13px;font-weight:600;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-.duel{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center;margin-bottom:22px}
-.ds{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
-.dn{font-size:11px;font-weight:600;letter-spacing:.04em;margin-bottom:7px;display:flex;align-items:center;gap:5px}
-.dn.e{color:var(--ace)}.dn.c{color:var(--acec)}
-.dsc{font-size:30px;font-weight:700;line-height:1}
-.dsc.e{color:var(--ace)}.dsc.c{color:var(--acec)}
-.dss{font-size:10px;color:var(--text3);margin-top:3px}
-.dvs{font-size:15px;font-weight:700;color:var(--text3);text-align:center}
-.br{display:flex;align-items:center;gap:8px;margin-bottom:7px}
-.bl{font-size:12px;color:var(--text2);width:110px;flex-shrink:0;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:flex;align-items:center;justify-content:flex-end;gap:5px}
-.bt{flex:1;height:5px;background:var(--bg3);border-radius:3px;overflow:hidden}
-.bf{height:100%;border-radius:3px;transition:width .5s ease}
-.bv{font-size:11px;color:var(--text3);width:18px;text-align:right}
-.ht{width:100%;border-collapse:collapse;font-size:12px}
-.ht th{font-size:10px;font-weight:600;color:var(--text3);text-align:left;padding:5px 8px;border-bottom:1px solid var(--border);letter-spacing:.04em;text-transform:uppercase}
-.ht td{padding:7px 8px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle}
-.ht tr:last-child td{border-bottom:none}
-.ht tr:hover td{background:var(--bg3)}
-.bc{font-size:10px;padding:1px 5px;border-radius:3px;font-weight:700}
-.bc.ok{background:rgba(46,204,113,.15);color:var(--green)}
-.bc.no{background:rgba(231,76,60,.12);color:var(--red)}
-.bc.nd{background:var(--bg3);color:var(--text3)}
-.empty{text-align:center;padding:48px 16px;color:var(--text3);font-size:13px;line-height:2}
-.nores{text-align:center;padding:32px;color:var(--text3)}
-.city-hero{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;font-size:15px;margin-bottom:8px;display:flex;align-items:center;flex-wrap:wrap}
-.set-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px 18px;margin-bottom:8px}
-.set-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border);gap:12px}
-.set-row:last-of-type{border-bottom:none}
-.set-k{font-size:12px;color:var(--text2)}
-.set-v{font-size:13px;color:var(--text);text-align:right}
-.set-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);color:var(--text);font-size:13px;font-family:inherit;padding:8px 10px;outline:none;margin-top:4px;-webkit-appearance:none}
-.set-input:focus{border-color:var(--gold)}
-.set-btn{font-size:13px;padding:8px 16px;border-radius:var(--rs);border:1px solid var(--border2);background:var(--bg3);color:var(--text2);cursor:pointer;font-family:inherit;transition:all .15s}
-.set-btn:hover{background:var(--border);color:var(--text)}
-.set-btn.primary{background:var(--gold);border-color:var(--gold);color:#0d0f14;font-weight:600}
-.set-btn.primary:hover{opacity:.9}
-.set-hint{font-size:11px;color:var(--text3);margin-top:12px;line-height:1.6}
-.gtable-wrap{margin-bottom:8px}.gtable{width:100%;border-collapse:collapse;font-size:12px;background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);overflow:hidden}
-.gtable th{font-size:10px;font-weight:600;color:var(--text3);text-align:center;padding:7px 6px;border-bottom:1px solid var(--border);letter-spacing:.03em;background:var(--bg3)}
-.gtable th:nth-child(2){text-align:left}
-.gtable td{padding:7px 6px;border-bottom:1px solid var(--border);color:var(--text2);text-align:center;vertical-align:middle}
-.gtable td:nth-child(2){text-align:left}
-.gtable tr:last-child td{border-bottom:none}
+.btn{
+  font-size:11px;letter-spacing:.20em;text-transform:uppercase;
+  color:#dfe3d8;background:linear-gradient(180deg,#4d5148,#383b34);border:0;border-radius:6px;
+  padding:0 18px;min-height:50px;cursor:pointer;touch-action:manipulation;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16), 0 3px 0 -1px #202219, 0 5px 10px -4px rgba(0,0,0,.8);
+  transition:transform .05s linear, box-shadow .05s linear;
+}
+.btn:active{transform:translateY(3px);box-shadow:inset 0 2px 5px rgba(0,0,0,.6)}
+.btn.primary{color:#20180a;background:linear-gradient(180deg,#ffc356,#d4881a);font-weight:700;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5), 0 3px 0 -1px #6d4409, 0 6px 14px -5px rgba(255,150,20,.4)}
+.btn.danger{color:#ffdcd6;background:linear-gradient(180deg,#7d3a2e,#5a2a21);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14), 0 3px 0 -1px #2c150f}
+.btn.wide{width:100%}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn-row{display:flex;gap:10px;margin-top:4px}
+.btn-row .btn{flex:1}
+
+.status{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--steel-dim);
+  margin:16px 0 0;min-height:16px;line-height:1.7}
+.status.bad{color:#ff8f7c;text-transform:none;letter-spacing:.04em;font-size:11.5px}
+.status.busy{color:var(--amber)}
+.note{font-size:11px;line-height:1.85;color:var(--steel-dim);letter-spacing:.03em;margin:16px 0 0}
+.note b{color:#b98c3c;font-weight:400}
+details{margin-top:14px}
+summary{font-size:9.5px;letter-spacing:.22em;color:var(--steel-dim);cursor:pointer;
+  text-transform:uppercase;padding:8px 0;min-height:34px}
+details p{font-size:11px;line-height:1.9;color:#7e8478;letter-spacing:.02em;margin:8px 0}
+
+/* ================= ПУЛЬТ ================= */
+#deck{display:none}
+body.live #deck{display:flex;flex-direction:column;flex:1;min-height:0}
+
+/* --- верхняя планка: дисплей --- */
+.topbar{
+  flex:none;padding:calc(var(--safe-t) + 10px) 14px 10px;
+  background:linear-gradient(180deg,#2f322c,#232520), var(--brushed);
+  box-shadow:0 1px 0 rgba(255,255,255,.07), 0 6px 14px -6px rgba(0,0,0,.8);
+}
+.lcd{
+  background:
+    repeating-linear-gradient(0deg, rgba(0,0,0,.20) 0 1px, transparent 1px 3px),
+    linear-gradient(165deg,#241d0d,#191506 70%);
+  border-radius:6px;padding:11px 13px;
+  box-shadow:inset 0 3px 8px rgba(0,0,0,.85), inset 0 0 0 1px rgba(255,176,46,.10);
+}
+.lcd-top{display:flex;align-items:baseline;gap:10px}
+.chan{font-size:26px;line-height:1;font-weight:700;letter-spacing:.09em;color:var(--amber);
+  text-shadow:0 0 12px rgba(255,176,46,.5);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.lcd-meta{margin-left:auto;text-align:right;font-size:9px;letter-spacing:.16em;color:#a4762a;
+  line-height:1.6;white-space:nowrap}
+.lcd-meta b{color:var(--amber);font-weight:700}
+.carrier{
+  margin-top:9px;padding-top:8px;border-top:1px dashed rgba(255,176,46,.22);
+  font-size:11px;letter-spacing:.10em;color:#8d6a2c;min-height:16px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.carrier.live{color:var(--amber);text-shadow:0 0 9px rgba(255,176,46,.45)}
+
+/* --- вкладки --- */
+.tabs{flex:none;display:flex;gap:6px;padding:11px 14px 0}
+.tab{
+  flex:1;min-height:42px;border:0;border-radius:6px 6px 0 0;cursor:pointer;touch-action:manipulation;
+  font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--steel-dim);
+  background:linear-gradient(180deg,#31342e,#282b26);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.06);
+  display:flex;align-items:center;justify-content:center;gap:7px;
+}
+.tab.active{color:var(--amber);background:linear-gradient(180deg,#43463f,#3b3e37);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14), inset 0 -3px 0 var(--amber-dim)}
+.tab .pip{width:7px;height:7px;border-radius:50%;background:transparent;flex:none}
+.tab .pip.on{background:var(--amber);box-shadow:0 0 7px rgba(255,176,46,.8)}
+
+/* --- прокручиваемая середина --- */
+.main{
+  flex:1;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  overscroll-behavior:contain;
+  margin:0 14px;padding:14px 0 4px;
+  background:linear-gradient(180deg,var(--panel),#31342e);
+  border-radius:0 0 7px 7px;
+  box-shadow:inset 0 -2px 4px rgba(0,0,0,.4);
+  scrollbar-width:thin;scrollbar-color:#4a4e45 transparent;
+}
+.main::-webkit-scrollbar{width:7px}
+.main::-webkit-scrollbar-thumb{background:#43473e;border-radius:4px}
+.panel{display:none;padding:0 14px}
+.panel.active{display:block}
+
+/* участники */
+.roster{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px}
+.roster li{
+  display:flex;align-items:center;gap:11px;padding:13px 12px;border-radius:6px;
+  background:linear-gradient(180deg,rgba(0,0,0,.24),rgba(0,0,0,.10));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.05);font-size:13px;letter-spacing:.04em;
+}
+.roster li.talking{background:linear-gradient(90deg,rgba(255,176,46,.22),rgba(255,176,46,.04));
+  box-shadow:inset 0 0 0 1px rgba(255,176,46,.4)}
+.roster .slot{font-size:9px;color:var(--steel-dim);letter-spacing:.14em;flex:none}
+.roster .who{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.roster .you{font-size:8.5px;letter-spacing:.16em;color:var(--amber-dim);flex:none}
+.roster .st{margin-left:auto;font-size:8.5px;letter-spacing:.16em;color:var(--steel-dim);flex:none}
+.roster li.talking .st{color:var(--amber)}
+.empty{font-size:11.5px;letter-spacing:.04em;color:var(--steel-dim);line-height:1.8;padding:14px 2px}
+.share{margin-top:12px}
+
+/* журнал */
+.log{display:flex;flex-direction:column;gap:10px;padding-bottom:6px}
+.entry{font-size:12px;line-height:1.55;display:flex;gap:9px;align-items:baseline}
+.entry .t{font-size:9px;color:#565b50;flex:none;letter-spacing:.04em;padding-top:1px}
+.entry .body{min-width:0;overflow-wrap:anywhere}
+.entry.sys .body{color:var(--steel-dim);letter-spacing:.08em;font-size:10px;text-transform:uppercase}
+.entry.air .body{color:#b98c3c;letter-spacing:.06em;font-size:11px}
+.entry.err .body{color:#ff8f7c;letter-spacing:.04em;font-size:11.5px}
+.entry.chat .body{font-family:var(--ui);font-size:15px;letter-spacing:0;color:var(--ink)}
+.entry.chat .from{color:var(--amber);font-family:var(--mono);font-size:10px;letter-spacing:.12em;
+  margin-right:7px;white-space:nowrap}
+.entry.chat.mine .from{color:var(--link)}
+.compose{
+  position:sticky;bottom:0;display:flex;gap:8px;padding:10px 0 4px;
+  background:linear-gradient(180deg,rgba(59,62,55,0),rgba(56,59,52,.96) 30%,#383b34);
+}
+.compose input{flex:1;min-width:0;font-size:16px;padding:12px}
+.compose .btn{padding:0 16px;min-width:56px;flex:none}
+
+/* --- нижний отсек: тангента --- */
+.tangenta{
+  flex:none;padding:12px 14px calc(var(--safe-b) + 14px);
+  background:linear-gradient(180deg,#31342e,#24261f), var(--brushed);
+  box-shadow:0 -1px 0 rgba(255,255,255,.07), 0 -10px 22px -12px rgba(0,0,0,.9);
+}
+.leds{display:flex;justify-content:center;gap:16px;margin-bottom:12px;flex-wrap:wrap}
+.led{display:flex;align-items:center;gap:6px;font-size:8px;letter-spacing:.16em;color:var(--steel-dim)}
+.led.lit{color:var(--ink)}
+.lamp{
+  width:9px;height:9px;border-radius:50%;background:#1a1b18;flex:none;
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.9), 0 0 0 1px rgba(0,0,0,.6), 0 1px 0 rgba(255,255,255,.08);
+  transition:background .08s linear, box-shadow .08s linear;
+}
+.lamp.on-green{background:var(--link);box-shadow:0 0 9px rgba(121,209,109,.75), inset 0 0 3px rgba(255,255,255,.6)}
+.lamp.on-amber{background:var(--amber);box-shadow:0 0 10px rgba(255,176,46,.8), inset 0 0 3px rgba(255,255,255,.6)}
+.lamp.on-red{background:var(--tx);box-shadow:0 0 13px rgba(255,63,38,.9), inset 0 0 3px rgba(255,220,210,.7)}
+
+.ptt-row{display:flex;align-items:center;justify-content:center;gap:16px}
+.side{
+  width:52px;height:52px;flex:none;border:0;border-radius:8px;cursor:pointer;touch-action:manipulation;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
+  font-size:7.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--steel-dim);
+  background:linear-gradient(180deg,#43463f,#33362f);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12), 0 2px 0 -1px #1f211c, 0 4px 8px -4px rgba(0,0,0,.7);
+}
+.side svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7;
+  stroke-linecap:round;stroke-linejoin:round}
+.side:active{transform:translateY(2px)}
+.side.on{color:var(--amber);background:linear-gradient(180deg,#4c4126,#38301c);
+  box-shadow:inset 0 1px 0 rgba(255,200,120,.25), inset 0 0 12px rgba(255,176,46,.18), 0 2px 0 -1px #1f211c}
+
+/* СИГНАТУРА: тангента — кольцевой индикатор уровня вокруг микрофона */
+.ptt-holder{position:relative;width:170px;height:170px;flex:none}
+@media (min-height:700px){.ptt-holder{width:196px;height:196px}}
+.vu-ring{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;transform:rotate(-90deg)}
+.vu-track{fill:none;stroke:rgba(0,0,0,.55);stroke-width:8}
+.vu-bar{fill:none;stroke:var(--amber);stroke-width:8;stroke-linecap:round;
+  filter:drop-shadow(0 0 6px rgba(255,176,46,.65));transition:stroke .1s linear}
+.vu-bar.hot{stroke:var(--tx);filter:drop-shadow(0 0 8px rgba(255,63,38,.85))}
+
+.ptt{
+  position:absolute;inset:20px;border-radius:50%;border:0;cursor:pointer;
+  color:#cbcfc4;
+  background:radial-gradient(circle at 50% 22%, #6a6f63 0%, #4a4e45 45%, #34372f 100%);
+  box-shadow:
+    inset 0 3px 0 rgba(255,255,255,.16),
+    inset 0 -6px 12px rgba(0,0,0,.55),
+    0 11px 0 -2px #21231f,
+    0 15px 22px -8px rgba(0,0,0,.85);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  transition:transform .05s linear, box-shadow .05s linear, color .1s linear, background .1s linear;
+  touch-action:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
+}
+.ptt .mic{width:52px;height:52px;stroke:currentColor;fill:none;stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round;
+  filter:drop-shadow(0 1px 0 rgba(0,0,0,.5));transition:filter .12s linear}
+.ptt .cap{font-size:9.5px;letter-spacing:.26em;text-transform:uppercase;font-weight:700}
+.ptt .sub{font-size:8px;letter-spacing:.10em;color:#878c80;max-width:120px;text-align:center;line-height:1.4}
+.ptt:focus-visible{outline:2px solid var(--amber);outline-offset:6px}
+.ptt.down{
+  transform:translateY(8px);color:#fff;
+  background:radial-gradient(circle at 50% 25%, #7d5147 0%, #55352f 48%, #3a2723 100%);
+  box-shadow:inset 0 4px 14px rgba(0,0,0,.7), inset 0 0 24px rgba(255,63,38,.35),
+             0 3px 0 -2px #1c1e1a, 0 6px 12px -6px rgba(0,0,0,.8);
+}
+.ptt.down .mic{filter:drop-shadow(0 0 9px rgba(255,176,46,.9))}
+.ptt.down .sub{color:#e8b9ac}
+.ptt.gated .mic{opacity:.45}
+.ptt:disabled{opacity:.5;cursor:not-allowed}
+
+/* --- лист настроек --- */
+.scrim{
+  position:fixed;inset:0;background:rgba(8,9,8,.72);z-index:20;
+  opacity:0;pointer-events:none;transition:opacity .18s ease;
+}
+.scrim.open{opacity:1;pointer-events:auto}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:21;
+  max-height:82dvh;overflow-y:auto;overscroll-behavior:contain;
+  padding:8px 16px calc(var(--safe-b) + 18px);
+  background:linear-gradient(180deg,#43463f,#2b2e28), var(--brushed);
+  border-radius:14px 14px 0 0;
+  box-shadow:0 -2px 0 rgba(255,255,255,.10), 0 -20px 50px -10px rgba(0,0,0,.9);
+  transform:translateY(101%);transition:transform .22s cubic-bezier(.3,.9,.3,1);
+}
+.sheet.open{transform:translateY(0)}
+.handle{width:44px;height:4px;border-radius:2px;background:#5e635a;margin:6px auto 16px}
+.sheet-title{font-size:9.5px;letter-spacing:.24em;color:var(--steel-dim);
+  text-transform:uppercase;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+.sheet-title::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(0,0,0,.5),transparent)}
+
+.ctl{display:grid;grid-template-columns:82px 1fr 42px;align-items:center;gap:12px;margin-bottom:6px}
+.ctl label{font-size:9px;letter-spacing:.18em;color:var(--steel-dim);text-transform:uppercase}
+.ctl output{font-size:10px;color:var(--amber);text-align:right;letter-spacing:.06em}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:40px;
+  background:transparent;cursor:pointer;touch-action:pan-y}
+input[type=range]::-webkit-slider-runnable-track{height:7px;border-radius:4px;
+  background:linear-gradient(180deg,#141512,#252722);
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.9), 0 1px 0 rgba(255,255,255,.07)}
+input[type=range]::-moz-range-track{height:7px;border-radius:4px;background:#181a16;
+  box-shadow:inset 0 1px 3px rgba(0,0,0,.9)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:32px;
+  margin-top:-13px;border-radius:4px;
+  background:linear-gradient(180deg,#a8ad9f,#6a6f62 55%,#494d43);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.6), 0 2px 5px rgba(0,0,0,.7)}
+input[type=range]::-moz-range-thumb{width:22px;height:32px;border:0;border-radius:4px;
+  background:linear-gradient(180deg,#a8ad9f,#494d43);box-shadow:0 2px 5px rgba(0,0,0,.7)}
+
+.switch{display:flex;align-items:center;gap:12px;font-size:10px;letter-spacing:.14em;
+  color:var(--steel-dim);text-transform:uppercase;cursor:pointer;
+  padding:12px 0;min-height:48px;touch-action:manipulation}
+.switch input{position:absolute;opacity:0;width:0;height:0}
+.toggle{width:46px;height:26px;border-radius:4px;flex:none;position:relative;
+  background:linear-gradient(180deg,#141512,#24261f);
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.9), 0 1px 0 rgba(255,255,255,.07)}
+.toggle::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:3px;
+  background:linear-gradient(180deg,#a2a798,#5c6156);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5), 0 1px 3px rgba(0,0,0,.7);
+  transition:transform .13s cubic-bezier(.4,1.6,.5,1), background .13s linear}
+.switch input:checked + .toggle::after{transform:translateX(20px);
+  background:linear-gradient(180deg,#ffc85e,#c07c14)}
+.switch input:checked ~ .sw-txt{color:var(--ink)}
+.switch input:focus-visible + .toggle{outline:2px solid var(--amber);outline-offset:2px}
+.sheet .field{margin:14px 0}
+.sheet-note{font-size:10px;line-height:1.8;color:#6e746a;letter-spacing:.03em;margin:14px 0 16px}
+.hidden{display:none !important}
+
+/* когда открыта клавиатура — прячем тангенту, чтобы поле ввода было видно */
+body.kb .tangenta{display:none}
+
+/* ================= ПЛАНШЕТ / ДЕСКТОП ================= */
+@media (min-width:900px) and (pointer:fine){
+  body.live{height:auto;overflow:visible;display:block;padding:24px 20px 40px}
+  body.live #deck{
+    display:grid;max-width:1060px;margin:0 auto;gap:16px;
+    grid-template-columns:minmax(360px,1fr) minmax(0,1fr);
+    grid-template-areas:"top top" "tang main" "sheet main";
+    align-items:start;
+  }
+  .topbar{grid-area:top;border-radius:9px;padding:16px}
+  .tangenta{grid-area:tang;border-radius:9px;padding:18px;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.09), 0 4px 12px -6px rgba(0,0,0,.7)}
+  .main{grid-area:main;margin:0;border-radius:9px;max-height:none;overflow:visible;padding:16px 0}
+  .tabs{display:none}
+  .panel{display:block;padding:0 16px}
+  .panel + .panel{margin-top:20px;padding-top:20px;border-top:1px solid rgba(0,0,0,.4);
+    box-shadow:0 -1px 0 rgba(255,255,255,.05) inset}
+  .chan{font-size:38px}
+  .ptt-holder{width:208px;height:208px}
+  .scrim{display:none}
+  .sheet{grid-area:sheet;position:static;transform:none;max-height:none;border-radius:9px;
+    padding:16px;box-shadow:inset 0 1px 0 rgba(255,255,255,.09), 0 4px 12px -6px rgba(0,0,0,.7)}
+  .handle{display:none}
+  #gear{display:none}
+  body.kb .tangenta{display:block}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
 </style>
 </head>
 <body>
 
-
-<nav>
-  <div class="nav-logo"><img class="nav-mark" src="data:image/png;base64,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" alt="FIFA World Cup" width="24" height="24"><span class="nav-title">FIFA WORLD CUP 2026</span></div>
-  <div class="nav-tabs">
-    <div class="nav-tab active" onclick="switchPage('schedule',this)">Schedule</div>
-    <div class="nav-tab" onclick="switchPage('analytics',this)">Analytics</div>
-    <div class="nav-tab" onclick="switchPage('settings',this)">Settings</div>
+<!-- ============ ВХОД ============ -->
+<section id="setup">
+  <div class="card">
+    <span class="screw tl"></span><span class="screw tr"></span>
+    <span class="screw bl"></span><span class="screw br"></span>
+    <div class="brand">
+      <span class="model">ПРМ-6</span>
+      <span class="sub">симплекс · 6 абонентов</span>
+    </div>
+    <div class="field">
+      <label for="code">Код канала</label>
+      <input type="text" id="code" placeholder="SKLAD-7" maxlength="20"
+             autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="go">
+    </div>
+    <div class="field">
+      <label for="nick">Ваш позывной</label>
+      <input type="text" id="nick" placeholder="Игорь / Диспетчер" maxlength="18"
+             autocomplete="off" enterkeyhint="go">
+    </div>
+    <button class="btn primary wide" id="join">Выйти в эфир</button>
+    <div class="btn-row"><button class="btn" id="dice">Случайный код</button></div>
+    <p class="status" id="setupStatus" role="status" aria-live="polite"></p>
+    <p class="note">
+      Один код — один канал. Кто ввёл тот же код, оказался в том же эфире.
+      <b>Голос идёт напрямую между телефонами.</b>
+    </p>
+    <details>
+      <summary>Если связь не поднимается</summary>
+      <p>Страница должна быть открыта по HTTPS — иначе телефон не даст доступ к микрофону. Разрешение спрашивается один раз, при первом выходе в эфир.</p>
+      <p>Через мобильный интернет и обычный Wi-Fi соединение поднимается. В сетях со строгим NAT нужен TURN-сервер, его в этой сборке нет.</p>
+      <p>Микрофон открывается физически только на время удержания кнопки. Пока кнопка отпущена, дорожка выключена — вас не слышно.</p>
+    </details>
   </div>
-  <div class="nav-right">
-    <div class="sync-dot" id="syncDot"></div>
-    <span class="sync-lbl" id="syncLbl">...</span>
+</section>
+
+<!-- ============ ПУЛЬТ ============ -->
+<div id="deck">
+
+  <div class="topbar">
+    <div class="lcd">
+      <div class="lcd-top">
+        <span class="chan" id="lcdChan">— — —</span>
+        <span class="lcd-meta">
+          <b id="lcdNick">—</b><br>
+          пост <b id="lcdSlot">—</b> · <b id="lcdCount">1</b> в канале
+        </span>
+      </div>
+      <div class="carrier" id="carrier">эфир свободен</div>
+    </div>
   </div>
-</nav>
 
-<div id="page-schedule" class="page active">
-  <div class="filters-row" id="filtersRow"></div>
-  <div class="filters-row" id="groupRow" style="display:none;margin-top:-6px"></div>
-  <div class="filters-row" id="cityRow" style="display:none;margin-top:-6px"></div>
-  <div id="schedRoot"></div>
-</div>
-<div id="page-analytics" class="page">
-  <div id="anRoot"></div>
-</div>
-<div id="page-settings" class="page">
-  <div id="setRoot"></div>
+  <div class="tabs" role="tablist">
+    <button class="tab active" id="tabRoster" role="tab" aria-selected="true" aria-controls="panelRoster">
+      В канале <span id="tabCount" style="color:var(--amber)"></span>
+    </button>
+    <button class="tab" id="tabLog" role="tab" aria-selected="false" aria-controls="panelLog">
+      Журнал <span class="pip" id="tabPip"></span>
+    </button>
+  </div>
+
+  <div class="main">
+    <section class="panel active" id="panelRoster" role="tabpanel" aria-labelledby="tabRoster">
+      <ul class="roster" id="roster"></ul>
+      <p class="empty hidden" id="rosterEmpty">
+        Больше никого в канале. Отправьте коллеге код —
+        соединение поднимется само, как только он войдёт.
+      </p>
+      <div class="share hidden" id="shareWrap">
+        <button class="btn wide" id="share">Поделиться кодом канала</button>
+      </div>
+    </section>
+
+    <section class="panel" id="panelLog" role="tabpanel" aria-labelledby="tabLog">
+      <div class="log" id="log" role="log" aria-live="polite"></div>
+      <div class="compose">
+        <input type="text" id="msg" placeholder="Сообщение в канал…" maxlength="500"
+               autocomplete="off" enterkeyhint="send">
+        <button class="btn" id="send" aria-label="Отправить сообщение">▲</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="tangenta">
+    <div class="leds">
+      <span class="led" id="ledPwrWrap"><span class="lamp" id="ledPwr"></span>МИКРОФОН</span>
+      <span class="led" id="ledLinkWrap"><span class="lamp" id="ledLink"></span>СВЯЗЬ</span>
+      <span class="led" id="ledTxWrap"><span class="lamp" id="ledTx"></span>ПЕРЕДАЧА</span>
+      <span class="led" id="ledRxWrap"><span class="lamp" id="ledRx"></span>ПРИЁМ</span>
+    </div>
+
+    <div class="ptt-row">
+      <button class="side" id="latch" aria-pressed="false" title="Фиксация тангенты">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="5" y="11" width="14" height="10" rx="2"/>
+          <path d="M8 11V7.5a4 4 0 0 1 8 0V11"/>
+        </svg>
+        ФИКС
+      </button>
+
+      <div class="ptt-holder">
+        <svg class="vu-ring" viewBox="0 0 200 200" aria-hidden="true">
+          <circle class="vu-track" cx="100" cy="100" r="95"/>
+          <circle class="vu-bar" id="vuBar" cx="100" cy="100" r="95"
+                  stroke-dasharray="597" stroke-dashoffset="597"/>
+        </svg>
+        <button class="ptt" id="ptt" aria-label="Нажать и говорить">
+          <svg class="mic" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="9" y="2" width="6" height="11" rx="3"/>
+            <path d="M5 10.5V12a7 7 0 0 0 14 0v-1.5"/>
+            <path d="M12 19v3"/>
+            <path d="M8.5 22h7"/>
+          </svg>
+          <span class="cap" id="pttLabel">Говорить</span>
+          <span class="sub" id="pttSub">нажмите и держите</span>
+        </button>
+      </div>
+
+      <button class="side" id="gear" aria-label="Настройки">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="3.2"/>
+          <path d="M12 2.5v2.6M12 18.9v2.6M4.2 7.5l2.2 1.3M17.6 15.2l2.2 1.3M4.2 16.5l2.2-1.3M17.6 8.8l2.2-1.3"/>
+        </svg>
+        НАСТР
+      </button>
+    </div>
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  <div class="sheet" id="sheet" role="dialog" aria-label="Настройки" aria-modal="false">
+    <div class="handle"></div>
+    <div class="sheet-title">Настройка</div>
+    <div class="ctl">
+      <label for="vol">Громкость</label>
+      <input type="range" id="vol" min="0" max="100" value="90">
+      <output id="volOut">90</output>
+    </div>
+    <div class="ctl">
+      <label for="sq">Шумопорог</label>
+      <input type="range" id="sq" min="0" max="5" value="1">
+      <output id="sqOut">1</output>
+    </div>
+    <div class="field">
+      <label for="micSel">Микрофон</label>
+      <select id="micSel"></select>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="beep" checked>
+      <span class="toggle"></span><span class="sw-txt">Сигнал конца передачи</span>
+    </label>
+    <label class="switch">
+      <input type="checkbox" id="duck" checked>
+      <span class="toggle"></span><span class="sw-txt">Приглушать приём при передаче</span>
+    </label>
+    <label class="switch">
+      <input type="checkbox" id="buzz" checked>
+      <span class="toggle"></span><span class="sw-txt">Вибрация на тангенте</span>
+    </label>
+    <label class="switch">
+      <input type="checkbox" id="awake" checked>
+      <span class="toggle"></span><span class="sw-txt">Не гасить экран в эфире</span>
+    </label>
+    <p class="sheet-note" id="sheetNote"></p>
+    <button class="btn danger wide" id="leave">Отключиться от канала</button>
+  </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"></script>
 <script>
-// ═══════════════════════════════════════════════════
-// IDENTITY — multi-user. Each Telegram user is a participant.
-// myId: stable id (telegram user id, or a generated browser id)
-// myName: display name (telegram name/username, or chosen in browser)
-// ═══════════════════════════════════════════════════
-var myId=null, myName=null, tgUser=null;
-// Admins: only their open clients query the football API for results.
-// Everyone else just reads results from Firebase. Matched by Telegram username.
-var ADMIN_USERNAMES=["vpesprit","svsergeev"];
-var isAdmin=false;
-function genId(){ return "u_"+Math.random().toString(36).slice(2,10); }
-function initTelegram(){
-  try{
-    var tg=window.Telegram&&window.Telegram.WebApp;
-    if(tg){
-      tg.ready(); tg.expand();
-      tgUser=(tg.initDataUnsafe&&tg.initDataUnsafe.user)||null;
-      if(tgUser&&tgUser.id){
-        myId="tg_"+tgUser.id;
-        myName=(tgUser.username?("@"+tgUser.username):((tgUser.first_name||"")+(tgUser.last_name?(" "+tgUser.last_name):""))).trim()||("Player "+String(tgUser.id).slice(-4));
-        if(tgUser.username && ADMIN_USERNAMES.indexOf(tgUser.username.toLowerCase().replace(/^@/,""))>=0) isAdmin=true;
-      }
-    }
-  }catch(e){}
-  // browser fallback: persistent local id + chosen name
-  if(!myId){
-    myId=localStorage.getItem("wc26_uid");
-    if(!myId){ myId=genId(); localStorage.setItem("wc26_uid",myId); }
-    myName=localStorage.getItem("wc26_uname")||"";
-    // browser admin override (so you can run the "result puller" from a desktop browser too)
-    if(localStorage.getItem("wc26_admin")==="1") isAdmin=true;
+(function(){
+'use strict';
+
+/* ============================================================
+   ПРМ-6 · симплексная рация на WebRTC, сборка под телефон
+   Сеть — полная mesh. Каждый занимает один из 6 «постов» на
+   публичном брокере PeerJS и вызывает остальные. Свободный пост
+   отвечает ошибкой peer-unavailable — она игнорируется.
+   ============================================================ */
+
+const SLOTS = 6;
+const NS = 'prm6a';
+const RING = 597;                 // 2πr при r=95
+
+const $ = id => document.getElementById(id);
+const el = {};
+['setup','deck','code','nick','join','dice','setupStatus','lcdChan','lcdNick','lcdSlot','lcdCount',
+ 'carrier','ledPwr','ledLink','ledTx','ledRx','ledPwrWrap','ledLinkWrap','ledTxWrap','ledRxWrap',
+ 'ptt','pttLabel','pttSub','vuBar','latch','gear','scrim','sheet','tabRoster','tabLog','tabCount',
+ 'tabPip','panelRoster','panelLog','roster','rosterEmpty','shareWrap','share','log','msg','send',
+ 'vol','volOut','sq','sqOut','micSel','beep','duck','buzz','awake','sheetNote','leave']
+ .forEach(k => el[k] = $(k));
+
+const S = {
+  code:'', nick:'', slot:0, peer:null, prefix:'',
+  stream:null, track:null, ac:null, analyser:null, buf:null,
+  peers:new Map(), tx:false, latch:false, txStart:0,
+  gateOpenUntil:0, joined:false, raf:0, wake:null, unread:0
+};
+
+const coarse = window.matchMedia('(pointer:coarse)').matches;
+
+/* ---------------- высота под клавиатуру ---------------- */
+function syncViewport(){
+  const vv = window.visualViewport;
+  const h = vv ? vv.height : window.innerHeight;
+  document.documentElement.style.setProperty('--appH', h + 'px');
+  if (coarse && S.joined){
+    const shrunk = h < window.innerHeight * 0.78;
+    document.body.classList.toggle('kb', shrunk);
   }
 }
-// ask for a name in browser mode (no telegram)
-function ensureName(){
-  if(myName) return true;
-  var n=prompt("Enter your name to join the pool:");
-  if(n&&n.trim()){ myName=n.trim().slice(0,24); localStorage.setItem("wc26_uname",myName); registerUser(); return true; }
-  return false;
+if (window.visualViewport){
+  window.visualViewport.addEventListener('resize', syncViewport);
+  window.visualViewport.addEventListener('scroll', syncViewport);
 }
-function meName(){ return myName||"Guest"; }
-function changeName(){
-  var n=prompt("Your display name:", myName||"");
-  if(n&&n.trim()){ myName=n.trim().slice(0,24); localStorage.setItem("wc26_uname",myName); registerUser(); render(); renderSettings(); }
+window.addEventListener('orientationchange', () => setTimeout(syncViewport, 250));
+window.addEventListener('resize', syncViewport);
+syncViewport();
+
+/* ---------------- утилиты ---------------- */
+const clock = () => new Date().toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const sanitizeCode = s => String(s).toUpperCase().replace(/[^A-Z0-9А-ЯЁ-]/g,'').replace(/-+/g,'-').slice(0,20);
+function translit(s){
+  const m={А:'A',Б:'B',В:'V',Г:'G',Д:'D',Е:'E',Ё:'E',Ж:'ZH',З:'Z',И:'I',Й:'Y',К:'K',Л:'L',М:'M',
+           Н:'N',О:'O',П:'P',Р:'R',С:'S',Т:'T',У:'U',Ф:'F',Х:'H',Ц:'C',Ч:'CH',Ш:'SH',Щ:'SCH',
+           Ъ:'',Ы:'Y',Ь:'',Э:'E',Ю:'YU',Я:'YA'};
+  return String(s).split('').map(c => m[c] !== undefined ? m[c] : c).join('');
+}
+const slotName = n => 'ПОСТ-' + n;
+const buzz = pat => { if (el.buzz.checked && navigator.vibrate) { try{ navigator.vibrate(pat); }catch(e){} } };
+
+function logEntry(kind, html){
+  const near = el.log.scrollHeight - el.log.scrollTop - el.log.clientHeight < 80;
+  const row = document.createElement('div');
+  row.className = 'entry ' + kind;
+  row.innerHTML = '<span class="t">' + clock() + '</span><span class="body">' + html + '</span>';
+  el.log.appendChild(row);
+  while (el.log.children.length > 250) el.log.removeChild(el.log.firstChild);
+  if (near) el.log.scrollTop = el.log.scrollHeight;
+  if (coarse && !el.panelLog.classList.contains('active')){
+    S.unread++; el.tabPip.classList.add('on');
+  }
+}
+const sys  = t => logEntry('sys', esc(t));
+const air  = t => logEntry('air', esc(t));
+const fail = t => logEntry('err', esc(t));
+
+function setStatus(text, cls){
+  el.setupStatus.textContent = text;
+  el.setupStatus.className = 'status' + (cls ? ' ' + cls : '');
+}
+function lamp(node, wrap, cls){
+  node.className = 'lamp' + (cls ? ' ' + cls : '');
+  wrap.classList.toggle('lit', !!cls);
 }
 
-// ═══════════════════════════════════════════════════
-// CONFIG — настройки API (редактируются в Настройках)
-// ═══════════════════════════════════════════════════
-var API_DEFAULTS={
-  key:"9f12a03e10msh3c05dc118b1f5a4p16eb31jsne6008d4d5899",
-  host:"free-api-live-football-data.p.rapidapi.com",
-  base:"https://free-api-live-football-data.p.rapidapi.com",
-  wcLeagueId:894790,
-  season:2026,
-  autoEnabled:true
-};
-var apiCfg=(function(){
-  // bump storage key (wc26_api2) so the new API key always overrides any old cached one
-  try{ var s=JSON.parse(localStorage.getItem("wc26_api2")||"{}"); var merged=Object.assign({},API_DEFAULTS,s); merged.key=API_DEFAULTS.key; merged.host=API_DEFAULTS.host; merged.base=API_DEFAULTS.base; return merged; }
-  catch(e){ return Object.assign({},API_DEFAULTS); }
-})();
-function saveApiCfg(){ try{ localStorage.setItem("wc26_api2",JSON.stringify(apiCfg)); }catch(e){} }
-
-// ═══════════════════════════════════════════════════
-// FLAGS — country ISO codes → flagcdn.com SVG images
-// (emoji flags do NOT render on Windows!)
-// ═══════════════════════════════════════════════════
-var ISO = {
-  "Mexico":"mx","South Africa":"za","South Korea":"kr","Korea Republic":"kr","Czechia":"cz","Czech Republic":"cz",
-  "Canada":"ca","Bosnia and Herzegovina":"ba","Bosnia":"ba","Qatar":"qa","Switzerland":"ch",
-  "Brazil":"br","Morocco":"ma","Haiti":"ht","Scotland":"gb-sct",
-  "USA":"us","United States":"us","Paraguay":"py","Australia":"au","Turkiye":"tr","Turkey":"tr",
-  "Germany":"de","Curacao":"cw","Ivory Coast":"ci","Cote d'Ivoire":"ci","Ecuador":"ec",
-  "Netherlands":"nl","Japan":"jp","Sweden":"se","Tunisia":"tn",
-  "Belgium":"be","Egypt":"eg","Iran":"ir","New Zealand":"nz",
-  "Spain":"es","Cape Verde":"cv","Saudi Arabia":"sa","Uruguay":"uy",
-  "France":"fr","Senegal":"sn","Iraq":"iq","Norway":"no",
-  "Argentina":"ar","Algeria":"dz","Austria":"at","Jordan":"jo",
-  "Portugal":"pt","DR Congo":"cd","Uzbekistan":"uz","Colombia":"co",
-  "England":"gb-eng","Croatia":"hr","Ghana":"gh","Panama":"pa"
-};
-// name aliases the API might use → canonical name in our schedule
-var ALIASES = {
-  "Korea Republic":"South Korea","Czech Republic":"Czechia","United States":"USA",
-  "Turkey":"Turkiye","Cote d'Ivoire":"Ivory Coast","Bosnia":"Bosnia and Herzegovina"
-};
-function canon(n){ return ALIASES[n]||n; }
-// does schedule team `x` match an API team given its name + longName?
-function teamMatch(x, apiName, apiLong){
-  return x===apiName || x===apiLong || x===canon(apiName) || x===canon(apiLong);
-}
-
-// detects playoff placeholders (1A, 2B, W49, 3ABCDF, L77, TBD)
-function isTBA(t){
-  if(!t) return true;
-  if(ISO[t]) return false;
-  if(t==="Draw") return false;
-  return true;
-}
-function teamName(t){
-  if(!isTBA(t)) return t;
-  return '<span style="color:var(--text3)">TBA</span>';
-}
-function teamNameFull(t){
-  if(!isTBA(t)) return t;
-  return '<span style="color:var(--text3)">TBA</span><span style="font-size:10px;color:var(--text3);opacity:.7"> ('+tbaHint(t)+')</span>';
-}
-function tbaHint(t){
-  if(/^1[A-L]$/.test(t)) return "Winner Grp "+t.slice(1);
-  if(/^2[A-L]$/.test(t)) return "Runner-up Grp "+t.slice(1);
-  if(/^3[A-L]+$/.test(t)) return "Best 3rd";
-  if(/^W(\d+)$/.test(t)) return "Winner M"+t.slice(1);
-  if(/^L(\d+)$/.test(t)) return "Loser M"+t.slice(1);
-  return "TBD";
-}
-
-// Flag as <img> from flagcdn. "Draw" → special icon, TBA → question mark.
-function fv(t){
-  if(t==="Draw") return '<span class="fv-none">=</span>';
-  if(isTBA(t)) return '<span class="fv-none">?</span>';
-  var iso=ISO[t];
-  if(!iso) return '<span class="fv-none">?</span>';
-  return '<img class="fv" src="https://flagcdn.com/'+iso+'.svg" alt="'+t+'" loading="lazy">';
-}
-function fvs(t){
-  if(t==="Draw") return '<span class="fv-none" style="width:18px;height:13px">=</span>';
-  if(isTBA(t)) return '<span class="fv-none" style="width:18px;height:13px">?</span>';
-  var iso=ISO[t];
-  if(!iso) return '<span class="fv-none" style="width:18px;height:13px">?</span>';
-  return '<img class="fvs" src="https://flagcdn.com/'+iso+'.svg" alt="'+t+'" loading="lazy">';
-}
-
-// Official FIFA World Cup 2026 groups
-var GROUPS={
-  A:["Mexico","South Africa","South Korea","Czechia"],
-  B:["Canada","Bosnia and Herzegovina","Qatar","Switzerland"],
-  C:["Brazil","Morocco","Haiti","Scotland"],
-  D:["USA","Paraguay","Australia","Turkiye"],
-  E:["Germany","Curacao","Ivory Coast","Ecuador"],
-  F:["Netherlands","Japan","Sweden","Tunisia"],
-  G:["Belgium","Egypt","Iran","New Zealand"],
-  H:["Spain","Cape Verde","Saudi Arabia","Uruguay"],
-  I:["France","Senegal","Iraq","Norway"],
-  J:["Argentina","Algeria","Austria","Jordan"],
-  K:["Portugal","DR Congo","Uzbekistan","Colombia"],
-  L:["England","Croatia","Ghana","Panama"]
-};
-
-var MATCHES = [
-  {id:1,stage:"group",group:"A",date:"2026-06-11",utcH:19,utcM:0, home:"Mexico", away:"South Africa", venue:"Estadio Azteca", city:"Mexico City"},
-  {id:2,stage:"group",group:"A",date:"2026-06-12",utcH:2,utcM:0, home:"South Korea", away:"Czechia", venue:"Estadio Guadalajara", city:"Guadalajara"},
-  {id:3,stage:"group",group:"A",date:"2026-06-19",utcH:1,utcM:0, home:"Mexico", away:"South Korea", venue:"Estadio Guadalajara", city:"Guadalajara"},
-  {id:4,stage:"group",group:"A",date:"2026-06-18",utcH:21,utcM:0, home:"Czechia", away:"South Africa", venue:"Atlanta Stadium", city:"Atlanta"},
-  {id:5,stage:"group",group:"A",date:"2026-06-25",utcH:1,utcM:0, home:"Czechia", away:"Mexico", venue:"Estadio Azteca", city:"Mexico City"},
-  {id:6,stage:"group",group:"A",date:"2026-06-24",utcH:22,utcM:0, home:"South Africa", away:"South Korea", venue:"Estadio Guadalajara", city:"Guadalajara"},
-  {id:7,stage:"group",group:"B",date:"2026-06-12",utcH:19,utcM:0, home:"Canada", away:"Bosnia and Herzegovina", venue:"Toronto Stadium", city:"Toronto"},
-  {id:8,stage:"group",group:"B",date:"2026-06-13",utcH:19,utcM:0, home:"Qatar", away:"Switzerland", venue:"SF Bay Area Stadium", city:"San Francisco"},
-  {id:9,stage:"group",group:"B",date:"2026-06-18",utcH:22,utcM:0, home:"Canada", away:"Qatar", venue:"BC Place", city:"Vancouver"},
-  {id:10,stage:"group",group:"B",date:"2026-06-19",utcH:0,utcM:0, home:"Switzerland", away:"Bosnia and Herzegovina", venue:"Los Angeles Stadium", city:"Los Angeles"},
-  {id:11,stage:"group",group:"B",date:"2026-06-24",utcH:19,utcM:0, home:"Switzerland", away:"Canada", venue:"BC Place", city:"Vancouver"},
-  {id:12,stage:"group",group:"B",date:"2026-06-24",utcH:19,utcM:0, home:"Bosnia and Herzegovina", away:"Qatar", venue:"Seattle Stadium", city:"Seattle"},
-  {id:13,stage:"group",group:"C",date:"2026-06-13",utcH:22,utcM:0, home:"Brazil", away:"Morocco", venue:"New York New Jersey Stadium", city:"New York"},
-  {id:14,stage:"group",group:"C",date:"2026-06-14",utcH:1,utcM:0, home:"Haiti", away:"Scotland", venue:"Boston Stadium", city:"Boston"},
-  {id:15,stage:"group",group:"C",date:"2026-06-19",utcH:19,utcM:0, home:"Scotland", away:"Morocco", venue:"Boston Stadium", city:"Boston"},
-  {id:16,stage:"group",group:"C",date:"2026-06-20",utcH:1,utcM:0, home:"Brazil", away:"Haiti", venue:"Philadelphia Stadium", city:"Philadelphia"},
-  {id:17,stage:"group",group:"C",date:"2026-06-24",utcH:22,utcM:0, home:"Scotland", away:"Brazil", venue:"Miami Stadium", city:"Miami"},
-  {id:18,stage:"group",group:"C",date:"2026-06-24",utcH:22,utcM:0, home:"Morocco", away:"Haiti", venue:"Atlanta Stadium", city:"Atlanta"},
-  {id:19,stage:"group",group:"D",date:"2026-06-13",utcH:1,utcM:0, home:"USA", away:"Paraguay", venue:"Los Angeles Stadium", city:"Los Angeles"},
-  {id:20,stage:"group",group:"D",date:"2026-06-13",utcH:4,utcM:0, home:"Australia", away:"Turkiye", venue:"BC Place", city:"Vancouver"},
-  {id:21,stage:"group",group:"D",date:"2026-06-19",utcH:19,utcM:0, home:"USA", away:"Australia", venue:"Seattle Stadium", city:"Seattle"},
-  {id:22,stage:"group",group:"D",date:"2026-06-20",utcH:3,utcM:0, home:"Turkiye", away:"Paraguay", venue:"SF Bay Area Stadium", city:"San Francisco"},
-  {id:23,stage:"group",group:"D",date:"2026-06-26",utcH:2,utcM:0, home:"Turkiye", away:"USA", venue:"Los Angeles Stadium", city:"Los Angeles"},
-  {id:24,stage:"group",group:"D",date:"2026-06-26",utcH:2,utcM:0, home:"Paraguay", away:"Australia", venue:"SF Bay Area Stadium", city:"San Francisco"},
-  {id:25,stage:"group",group:"E",date:"2026-06-14",utcH:17,utcM:0, home:"Germany", away:"Curacao", venue:"Houston Stadium", city:"Houston"},
-  {id:26,stage:"group",group:"E",date:"2026-06-14",utcH:23,utcM:0, home:"Ivory Coast", away:"Ecuador", venue:"Philadelphia Stadium", city:"Philadelphia"},
-  {id:27,stage:"group",group:"E",date:"2026-06-20",utcH:20,utcM:0, home:"Germany", away:"Ivory Coast", venue:"Toronto Stadium", city:"Toronto"},
-  {id:28,stage:"group",group:"E",date:"2026-06-21",utcH:0,utcM:0, home:"Ecuador", away:"Curacao", venue:"Kansas City Stadium", city:"Kansas City"},
-  {id:29,stage:"group",group:"E",date:"2026-06-25",utcH:20,utcM:0, home:"Ecuador", away:"Germany", venue:"New York New Jersey Stadium", city:"New York"},
-  {id:30,stage:"group",group:"E",date:"2026-06-25",utcH:20,utcM:0, home:"Curacao", away:"Ivory Coast", venue:"Philadelphia Stadium", city:"Philadelphia"},
-  {id:31,stage:"group",group:"F",date:"2026-06-14",utcH:20,utcM:0, home:"Netherlands", away:"Japan", venue:"Dallas Stadium", city:"Dallas"},
-  {id:32,stage:"group",group:"F",date:"2026-06-15",utcH:2,utcM:0, home:"Sweden", away:"Tunisia", venue:"Estadio Monterrey", city:"Monterrey"},
-  {id:33,stage:"group",group:"F",date:"2026-06-20",utcH:17,utcM:0, home:"Netherlands", away:"Sweden", venue:"Houston Stadium", city:"Houston"},
-  {id:34,stage:"group",group:"F",date:"2026-06-21",utcH:4,utcM:0, home:"Tunisia", away:"Japan", venue:"Estadio Monterrey", city:"Monterrey"},
-  {id:35,stage:"group",group:"F",date:"2026-06-26",utcH:4,utcM:0, home:"Japan", away:"Sweden", venue:"Dallas Stadium", city:"Dallas"},
-  {id:36,stage:"group",group:"F",date:"2026-06-26",utcH:4,utcM:0, home:"Tunisia", away:"Netherlands", venue:"Kansas City Stadium", city:"Kansas City"},
-  {id:37,stage:"group",group:"G",date:"2026-06-15",utcH:19,utcM:0, home:"Belgium", away:"Egypt", venue:"Seattle Stadium", city:"Seattle"},
-  {id:38,stage:"group",group:"G",date:"2026-06-16",utcH:4,utcM:0, home:"Iran", away:"New Zealand", venue:"Los Angeles Stadium", city:"Los Angeles"},
-  {id:39,stage:"group",group:"G",date:"2026-06-21",utcH:19,utcM:0, home:"Belgium", away:"Iran", venue:"Los Angeles Stadium", city:"Los Angeles"},
-  {id:40,stage:"group",group:"G",date:"2026-06-21",utcH:22,utcM:0, home:"New Zealand", away:"Egypt", venue:"BC Place", city:"Vancouver"},
-  {id:41,stage:"group",group:"G",date:"2026-06-27",utcH:3,utcM:0, home:"Egypt", away:"Iran", venue:"Seattle Stadium", city:"Seattle"},
-  {id:42,stage:"group",group:"G",date:"2026-06-27",utcH:3,utcM:0, home:"New Zealand", away:"Belgium", venue:"BC Place", city:"Vancouver"},
-  {id:43,stage:"group",group:"H",date:"2026-06-15",utcH:17,utcM:0, home:"Spain", away:"Cape Verde", venue:"Atlanta Stadium", city:"Atlanta"},
-  {id:44,stage:"group",group:"H",date:"2026-06-15",utcH:22,utcM:0, home:"Saudi Arabia", away:"Uruguay", venue:"Miami Stadium", city:"Miami"},
-  {id:45,stage:"group",group:"H",date:"2026-06-22",utcH:1,utcM:0, home:"Spain", away:"Saudi Arabia", venue:"Miami Stadium", city:"Miami"},
-  {id:46,stage:"group",group:"H",date:"2026-06-22",utcH:1,utcM:0, home:"Uruguay", away:"Cape Verde", venue:"Atlanta Stadium", city:"Atlanta"},
-  {id:47,stage:"group",group:"H",date:"2026-06-27",utcH:0,utcM:0, home:"Cape Verde", away:"Saudi Arabia", venue:"Houston Stadium", city:"Houston"},
-  {id:48,stage:"group",group:"H",date:"2026-06-27",utcH:0,utcM:0, home:"Uruguay", away:"Spain", venue:"Estadio Guadalajara", city:"Guadalajara"},
-  {id:49,stage:"group",group:"I",date:"2026-06-16",utcH:19,utcM:0, home:"France", away:"Senegal", venue:"New York New Jersey Stadium", city:"New York"},
-  {id:50,stage:"group",group:"I",date:"2026-06-17",utcH:3,utcM:0, home:"Iraq", away:"Norway", venue:"Boston Stadium", city:"Boston"},
-  {id:51,stage:"group",group:"I",date:"2026-06-22",utcH:19,utcM:0, home:"France", away:"Iraq", venue:"Philadelphia Stadium", city:"Philadelphia"},
-  {id:52,stage:"group",group:"I",date:"2026-06-22",utcH:22,utcM:0, home:"Norway", away:"Senegal", venue:"Toronto Stadium", city:"Toronto"},
-  {id:53,stage:"group",group:"I",date:"2026-06-26",utcH:19,utcM:0, home:"Norway", away:"France", venue:"Boston Stadium", city:"Boston"},
-  {id:54,stage:"group",group:"I",date:"2026-06-26",utcH:19,utcM:0, home:"Senegal", away:"Iraq", venue:"Toronto Stadium", city:"Toronto"},
-  {id:55,stage:"group",group:"J",date:"2026-06-17",utcH:1,utcM:0, home:"Argentina", away:"Algeria", venue:"Kansas City Stadium", city:"Kansas City"},
-  {id:56,stage:"group",group:"J",date:"2026-06-17",utcH:4,utcM:0, home:"Austria", away:"Jordan", venue:"SF Bay Area Stadium", city:"San Francisco"},
-  {id:57,stage:"group",group:"J",date:"2026-06-22",utcH:17,utcM:0, home:"Argentina", away:"Austria", venue:"Dallas Stadium", city:"Dallas"},
-  {id:58,stage:"group",group:"J",date:"2026-06-23",utcH:3,utcM:0, home:"Jordan", away:"Algeria", venue:"SF Bay Area Stadium", city:"San Francisco"},
-  {id:59,stage:"group",group:"J",date:"2026-06-28",utcH:2,utcM:0, home:"Jordan", away:"Argentina", venue:"Dallas Stadium", city:"Dallas"},
-  {id:60,stage:"group",group:"J",date:"2026-06-28",utcH:2,utcM:0, home:"Algeria", away:"Austria", venue:"Kansas City Stadium", city:"Kansas City"},
-  {id:61,stage:"group",group:"K",date:"2026-06-17",utcH:17,utcM:0, home:"Portugal", away:"DR Congo", venue:"Houston Stadium", city:"Houston"},
-  {id:62,stage:"group",group:"K",date:"2026-06-18",utcH:2,utcM:0, home:"Uzbekistan", away:"Colombia", venue:"Estadio Azteca", city:"Mexico City"},
-  {id:63,stage:"group",group:"K",date:"2026-06-23",utcH:17,utcM:0, home:"Portugal", away:"Uzbekistan", venue:"Houston Stadium", city:"Houston"},
-  {id:64,stage:"group",group:"K",date:"2026-06-24",utcH:2,utcM:0, home:"Colombia", away:"DR Congo", venue:"Estadio Guadalajara", city:"Guadalajara"},
-  {id:65,stage:"group",group:"K",date:"2026-06-27",utcH:23,utcM:30, home:"Colombia", away:"Portugal", venue:"Miami Stadium", city:"Miami"},
-  {id:66,stage:"group",group:"K",date:"2026-06-27",utcH:23,utcM:30, home:"DR Congo", away:"Uzbekistan", venue:"Atlanta Stadium", city:"Atlanta"},
-  {id:67,stage:"group",group:"L",date:"2026-06-17",utcH:20,utcM:0, home:"England", away:"Croatia", venue:"Dallas Stadium", city:"Dallas"},
-  {id:68,stage:"group",group:"L",date:"2026-06-18",utcH:4,utcM:0, home:"Ghana", away:"Panama", venue:"Toronto Stadium", city:"Toronto"},
-  {id:69,stage:"group",group:"L",date:"2026-06-23",utcH:20,utcM:0, home:"England", away:"Ghana", venue:"Boston Stadium", city:"Boston"},
-  {id:70,stage:"group",group:"L",date:"2026-06-23",utcH:23,utcM:0, home:"Croatia", away:"Panama", venue:"Philadelphia Stadium", city:"Philadelphia"},
-  {id:71,stage:"group",group:"L",date:"2026-06-27",utcH:21,utcM:0, home:"Panama", away:"England", venue:"New York New Jersey Stadium", city:"New York"},
-  {id:72,stage:"group",group:"L",date:"2026-06-27",utcH:21,utcM:0, home:"Croatia", away:"Ghana", venue:"Philadelphia Stadium", city:"Philadelphia"},
-  {id:73,stage:"r32",group:"",date:"2026-06-28",utcH:16,utcM:0, home:"2A", away:"2B", venue:"Los Angeles Stadium", city:"Los Angeles"},
-  {id:74,stage:"r32",group:"",date:"2026-06-28",utcH:20,utcM:0, home:"1E", away:"3ABCDF", venue:"Houston Stadium", city:"Houston"},
-  {id:75,stage:"r32",group:"",date:"2026-06-29",utcH:16,utcM:0, home:"1F", away:"2C", venue:"Dallas Stadium", city:"Dallas"},
-  {id:76,stage:"r32",group:"",date:"2026-06-29",utcH:20,utcM:0, home:"1C", away:"3EFGIJ", venue:"Atlanta Stadium", city:"Atlanta"},
-  {id:77,stage:"r32",group:"",date:"2026-06-30",utcH:16,utcM:0, home:"1I", away:"3CDFGH", venue:"Boston Stadium", city:"Boston"},
-  {id:78,stage:"r32",group:"",date:"2026-06-30",utcH:20,utcM:0, home:"2E", away:"2F", venue:"Philadelphia Stadium", city:"Philadelphia"},
-  {id:79,stage:"r32",group:"",date:"2026-07-01",utcH:0,utcM:0, home:"1A", away:"3CEFGH", venue:"Estadio Azteca", city:"Mexico City"},
-  {id:80,stage:"r32",group:"",date:"2026-07-01",utcH:16,utcM:0, home:"2K", away:"2L", venue:"BC Place", city:"Vancouver"},
-  {id:81,stage:"r32",group:"",date:"2026-07-01",utcH:20,utcM:0, home:"1L", away:"3EHIJK", venue:"Toronto Stadium", city:"Toronto"},
-  {id:82,stage:"r32",group:"",date:"2026-07-02",utcH:0,utcM:0, home:"1D", away:"3BEFIJ", venue:"SF Bay Area Stadium", city:"San Francisco"},
-  {id:83,stage:"r32",group:"",date:"2026-07-02",utcH:16,utcM:0, home:"1G", away:"3AEHIJ", venue:"Seattle Stadium", city:"Seattle"},
-  {id:84,stage:"r32",group:"",date:"2026-07-02",utcH:20,utcM:0, home:"2D", away:"2G", venue:"New York New Jersey Stadium", city:"New York"},
-  {id:85,stage:"r32",group:"",date:"2026-07-03",utcH:0,utcM:0, home:"1J", away:"2H", venue:"Miami Stadium", city:"Miami"},
-  {id:86,stage:"r32",group:"",date:"2026-07-03",utcH:16,utcM:0, home:"1K", away:"3DEIJL", venue:"Kansas City Stadium", city:"Kansas City"},
-  {id:87,stage:"r32",group:"",date:"2026-07-03",utcH:20,utcM:0, home:"1B", away:"3EFGIJ", venue:"BC Place", city:"Vancouver"},
-  {id:88,stage:"r32",group:"",date:"2026-07-04",utcH:0,utcM:0, home:"1H", away:"2J", venue:"Atlanta Stadium", city:"Atlanta"},
-  {id:89,stage:"r16",group:"",date:"2026-07-04",utcH:16,utcM:0, home:"W49", away:"W50", venue:"Philadelphia Stadium", city:"Philadelphia"},
-  {id:90,stage:"r16",group:"",date:"2026-07-04",utcH:20,utcM:0, home:"W51", away:"W52", venue:"Houston Stadium", city:"Houston"},
-  {id:91,stage:"r16",group:"",date:"2026-07-05",utcH:16,utcM:0, home:"W53", away:"W54", venue:"Dallas Stadium", city:"Dallas"},
-  {id:92,stage:"r16",group:"",date:"2026-07-05",utcH:20,utcM:0, home:"W55", away:"W56", venue:"SF Bay Area Stadium", city:"San Francisco"},
-  {id:93,stage:"r16",group:"",date:"2026-07-06",utcH:16,utcM:0, home:"W57", away:"W58", venue:"Miami Stadium", city:"Miami"},
-  {id:94,stage:"r16",group:"",date:"2026-07-06",utcH:20,utcM:0, home:"W59", away:"W60", venue:"Atlanta Stadium", city:"Atlanta"},
-  {id:95,stage:"r16",group:"",date:"2026-07-07",utcH:16,utcM:0, home:"W61", away:"W62", venue:"BC Place", city:"Vancouver"},
-  {id:96,stage:"r16",group:"",date:"2026-07-07",utcH:20,utcM:0, home:"W63", away:"W64", venue:"Boston Stadium", city:"Boston"},
-  {id:97,stage:"qf",group:"",date:"2026-07-09",utcH:20,utcM:0, home:"W65", away:"W66", venue:"Boston Stadium", city:"Boston"},
-  {id:98,stage:"qf",group:"",date:"2026-07-10",utcH:19,utcM:0, home:"W67", away:"W68", venue:"Los Angeles Stadium", city:"Los Angeles"},
-  {id:99,stage:"qf",group:"",date:"2026-07-12",utcH:1,utcM:0, home:"W69", away:"W70", venue:"Kansas City Stadium", city:"Kansas City"},
-  {id:100,stage:"qf",group:"",date:"2026-07-11",utcH:21,utcM:0, home:"W71", away:"W72", venue:"Miami Stadium", city:"Miami"},
-  {id:101,stage:"sf",group:"",date:"2026-07-14",utcH:19,utcM:0, home:"W73", away:"W74", venue:"Dallas Stadium", city:"Dallas"},
-  {id:102,stage:"sf",group:"",date:"2026-07-15",utcH:19,utcM:0, home:"W75", away:"W76", venue:"Atlanta Stadium", city:"Atlanta"},
-  {id:103,stage:"3rd",group:"",date:"2026-07-18",utcH:19,utcM:0, home:"L77", away:"L78", venue:"Miami Stadium", city:"Miami"},
-  {id:104,stage:"final",group:"",date:"2026-07-19",utcH:19,utcM:0, home:"W77", away:"W78", venue:"New York New Jersey Stadium", city:"New York"},
-];
-var STAGE_LABELS={group:"Group Stage",r32:"Round of 32",r16:"Round of 16",qf:"Quarter-finals",sf:"Semi-finals","3rd":"Third Place Play-off",final:"🏆 Final"};
-var STAGE_ORDER=["group","r32","r16","qf","sf","3rd","final"];
-var FILTERS=[{key:"all",label:"All"},{key:"group",label:"Groups"},{key:"city",label:"Cities"},{key:"r32",label:"R32"},{key:"r16",label:"R16"},{key:"qf",label:"QF"},{key:"sf",label:"SF"},{key:"final",label:"Final"}];
-var GROUP_KEYS=["A","B","C","D","E","F","G","H","I","J","K","L"];
-// Города-хозяева с флагом страны (для фильтра по стадионам)
-var CITY_COUNTRY={
-  "Vancouver":"ca","Toronto":"ca",
-  "Mexico City":"mx","Guadalajara":"mx","Monterrey":"mx",
-  "Los Angeles":"us","San Francisco":"us","Seattle":"us","Dallas":"us","Kansas City":"us",
-  "Houston":"us","Atlanta":"us","Miami":"us","Boston":"us","Philadelphia":"us","New York":"us"
-};
-
-// ═══════════════════════════════════════════════════
-// STATE — multi-user. picks[matchId][uid]="Team"; users[uid]={name}
-// ═══════════════════════════════════════════════════
-var picks={}, users={}, results={}, autoRes={};
-var expanded={}, activeFilter="all", activeGroup="", activeCity="", searchQ="";
-var autoOn=false, autoTimer=null, cdTimer=null, cdSec=0;
-
-// Timezone for displaying dates/times. offset in hours from UTC.
-var TZ_OPTIONS=[
-  {key:"vancouver", label:"Vancouver (PDT, UTC-7)", off:-7, abbr:"PDT"},
-  {key:"moscow",    label:"Moscow (MSK, UTC+3)",    off:3,  abbr:"MSK"},
-  {key:"et",        label:"US Eastern (EDT, UTC-4)", off:-4, abbr:"ET"},
-  {key:"local",     label:"My device timezone",      off:null, abbr:"local"}
-];
-var displayTZ=localStorage.getItem("wc26_tz")||"vancouver";
-function tzOff(){
-  var o=TZ_OPTIONS.find(function(t){return t.key===displayTZ;})||TZ_OPTIONS[0];
-  if(o.off===null) return -(new Date().getTimezoneOffset()/60); // device
-  return o.off;
-}
-function tzAbbr(){
-  var o=TZ_OPTIONS.find(function(t){return t.key===displayTZ;})||TZ_OPTIONS[0];
-  if(o.key==="local") return "local";
-  return o.abbr;
-}
-function setTZ(k){ displayTZ=k; localStorage.setItem("wc26_tz",k); render(); renderSettings(); }
-
-function loadLocal(){
+/* ---------------- сигналы ---------------- */
+function tone(freq, dur, vol){
+  if (!S.ac) return;
   try{
-    var d=JSON.parse(localStorage.getItem("wc26_data2")||"{}");
-    picks=d.picks||{}; users=d.users||{}; results=d.results||{}; autoRes=d.autoRes||{};
+    const o = S.ac.createOscillator(), g = S.ac.createGain(), t0 = S.ac.currentTime;
+    o.type = 'sine'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0, t0);
+    g.gain.linearRampToValueAtTime(vol, t0 + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g); g.connect(S.ac.destination);
+    o.start(t0); o.stop(t0 + dur + 0.02);
   }catch(e){}
 }
-function saveLocal(){
-  try{ localStorage.setItem("wc26_data2",JSON.stringify({picks:picks,users:users,results:results,autoRes:autoRes})); }catch(e){}
-}
-loadLocal();
+const rogerBeep = () => { if (el.beep.checked) tone(1180, 0.11, 0.10); };
+const joinBeep  = () => { tone(720, 0.07, 0.07); setTimeout(() => tone(1080, 0.09, 0.07), 80); };
 
-// ═══════════════════════════════════════════════════
-// FIREBASE — стабильная синхронизация в реальном времени
-// ═══════════════════════════════════════════════════
-var fbReady=false, fbDB=null, fbRoot=null;
-
-function initFirebase(){
+/* ---------------- экран не гаснет ---------------- */
+async function holdWake(){
+  if (!el.awake.checked || !('wakeLock' in navigator) || S.wake) return;
   try{
-    var cfg={
-      apiKey:"AIzaSyAj5fwzEHCI7Gza90cajHiHOwQiJcfuoQ0",
-      authDomain:"wc2026-esprit-cloun.firebaseapp.com",
-      databaseURL:"https://wc2026-esprit-cloun-default-rtdb.europe-west1.firebasedatabase.app",
-      projectId:"wc2026-esprit-cloun",
-      storageBucket:"wc2026-esprit-cloun.firebasestorage.app",
-      messagingSenderId:"430511379657",
-      appId:"1:430511379657:web:83c5d787723e48c5156918"
-    };
-    firebase.initializeApp(cfg);
-    fbDB=firebase.database();
-    fbRoot=fbDB.ref("wc2026/room1");
-    fbReady=true;
+    S.wake = await navigator.wakeLock.request('screen');
+    S.wake.addEventListener('release', () => { S.wake = null; });
+  }catch(e){ S.wake = null; }
+}
+function dropWake(){
+  if (S.wake){ try{ S.wake.release(); }catch(e){} S.wake = null; }
+}
+document.addEventListener('visibilitychange', () => {
+  if (document.visibilityState === 'visible' && S.joined) holdWake(); else dropWake();
+});
+el.awake.addEventListener('change', () => { el.awake.checked ? holdWake() : dropWake(); });
 
-    // realtime subscriptions
-    fbRoot.child("picks").on("value",function(snap){
-      var v=snap.val(); picks=v||{}; saveLocal(); sr();
-    });
-    fbRoot.child("users").on("value",function(snap){
-      var v=snap.val(); users=v||{}; saveLocal(); sr();
-    });
-    fbRoot.child("results").on("value",function(snap){
-      var v=snap.val(); results=v||{}; saveLocal(); sr();
-    });
-    fbRoot.child("autoRes").on("value",function(snap){
-      var v=snap.val(); autoRes=v||{}; saveLocal(); sr();
-    });
+/* ============================================================
+   ВХОД В КАНАЛ
+   ============================================================ */
+el.dice.addEventListener('click', () => {
+  const w = ['SKLAD','SMENA','BRIGADA','LINIYA','TSEH','POST','VYSHKA','DEPO'];
+  el.code.value = w[Math.floor(Math.random()*w.length)] + '-' + (10 + Math.floor(Math.random()*89));
+});
+el.code.addEventListener('input', () => { el.code.value = sanitizeCode(el.code.value); });
+[el.code, el.nick].forEach(i => i.addEventListener('keydown', e => {
+  if (e.key === 'Enter'){ e.preventDefault(); i.blur(); el.join.click(); }
+}));
 
-    // connection status
-    fbDB.ref(".info/connected").on("value",function(snap){
-      if(snap.val()===true){ ss("online","synced"); registerUser(); }
-      else ss("error","offline");
-    });
-    ss("syncing","connecting...");
-  }catch(e){
-    ss("error","local");
-    console.log("Firebase init error:",e);
+el.join.addEventListener('click', async () => {
+  const raw = sanitizeCode(el.code.value);
+  if (!raw){ setStatus('Введите код канала', 'bad'); el.code.focus(); return; }
+  if (typeof window.Peer !== 'function'){
+    setStatus('Не загрузилась библиотека связи. Проверьте интернет и обновите страницу.', 'bad');
+    return;
   }
-}
+  S.code = raw;
+  S.prefix = NS + '-' + translit(raw).replace(/[^A-Z0-9-]/g,'') + '-';
+  S.nick = el.nick.value.trim().slice(0,18);
+  el.join.disabled = el.dice.disabled = true;
 
-function ss(s,l){var d=document.getElementById("syncDot");if(d){d.className="sync-dot "+s;d.title=l;}var lb=document.getElementById("syncLbl");if(lb)lb.textContent=l;}
-
-// register/update myself in the room's user list
-function registerUser(){
-  if(!myId||!myName) return;
-  users[myId]={name:myName};
-  saveLocal();
-  if(fbReady){ try{ fbRoot.child("users/"+myId).set({name:myName}); }catch(e){} }
-}
-
-// place / clear MY pick for a match (multi-user)
-function setPick(mid,val){
-  var m=MATCHES.find(function(x){return x.id===mid;});
-  if(m&&isLocked(m)) return;          // locked at kickoff
-  if(!myId) return;
-  if(!myName){ if(!ensureName()) return; }
-  var c=Object.assign({},picks[mid]||{});
-  if(val) c[myId]=val; else delete c[myId];
-  picks[mid]=c;
-  saveLocal();
-  if(fbReady){ try{ fbRoot.child("picks/"+mid+"/"+myId).set(val||null); }catch(e){} }
-  fs();
-}
-function far(mid,val){
-  autoRes[mid]=val; saveLocal();
-  if(fbReady){ try{ fbRoot.child("autoRes/"+mid).set(val); }catch(e){} }
-}
-function fs(){ ss("syncing","saving..."); setTimeout(function(){ ss("online","synced"); },700); }
-
-// ═══════════════════════════════════════════════════
-// API — авто-результаты (управление из Настроек)
-// Стратегия: опрашиваем раз в N часов (по умолч. каждые 3 часа),
-// т.к. результаты нужны после завершения матчей, а не в реальном времени.
-// ═══════════════════════════════════════════════════
-// AUTO RESULT CHECKING — fully automatic, no buttons.
-// A match result is checked ~100 minutes after kickoff (≈ final whistle),
-// with a couple of retries in case the API is slow to settle the score.
-// We also do light periodic sweeps so LIVE scores and any misses fill in.
-// ═══════════════════════════════════════════════════
-var RESULT_DELAY_MS = 100*60*1000;   // 100 minutes after kickoff
-var SWEEP_INTERVAL_MS = 30*60*1000;  // background sweep every 30 min
-var _scheduledChecks = {};           // mid -> true (avoid duplicate timers)
-
-// schedule a one-off check for a single match at kickoff+100min (and 2 retries)
-function scheduleMatchCheck(m){
-  if(_scheduledChecks[m.id]) return;
-  var ks=matchTS(m);
-  var checkAt=ks+RESULT_DELAY_MS;
-  var now=Date.now();
-  // if that moment is in the future, set timers; if already past and no result yet, check soon
-  var fire=function(){ fetchFixtures(); };
-  if(checkAt>now){
-    _scheduledChecks[m.id]=true;
-    setTimeout(fire, checkAt-now);
-    setTimeout(fire, checkAt-now+10*60*1000); // retry +10 min
-    setTimeout(fire, checkAt-now+25*60*1000); // retry +25 min
-  } else if(!getBR(m.id) && now-ks < 24*60*60*1000){
-    // match started over 100 min ago, within last 24h, still no score → check now-ish
-    _scheduledChecks[m.id]=true;
-    setTimeout(fire, 2000+Math.random()*4000);
-  }
-}
-
-// look over all matches and schedule checks for those kicking off soon / recently
-function scheduleAllChecks(){
-  if(!isAdmin) return;   // only admins run result checks
-  var now=Date.now();
-  MATCHES.forEach(function(m){
-    var ks=matchTS(m);
-    // schedule matches from 2h before kickoff up to 24h after — covers today's slate
-    if(ks - now < 2*60*60*1000 && now - ks < 24*60*60*1000){
-      scheduleMatchCheck(m);
-    }
-  });
-}
-
-var lastFetchInfo={time:null,status:"",count:0};
-
-function setApiInfo(s,l){ lastFetchInfo.statusClass=s; lastFetchInfo.statusText=l; }
-// admin-only manual trigger: force an immediate API result check
-function adminRefresh(btn){
-  if(!isAdmin) return;
-  if(btn){ btn.disabled=true; var t=btn.textContent; btn.textContent="↻ Refreshing…";
-    setTimeout(function(){ try{ btn.disabled=false; btn.textContent=t; renderSettings(); }catch(e){} }, 4000); }
-  fetchFixtures();
-}
-
-// Date in YYYYMMDD format (required by free-api-live-football-data)
-function fmtDateAPI(d){
-  return d.getUTCFullYear()+pad(d.getUTCMonth()+1)+pad(d.getUTCDate());
-}
-
-function fetchFixtures(manual){
-  // Only admins query the football API for results. Everyone else just reads
-  // the results an admin already wrote to Firebase — no duplicate API calls.
-  if(!isAdmin){ setApiInfo("ok","results come from admin"); return; }
-  setApiInfo("check","requesting API...");
-  // The API buckets matches by the stadium's LOCAL date, which can be ±1 day from UTC.
-  // So we query yesterday, today and tomorrow to be safe.
-  var today=new Date();
-  var yest=new Date(Date.now()-86400000);
-  var tom=new Date(Date.now()+86400000);
-  var dates=[fmtDateAPI(yest),fmtDateAPI(today),fmtDateAPI(tom)];
-  var done=0, totalNew=0, totalMatched=0, hadError=false, errMsg="";
-  lastFetchInfo.debug={dates:dates, totalReturned:0, sampleNames:[], wcCandidates:[]};
-  dates.forEach(function(ds){
-    fetch(apiCfg.base+"/football-get-matches-by-date?date="+ds,{
-      headers:{"x-rapidapi-host":apiCfg.host,"x-rapidapi-key":apiCfg.key}
-    })
-    .then(function(r){
-      if(r.status===401||r.status===403) throw new Error("key not subscribed to this API");
-      if(r.status===429) throw new Error("rate limit exceeded");
-      return r.json();
-    })
-    .then(function(d){
-      if(d.status&&d.status!=="success"){ hadError=true; errMsg="API returned status: "+d.status; return; }
-      var matches=(d.response&&d.response.matches)||[];
-      lastFetchInfo.debug.totalReturned+=matches.length;
-      // collect team-name pairs that look like our WC teams (for debugging mismatches)
-      matches.forEach(function(fx){
-        if(!fx.home||!fx.away)return;
-        var hn=fx.home.name, an=fx.away.name;
-        var isWC = MATCHES.some(function(x){return teamMatch(x.home,hn,fx.home.longName)||teamMatch(x.away,an,fx.away.longName)||teamMatch(x.home,an,fx.away.longName)||teamMatch(x.away,hn,fx.home.longName);});
-        if(isWC) lastFetchInfo.debug.wcCandidates.push(hn+" vs "+an);
-      });
-      if(lastFetchInfo.debug.sampleNames.length<10){
-        matches.slice(0,10).forEach(function(fx){ if(fx.home&&fx.away) lastFetchInfo.debug.sampleNames.push(fx.home.name+" vs "+fx.away.name); });
-      }
-      var res=processFix(matches);
-      totalNew+=res.updated; totalMatched+=res.matched;
-    })
-    .catch(function(e){ hadError=true; errMsg=e.message; })
-    .finally(function(){
-      done++;
-      if(done===dates.length){
-        lastFetchInfo.time=new Date();
-        if(hadError){ lastFetchInfo.status="err"; setApiInfo("err",errMsg||"error"); }
-        else if(totalMatched===0){ lastFetchInfo.status="ok"; setApiInfo("ok","request ok, no WC matches today ("+lastFetchInfo.debug.totalReturned+" total returned)"); }
-        else { lastFetchInfo.status="ok"; setApiInfo("ok","WC matches found: "+totalMatched+", updated: "+totalNew); }
-        sr(); renderSettings();
-      }
-    });
-  });
-}
-
-function processFix(matches){
-  var cnt=0, matched=0;
-  matches.forEach(function(fx){
-    if(!fx.home||!fx.away||!fx.status) return;
-    var homeEn=fx.home.name, awayEn=fx.away.name;
-    var homeLong=fx.home.longName||homeEn, awayLong=fx.away.longName||awayEn;
-    var g1=fx.home.score, g2=fx.away.score;
-    if(g1==null||g2==null) return;
-    var st=fx.status;
-    var isFin=st.finished===true;
-    var isLive=st.started===true && !st.finished && !st.cancelled;
-    if(st.cancelled) return;
-    if(!isLive&&!isFin) return;
-    // match against our schedule by team name (with alias support); handle swapped home/away
-    var swapped=false;
-    var m=MATCHES.find(function(x){
-      if(teamMatch(x.home,homeEn,homeLong)&&teamMatch(x.away,awayEn,awayLong)) return true;
-      if(teamMatch(x.home,awayEn,awayLong)&&teamMatch(x.away,homeEn,homeLong)){ swapped=true; return true; }
-      return false;
-    });
-    if(!m) return;
-    matched++;
-    var tag=isFin?(st.reason&&st.reason.short?st.reason.short:"FT"):"LIVE";
-    // keep score oriented to OUR home:away ordering
-    var sH=swapped?g2:g1, sA=swapped?g1:g2;
-    var val=sH+":"+sA+"|"+tag;
-    if(autoRes[m.id]!==val){ far(m.id,val); cnt++; }
-  });
-  return {updated:cnt, matched:matched};
-}
-
-// ═══════════════════════════════════════════════════
-// СТРАНИЦА НАСТРОЕК
-// ═══════════════════════════════════════════════════
-function renderSettings(){
-  var root=document.getElementById("setRoot");
-  if(!root) return;
-  var keyMasked=apiCfg.key?("●●●●●●●●"+apiCfg.key.slice(-6)):"not set";
-  var lastTime=lastFetchInfo.time?lastFetchInfo.time.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"}):"no requests yet";
-  var stDot=lastFetchInfo.statusClass==="ok"?"var(--green)":(lastFetchInfo.statusClass==="err"?"var(--red)":"var(--text3)");
-  root.innerHTML=
-    '<div class="sec">You</div>'
-    +'<div class="set-card">'
-    +'<div class="set-row"><span class="set-k">Signed in as</span><span class="set-v"><b style="color:var(--gold2)">'+esc(meName())+'</b></span></div>'
-    +'<div class="set-row"><span class="set-k">Source</span><span class="set-v">'+((window.Telegram&&window.Telegram.WebApp&&tgUser)?"Telegram":"Browser")+'</span></div>'
-    +((window.Telegram&&window.Telegram.WebApp&&tgUser)
-        ? '<p class="set-hint">You\'re signed in automatically through Telegram. Your picks are saved under this account and counted on the leaderboard.</p>'
-        : '<div style="margin-top:8px"><button class="set-btn" onclick="changeName()">'+(myName?"Change name":"Set your name")+'</button></div>'
-          +'<p class="set-hint">Opened in a browser, so you set a display name yourself. Open the app from the Telegram bot to be recognised automatically.</p>')
-    +'</div>'
-
-    +'<div class="sec" style="margin-top:24px">Display timezone</div>'
-    +'<div class="set-card">'
-    +'<div class="set-row"><span class="set-k">Dates &amp; days are shown in</span></div>'
-    +'<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">'
-    +TZ_OPTIONS.map(function(t){return'<button class="set-btn '+(displayTZ===t.key?"primary":"")+'" onclick="setTZ(\''+t.key+'\')">'+t.label+'</button>';}).join("")
-    +'</div>'
-    +'<p class="set-hint">Match dates and the calendar day headers follow this timezone. The match cards always also show both Vancouver (PDT) and Moscow (MSK) kickoff times side by side.</p>'
-    +'</div>'
-
-    +'<div class="sec" style="margin-top:24px">Results</div>'
-    +'<div class="set-card">'
-    +'<div class="set-row"><span class="set-k">Your role</span><span class="set-v">'+(isAdmin?'<b style="color:var(--gold2)">Admin (result puller)</b>':'Player (reads results)')+'</span></div>'
-    +'<div class="set-row"><span class="set-k">Mode</span><span class="set-v"><span style="display:inline-flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:var(--green)"></span>fully automatic</span></span></div>'
-    +'<div class="set-row"><span class="set-k">When</span><span class="set-v">~100 min after kickoff</span></div>'
-    +(isAdmin?'<div class="set-row"><span class="set-k">Last check</span><span class="set-v">'+lastTime+'</span></div>'
-      +'<div class="set-row"><span class="set-k">Status</span><span class="set-v" style="display:inline-flex;align-items:center;gap:6px"><span style="width:8px;height:8px;border-radius:50%;background:'+stDot+'"></span>'+(lastFetchInfo.statusText||"waiting for matches")+'</span></div>':'')
-    +((isAdmin&&lastFetchInfo.debug)?(
-        '<div style="margin-top:14px;padding:12px;background:var(--bg3);border-radius:var(--rs);font-size:11px;color:var(--text2);line-height:1.7">'
-        +'<div style="color:var(--text);font-weight:700;margin-bottom:5px">Diagnostics (last check)</div>'
-        +'Dates queried: <span style="font-family:monospace;color:var(--gold2)">'+lastFetchInfo.debug.dates.join(", ")+'</span><br>'
-        +'Total matches returned by API: <b>'+lastFetchInfo.debug.totalReturned+'</b><br>'
-        +'WC matches matched to schedule: <b>'+(lastFetchInfo.debug.wcCandidates.length)+'</b>'
-        +(lastFetchInfo.debug.wcCandidates.length?'<br><span style="color:var(--green)">'+lastFetchInfo.debug.wcCandidates.join("<br>")+'</span>':'')
-        +'</div>'
-      ):'')
-    +(isAdmin?'<div style="margin-top:14px"><button class="set-btn primary" onclick="adminRefresh(this)">↻ Refresh results now</button></div>':'')
-    +'<p class="set-hint">'+(isAdmin
-        ? 'You\'re an admin: your open app pulls match results from the official feed (~100 min after kickoff) and shares them with the whole room. Use “Refresh results now” to fetch immediately instead of waiting. Keep the app open on match days so results sync for everyone.'
-        : 'Results are pulled automatically by an admin and synced to you in real time — your app never calls the sports API directly. Scores can\'t be edited by hand.')+'</p>'
-    +'</div>'
-
-    +'<div class="sec" style="margin-top:24px">Sync &amp; room</div>'
-    +'<div class="set-card">'
-    +'<div class="set-row"><span class="set-k">Cloud status</span><span class="set-v" id="setSyncStatus">checking...</span></div>'
-    +'<div class="set-row"><span class="set-k">Room</span><span class="set-v" style="font-family:monospace">room1 (shared)</span></div>'
-    +'<div class="set-row"><span class="set-k">Players in room</span><span class="set-v"><b style="color:var(--gold2)">'+Object.keys(users).length+'</b></span></div>'
-    +'<p class="set-hint">Everyone who opens the app from the Telegram bot joins the same shared room. All picks and results sync in real time, and the leaderboard updates live for everyone.</p>'
-    +'</div>';
-  // обновим статус синхронизации
-  var ss2=document.getElementById("setSyncStatus");
-  if(ss2) ss2.textContent=fbReady?"connected ✓":"local mode";
-}
-function saveApiFromForm(){
-  var k=document.getElementById("setKey").value.trim();
-  if(k) apiCfg.key=k;
-  apiCfg.host=document.getElementById("setHost").value.trim()||apiCfg.host;
-  apiCfg.base=document.getElementById("setBase").value.trim()||apiCfg.base;
-  saveApiCfg();
-  renderSettings();
-  fetchFixtures(true); // test request
-}
-function resetApiCfg(){
-  apiCfg=Object.assign({},API_DEFAULTS,{autoEnabled:apiCfg.autoEnabled});
-  saveApiCfg(); renderSettings();
-}
-
-// ═══════════════════════════════════════════════════
-// UTILS
-// ═══════════════════════════════════════════════════
-function pad(n){return n<10?"0"+n:String(n);}
-function tz(h,m,off){var hh=h+off;if(hh<0)hh+=24;if(hh>=24)hh-=24;return pad(hh)+":"+pad(m);}
-// Build a Date shifted into the chosen display timezone (as a UTC pseudo-date)
-function shifted(ds,h,m){
-  var base=new Date(ds+"T"+pad(h)+":"+pad(m)+":00Z");
-  return new Date(base.getTime()+tzOff()*3600000);
-}
-function fd(ds,h,m){var d=shifted(ds,h,m);return d.toLocaleDateString("en-US",{month:"short",day:"numeric",timeZone:"UTC"});}
-function fw2(ds,h,m){var d=shifted(ds,h,m);return d.toLocaleDateString("en-US",{weekday:"short",timeZone:"UTC"});}
-// day-key in the chosen timezone for calendar grouping
-function dayKey(ds,h,m){var d=shifted(ds,h,m);return d.toISOString().slice(0,10);}
-function humanDay(ds,h,m){var d=shifted(ds,h,m);return d.toLocaleDateString("en-US",{day:"numeric",month:"long",weekday:"long",timeZone:"UTC"});}
-function winner(res,h,a){
-  if(!res)return null;
-  var s=res.split("|")[0].trim().split(/[:\-]/);
-  if(s.length<2)return null;
-  var g1=parseInt(s[0]),g2=parseInt(s[1]);
-  if(isNaN(g1)||isNaN(g2))return null;
-  if(g1>g2)return h;if(g2>g1)return a;return"Draw";
-}
-function getBR(mid){
-  // Results come ONLY from the API (autoRes). Manual entry is disabled so
-  // players can't fake scores to climb the leaderboard.
-  var au=autoRes[mid]||"";if(!au)return null;
-  var p=au.split("|");return{score:p[0],auto:true,live:p[1]==="LIVE"};
-}
-// Match kickoff timestamp (UTC ms)
-function matchTS(m){ return new Date(m.date+"T"+pad(m.utcH)+":"+pad(m.utcM)+":00Z").getTime(); }
-// Are picks locked? Locked once kickoff time has passed, OR a score exists (live/FT).
-function isLocked(m){
-  if(getBR(m.id)) return true;          // score present (live or finished)
-  return Date.now() >= matchTS(m);       // kickoff time reached
-}
-// Status of a match: "upcoming" | "live" | "finished"
-// A match is only "live" within a realistic match window (~2.5h after kickoff).
-// After that, if there's still no score, it's treated as finished/ended (no blinking LIVE).
-var LIVE_WINDOW_MS = 150*60*1000; // 2.5 hours
-function matchStatus(m){
-  var br=getBR(m.id);
-  if(br) return br.live?"live":"finished";
-  var now=Date.now(), ks=matchTS(m);
-  if(now < ks) return "upcoming";
-  if(now - ks <= LIVE_WINDOW_MS) return "live";  // genuinely in progress
-  return "finished";                              // kicked off long ago, no score yet → not live
-}
-function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
-
-// ═══════════════════════════════════════════════════
-// RENDER
-// ═══════════════════════════════════════════════════
-var _rt;
-function sr(){clearTimeout(_rt);_rt=setTimeout(function(){render();if(document.getElementById("page-analytics").classList.contains("active"))renderAn();},80);}
-
-function renderFilters(){
-  var html=FILTERS.map(function(f){return'<button class="flt'+(activeFilter===f.key?" active":"")+'" onclick="setF(\''+f.key+'\')">'+f.label+'</button>';}).join("")+
-    '<input class="search-box" id="searchBox" placeholder="Search..." value="'+esc(searchQ)+'">';
-  document.getElementById("filtersRow").innerHTML=html;
-  // под-фильтр групп
-  var grpRow=document.getElementById("groupRow");
-  if(activeFilter==="group"){
-    grpRow.style.display="flex";
-    grpRow.innerHTML='<button class="flt'+(activeGroup===""?" active":"")+'" onclick="setG(\'\')">All groups</button>'+
-      GROUP_KEYS.map(function(g){return'<button class="flt'+(activeGroup===g?" active":"")+'" onclick="setG(\''+g+'\')">Group '+g+'</button>';}).join("");
-  } else {
-    grpRow.style.display="none";
-  }
-  // под-фильтр городов
-  var cityRow=document.getElementById("cityRow");
-  if(activeFilter==="city"){
-    cityRow.style.display="flex";
-    // собираем список городов из матчей с подсчётом
-    var cityCount={};
-    MATCHES.forEach(function(m){ cityCount[m.city]=(cityCount[m.city]||0)+1; });
-    var cityList=Object.keys(CITY_COUNTRY);
-    cityRow.innerHTML='<button class="flt'+(activeCity===""?" active":"")+'" onclick="setCity(\'\')">All cities</button>'+
-      cityList.map(function(c){
-        var fl=CITY_COUNTRY[c]?'<img src="https://flagcdn.com/'+CITY_COUNTRY[c]+'.svg" style="width:14px;height:10px;border-radius:1px;margin-right:4px;vertical-align:middle">':"";
-        return'<button class="flt'+(activeCity===c?" active":"")+'" onclick="setCity(\''+c+'\')">'+fl+c+' <span style="opacity:.5">('+(cityCount[c]||0)+')</span></button>';
-      }).join("");
-  } else {
-    cityRow.style.display="none";
-  }
-  var sb=document.getElementById("searchBox");
-  if(sb){ sb.oninput=function(){ searchQ=this.value.toLowerCase(); renderSchedOnly(); }; }
-}
-function setF(k){activeFilter=k;activeGroup="";activeCity="";render();}
-function setG(g){activeGroup=g;render();}
-function setCity(c){activeCity=c;render();}
-
-// Рендер только списка матчей (не трогаем фильтры — поиск не теряет фокус)
-function renderSchedOnly(){
-  var root=document.getElementById("schedRoot");
-  var ms=MATCHES.filter(function(m){return activeFilter==="all"||activeFilter==="city"||m.stage===activeFilter;});
-  if(activeFilter==="group"&&activeGroup) ms=ms.filter(function(m){return m.group===activeGroup;});
-  if(activeFilter==="city"&&activeCity) ms=ms.filter(function(m){return m.city===activeCity;});
-  if(searchQ)ms=ms.filter(function(m){return m.home.toLowerCase().includes(searchQ)||m.away.toLowerCase().includes(searchQ);});
-  if(!ms.length){root.innerHTML='<div class="nores">No matches found</div>';return;}
-  var html="";
-
-  // ── ФИЛЬТР "ГОРОДА" → по стадионам, календарём ──
-  if(activeFilter==="city"){
-    var srt=ms.slice().sort(function(a,b){
-      var da=a.date+pad(a.utcH)+pad(a.utcM), db=b.date+pad(b.utcH)+pad(b.utcM);
-      return da<db?-1:da>db?1:0;
-    });
-    if(activeCity){
-      // конкретный город: шапка стадиона + матчи по датам
-      var venueName=srt[0]?srt[0].venue:"";
-      var fl=CITY_COUNTRY[activeCity]?'<img src="https://flagcdn.com/'+CITY_COUNTRY[activeCity]+'.svg" style="width:18px;height:13px;border-radius:2px;margin-right:6px;vertical-align:middle">':"";
-      html+='<div class="city-hero">'+fl+'<b>'+activeCity+'</b> · '+venueName+' <span style="color:var(--text3);font-weight:400">— '+srt.length+' '+(srt.length===1?'match':'matches')+'</span></div>';
-      var ld="";
-      srt.forEach(function(m){
-        var dk=dayKey(m.date,m.utcH,m.utcM);
-        if(dk!==ld){ ld=dk;
-          html+='<div class="stage-sep">'+humanDay(m.date,m.utcH,m.utcM)+' <span>'+(STAGE_LABELS[m.stage]||"").replace(/ \(.*\)/,"").replace("🏆 ","")+'</span></div>'; }
-        html+=renderCard(m);
-      });
-    } else {
-      // все города: группируем по городу
-      var cities=Object.keys(CITY_COUNTRY);
-      cities.forEach(function(c){
-        var cm=srt.filter(function(m){return m.city===c;});
-        if(!cm.length)return;
-        var fl=CITY_COUNTRY[c]?'<img src="https://flagcdn.com/'+CITY_COUNTRY[c]+'.svg" style="width:15px;height:11px;border-radius:1px;margin-right:5px;vertical-align:middle">':"";
-        html+='<div class="stage-sep">'+fl+c+' <span>'+cm[0].venue+' · '+cm.length+' '+(cm.length===1?'match':'matches')+'</span></div>';
-        cm.forEach(function(m){ html+=renderCard(m); });
-      });
-    }
-    root.innerHTML=html;
-    applyMob();
+  setStatus('Запрашиваю доступ к микрофону…', 'busy');
+  try{ await openMic(); }
+  catch(err){
+    el.join.disabled = el.dice.disabled = false;
+    setStatus(micError(err), 'bad');
     return;
   }
 
-  // ── "ALL" FILTER → pure calendar by date (Jun 11 downward) ──
-  if(activeFilter==="all"&&!searchQ){
-    var sorted=ms.slice().sort(function(a,b){
-      var da=a.date+pad(a.utcH)+pad(a.utcM), db=b.date+pad(b.utcH)+pad(b.utcM);
-      return da<db?-1:da>db?1:0;
-    });
-    var lastDate="";
-    sorted.forEach(function(m){
-      var dk=dayKey(m.date,m.utcH,m.utcM);
-      if(dk!==lastDate){
-        lastDate=dk;
-        var dayMatches=sorted.filter(function(x){return dayKey(x.date,x.utcH,x.utcM)===dk;}).length;
-        html+='<div class="stage-sep">'+humanDay(m.date,m.utcH,m.utcM)+' <span>'+dayMatches+' '+(dayMatches===1?'match':'matches')+' · '+(STAGE_LABELS[m.stage]||"").replace(/ \(.*\)/,"").replace("🏆 ","")+'</span></div>';
-      }
-      html+=renderCard(m);
-    });
-    root.innerHTML=html;
-    applyMob();
-    return;
-  }
-  // Поиск при фильтре "Все" — тоже календарём
-  if(activeFilter==="all"&&searchQ){
-    var sorted2=ms.slice().sort(function(a,b){
-      var da=a.date+pad(a.utcH)+pad(a.utcM), db=b.date+pad(b.utcH)+pad(b.utcM);
-      return da<db?-1:da>db?1:0;
-    });
-    sorted2.forEach(function(m){ html+=renderCard(m); });
-    root.innerHTML=html;
-    applyMob();
+  setStatus('Ищу свободный пост в канале ' + raw + '…', 'busy');
+  let claimed;
+  try{ claimed = await claimSlot(); }
+  catch(err){
+    closeMic();
+    el.join.disabled = el.dice.disabled = false;
+    setStatus(err.message, 'bad');
     return;
   }
 
-  // Если фильтр = группы и выбрана конкретная — показываем таблицу группы сверху
-  if(activeFilter==="group"&&activeGroup){
-    html+=renderGroupTable(activeGroup);
-  }
-  var byStage={};STAGE_ORDER.forEach(function(s){byStage[s]=[];});
-  ms.forEach(function(m){if(byStage[m.stage])byStage[m.stage].push(m);});
-  STAGE_ORDER.forEach(function(stage){
-    var list=byStage[stage];if(!list.length)return;
-    // сортируем матчи этапа по дате
-    list.sort(function(a,b){
-      var da=a.date+pad(a.utcH)+pad(a.utcM), db=b.date+pad(b.utcH)+pad(b.utcM);
-      return da<db?-1:da>db?1:0;
-    });
-    // в групповом этапе при выборе "Все группы" — разбиваем по группам
-    if(stage==="group"&&activeFilter==="group"&&!activeGroup){
-      GROUP_KEYS.forEach(function(g){
-        var gl=list.filter(function(m){return m.group===g;});
-        if(!gl.length)return;
-        html+='<div class="stage-sep">Group '+g+' <span>'+groupTeamsLine(g)+'</span></div>';
-        gl.forEach(function(m){html+=renderCard(m);});
-      });
-    } else {
-      html+='<div class="stage-sep">'+STAGE_LABELS[stage]+' <span>'+list.length+' '+(list.length===1?'match':'matches')+'</span></div>';
-      list.forEach(function(m){html+=renderCard(m);});
-    }
-  });
-  root.innerHTML=html;
-  applyMob();
-}
-
-function groupTeamsLine(g){
-  if(!GROUPS[g]) return "";
-  return GROUPS[g].join(" · ");
-}
-
-// Турнирная таблица группы (на основе сыгранных матчей)
-function renderGroupTable(g){
-  if(!GROUPS[g]) return "";
-  var teams=GROUPS[g];
-  var stats={};
-  teams.forEach(function(t){ stats[t]={p:0,w:0,d:0,l:0,gf:0,ga:0,pts:0}; });
-  MATCHES.filter(function(m){return m.group===g&&m.stage==="group";}).forEach(function(m){
-    var br=getBR(m.id);
-    if(!br||br.live) return;
-    var s=br.score.split(/[:\-]/);
-    var g1=parseInt(s[0]),g2=parseInt(s[1]);
-    if(isNaN(g1)||isNaN(g2))return;
-    if(!stats[m.home]||!stats[m.away])return;
-    stats[m.home].p++; stats[m.away].p++;
-    stats[m.home].gf+=g1; stats[m.home].ga+=g2;
-    stats[m.away].gf+=g2; stats[m.away].ga+=g1;
-    if(g1>g2){stats[m.home].w++;stats[m.home].pts+=3;stats[m.away].l++;}
-    else if(g2>g1){stats[m.away].w++;stats[m.away].pts+=3;stats[m.home].l++;}
-    else {stats[m.home].d++;stats[m.away].d++;stats[m.home].pts++;stats[m.away].pts++;}
-  });
-  var rows=teams.slice().sort(function(a,b){
-    if(stats[b].pts!==stats[a].pts)return stats[b].pts-stats[a].pts;
-    return (stats[b].gf-stats[b].ga)-(stats[a].gf-stats[a].ga);
-  });
-  var anyPlayed=teams.some(function(t){return stats[t].p>0;});
-  var body=rows.map(function(t,i){
-    var s=stats[t];
-    var qual=i<2?"style=\"color:var(--green)\"":(i===2?"style=\"color:var(--gold)\"":"");
-    return '<tr><td '+qual+'>'+(i+1)+'</td><td style="display:flex;align-items:center;gap:5px">'+fvs(t)+t+'</td>'
-      +'<td>'+s.p+'</td><td>'+s.w+'</td><td>'+s.d+'</td><td>'+s.l+'</td>'
-      +'<td>'+s.gf+':'+s.ga+'</td><td style="color:var(--gold);font-weight:700">'+s.pts+'</td></tr>';
-  }).join("");
-  return '<div class="gtable-wrap"><div class="sec" style="margin-bottom:8px">Group '+g+' table'+(anyPlayed?'':' <span style="font-size:11px;color:var(--text3);font-weight:400">— no matches played yet</span>')+'</div>'
-    +'<table class="gtable"><thead><tr><th>#</th><th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF:GA</th><th>Pts</th></tr></thead>'
-    +'<tbody>'+body+'</tbody></table>'
-    +'<div style="font-size:10px;color:var(--text3);margin:6px 0 14px"><span style="color:var(--green)">●</span> advance to knockouts · <span style="color:var(--gold)">●</span> possible best third</div></div>';
-}
-
-function render(){ renderFilters(); renderSchedOnly(); }
-
-// crowd breakdown for a match: {counts:{team:n}, total, myPick}
-function crowd(m){
-  var mp=picks[m.id]||{};
-  var counts={}; var total=0; var mine="";
-  Object.keys(mp).forEach(function(uid){
-    var v=mp[uid]; if(!v) return;
-    counts[v]=(counts[v]||0)+1; total++;
-    if(uid===myId) mine=v;
-  });
-  return {counts:counts,total:total,mine:mine};
-}
-// odds (points) for picking `outcome` given crowd: 1 / share, min share 5%
-function oddsFor(cr,outcome){
-  if(!cr.total) return 1/0.5; // nobody yet → even
-  var share=(cr.counts[outcome]||0)/cr.total;
-  if(share<0.05) share=0.05;
-  return 1/share;
-}
-// points THIS user earned on match m (0 if not finished / wrong / no pick)
-function matchPoints(m,uid){
-  var br=getBR(m.id); if(!br||br.live) return null;
-  var w=winner(br.score,m.home,m.away); if(!w) return null;
-  var pk=(picks[m.id]||{})[uid]; if(!pk) return 0;
-  if(pk!==w) return 0;
-  return oddsFor(crowd(m),w);
-}
-
-function renderCard(m){
-  var selT=tz(m.utcH,m.utcM,tzOff()), selA=tzAbbr();
-  var ds=fd(m.date,m.utcH,m.utcM),dw=fw2(m.date,m.utcH,m.utcM);
-  var br=getBR(m.id);
-  var w=br?winner(br.score,m.home,m.away):null;
-  var isExp=!!expanded[m.id];
-  var teams=[m.home,m.away,"Draw"];
-  var locked=isLocked(m);
-  var status=matchStatus(m);
-  var cr=crowd(m);
-  var myPick=cr.mine;
-
-  var resPill="";
-  if(br){
-    var cls=br.live?"res-live":"res-fin";
-    var autoTag=br.auto?'<span class="res-auto">auto</span>':"";
-    resPill='<span class="'+cls+'">'+br.score+'</span>'+autoTag;
-  }
-  var statusBadge="";
-  if(status==="live") statusBadge='<span class="mstatus live">● LIVE</span>';
-  else if(status==="finished") statusBadge='<span class="mstatus fin">'+(br?"FT":"ended")+'</span>';
-
-  var teamsHtml='<span style="display:inline-flex;align-items:center;gap:5px;flex-wrap:wrap">'
-    +fv(m.home)+'<span>'+teamNameFull(m.home)+'</span>'
-    +'<span style="color:var(--text3)">—</span>'
-    +fv(m.away)+'<span>'+teamNameFull(m.away)+'</span>'
-    +(resPill?" "+resPill:"")+'</span>';
-
-  // compact "my pick" chip for the collapsed row
-  var myChip;
-  if(myPick){
-    var pcorrect = w ? (myPick===w?" correct":" wrong") : "";
-    myChip='<span class="pb pb-e'+pcorrect+'">'+fvs(myPick)+'<span>'+(isTBA(myPick)?tbaHint(myPick):myPick)+'</span></span>';
-  } else {
-    myChip='<span class="pb pb-mt'+(locked?" pb-lock":"")+'">'+(locked?'— no pick':'+ pick')+'</span>';
-  }
-  var pickClick="toggleE("+m.id+")";
-
-  var expHtml="";
-  if(isExp){
-    // ── MY PICK selector (3 outcomes) ──
-    var outLabel=function(t){ return isTBA(t)?('<span style="color:var(--text3)">'+tbaHint(t)+'</span>'):t; };
-    var canPick=!locked;
-    var myOpts=teams.map(function(t){
-      var sel=(myPick===t)?" se":"";
-      var lk=canPick?"":" po-lock";
-      var attr=canPick?(' data-setpick="'+m.id+'" data-team="'+esc(t)+'"'):'';
-      return '<span class="po'+sel+lk+'"'+attr+'>'+fvs(t)+outLabel(t)+'</span>';
-    }).join("");
-    var lockNote=locked?'<div class="lock-note">🔒 Picks locked — match has started</div>':'';
-
-    // ── CROWD / MARKET ──
-    var marketHtml="";
-    if(!locked){
-      // hidden before kickoff — only show participation count
-      marketHtml='<div class="mkt-hidden">📊 '+cr.total+' '+(cr.total===1?'pick':'picks')+' placed · breakdown opens at kickoff</div>';
-    } else {
-      // revealed: show each outcome share + implied points
-      var rows=teams.map(function(t){
-        var n=cr.counts[t]||0;
-        var share=cr.total?Math.round(n/cr.total*100):0;
-        var pts=oddsFor(cr,t);
-        var isWin=w&&t===w;
-        var barColor=isWin?"var(--green)":"var(--gold)";
-        return '<div class="mkt-row'+(isWin?" win":"")+'">'
-          +'<span class="mkt-name">'+fvs(t)+(isTBA(t)?tbaHint(t):t)+(myPick===t?' <span class="you-tag">YOU</span>':'')+'</span>'
-          +'<span class="mkt-bar"><span class="mkt-fill" style="width:'+share+'%;background:'+barColor+'"></span></span>'
-          +'<span class="mkt-pct">'+share+'%</span>'
-          +'<span class="mkt-odds">×'+pts.toFixed(2)+'</span>'
-          +'</div>';
-      }).join("");
-      marketHtml='<div class="mkt"><div class="mkt-h">Room picks ('+cr.total+')</div>'+rows+'</div>';
-      // my result line
-      var mpts=matchPoints(m,myId);
-      if(mpts!==null && myPick){
-        marketHtml+='<div class="mkt-mine '+(mpts>0?"pos":"neg")+'">'
-          +(mpts>0?('✓ You earned <b>+'+mpts.toFixed(2)+'</b> pts'):'✗ Your pick missed — 0 pts')+'</div>';
-      }
-    }
-
-    expHtml='<div class="exp-panel">'+lockNote
-      +'<div class="exp-single">'
-      +'<div class="po-lbl">Your pick — who wins'+(myPick?'':' (tap to choose)')+':</div>'
-      +'<div class="po-wrap">'+myOpts+'</div>'
-      +marketHtml
-      +((autoRes[m.id])
-          ? '<div class="auto-res">Result: <b style="color:var(--gold)">'+autoRes[m.id].split("|")[0]+'</b> ('+autoRes[m.id].split("|")[1]+', auto)</div>'
-          : (locked?'<div class="res-pending">⏳ Result will appear automatically once the match data updates.</div>':''))
-      +'<div class="lineup-sec">'
-      +(lineupCache[m.id]
-          ? renderLineupHTML(m, lineupCache[m.id])
-          : '<button class="lineup-btn" onclick="loadLineup(event,'+m.id+')">👥 Show line-ups / squads</button>')
-      +'<div class="lineup-body" id="lu_'+m.id+'"></div>'
-      +'</div>'
-      +'</div></div>';
-  }
-
-  return '<div class="match-card'+(isExp?" expanded":"")+(locked?" locked":"")+'" id="mc_'+m.id+'">'
-    +'<div class="match-row" onclick="toggleE('+m.id+')">'
-    +'<div class="m-num">'+(m.group?'<span class="gpill">'+m.group+'</span>':m.id)+'</div>'
-    +'<div class="m-date"><div class="m-date-main">'+ds+statusBadge+'</div><div class="m-date-sub">'+dw+' · '+m.city+'</div></div>'
-    +'<div class="m-tvk"><div class="m-t-main">'+selT+'</div><div class="m-t-sub">'+selA+'</div></div>'
-    +'<div class="m-teams"><div class="m-teams-name">'+teamsHtml+'</div>'
-    +'<div class="m-teams-sub">'+m.venue+'</div>'
-    +'<div class="m-teams-sub2">'+selT+' '+selA+' · '+cr.total+' '+(cr.total===1?'pick':'picks')+'</div></div>'
-    +'<div class="m-pc m-pc-wide">'+myChip+'</div>'
-    +'</div>'
-    +'<div class="m-mob" id="mob_'+m.id+'" style="padding:0 12px 10px">'
-    +'<span class="pb '+(myPick?'pb-e':'pb-mt')+(w&&myPick?(myPick===w?' correct':' wrong'):'')+'" style="flex:1;justify-content:center" onclick="'+pickClick+'">'+(myPick?(fvs(myPick)+'<span>'+(isTBA(myPick)?tbaHint(myPick):myPick)+'</span>'):(locked?'— no pick':'+ tap to pick'))+'</span>'
-    +'</div>'+expHtml+'</div>';
-}
-
-function applyMob(){
-  // Управление видимостью мобильного ряда теперь полностью на CSS
-  MATCHES.forEach(function(m){
-    var el=document.getElementById("mob_"+m.id);
-    if(el) el.style.removeProperty("display");
-  });
-}
-window.addEventListener("resize",function(){setTimeout(applyMob,50);});
-
-// ═══════════════════════════════════════════════════
-// LINE-UPS / SQUADS — free-api-live-football-data
-// Endpoints: /football-get-hometeam-lineup?eventid=N
-//            /football-get-awayteam-lineup?eventid=N
-// response.lineup = {name, formation, starters[], subs[], coach, unavailable[]}
-// player: name, shirtNumber, usualPlayingPositionId(0GK 1DEF 2MID 3FWD),
-//         isCaptain, performance{rating, events[], substitutionEvents[]}
-// ═══════════════════════════════════════════════════
-var lineupCache={}; // m.id -> {home:{...lineup}, away:{...lineup}}
-var POS_NAME={0:"GK",1:"DEF",2:"MID",3:"FWD"};
-
-function loadLineup(e,mid){
-  e.stopPropagation();
-  var m=MATCHES.find(function(x){return x.id===mid;});
-  var body=document.getElementById("lu_"+mid);
-  if(!body)return;
-  body.innerHTML='<div class="lu-loading"><div class="lu-spin"></div>Loading line-ups…</div>';
-  var btn=body.parentNode.querySelector(".lineup-btn"); if(btn)btn.style.display="none";
-
-  // 1) resolve API eventId — the API buckets by stadium LOCAL date which can be ±1
-  //    from UTC, so try the scheduled date ±1 AND today/yesterday/tomorrow (real dates).
-  var base=new Date(m.date+"T"+pad(m.utcH)+":"+pad(m.utcM)+":00Z");
-  var schedD=fmtDateAPI(base);
-  var schedNext=fmtDateAPI(new Date(base.getTime()+86400000));
-  var schedPrev=fmtDateAPI(new Date(base.getTime()-86400000));
-  var realToday=fmtDateAPI(new Date());
-  var realYest=fmtDateAPI(new Date(Date.now()-86400000));
-  var realTom=fmtDateAPI(new Date(Date.now()+86400000));
-  var tryDates=[schedNext,schedD,schedPrev,realTom,realToday,realYest].filter(function(v,i,a){return a.indexOf(v)===i;});
-
-  findEventId(m,tryDates,0,function(fxId){
-    if(!fxId){ // not found on any date → fall back to squads
-      fetchSquads(m).then(function(sq){
-        if(sq){ lineupCache[mid]={squad:sq}; body.innerHTML=renderLineupHTML(m,lineupCache[mid]); }
-        else body.innerHTML='<div class="lu-empty">Line-ups aren\'t published yet — they usually appear about an hour before kickoff. Tap ↻ to retry closer to match time.</div>'
-          +'<div style="margin-top:8px"><button class="lineup-btn" onclick="refreshLineup(event,'+mid+')">↻ Try again</button></div>';
-      });
-      return;
-    }
-    Promise.all([fetchTeamLineup("hometeam",fxId),fetchTeamLineup("awayteam",fxId)])
-    .then(function(res){
-      var home=res[0], away=res[1];
-      if((!home||!home.starters.length)&&(!away||!away.starters.length)){
-        return fetchSquads(m).then(function(sq){
-          if(sq){ lineupCache[mid]={squad:sq}; body.innerHTML=renderLineupHTML(m,lineupCache[mid]); }
-          else body.innerHTML='<div class="lu-empty">Line-ups aren\'t published yet — they usually appear about an hour before kickoff. Tap ↻ to retry closer to match time.</div>'
-            +'<div style="margin-top:8px"><button class="lineup-btn" onclick="refreshLineup(event,'+mid+')">↻ Try again</button></div>';
-        });
-      }
-      lineupCache[mid]={home:home,away:away};
-      body.innerHTML=renderLineupHTML(m,lineupCache[mid]);
-    })
-    .catch(function(){
-      body.innerHTML='<div class="lu-empty">Couldn\'t load line-ups right now.</div>'
-        +'<div style="margin-top:8px"><button class="lineup-btn" onclick="refreshLineup(event,'+mid+')">↻ Try again</button></div>';
-    });
-  });
-}
-
-// recursively try each candidate date until the fixture is found in the API
-function findEventId(m,dates,i,cb){
-  if(i>=dates.length){ cb(null); return; }
-  fetch(apiCfg.base+"/football-get-matches-by-date?date="+dates[i],{
-    headers:{"x-rapidapi-host":apiCfg.host,"x-rapidapi-key":apiCfg.key}
-  })
-  .then(function(r){return r.json();})
-  .then(function(d){
-    var matches=(d.response&&d.response.matches)||[];
-    var fx=matches.find(function(x){
-      return x.home&&x.away&&(
-        (teamMatch(m.home,x.home.name,x.home.longName)&&teamMatch(m.away,x.away.name,x.away.longName)) ||
-        (teamMatch(m.home,x.away.name,x.away.longName)&&teamMatch(m.away,x.home.name,x.home.longName))
-      );
-    });
-    if(fx){ cb(fx.id); } else { findEventId(m,dates,i+1,cb); }
-  })
-  .catch(function(){ findEventId(m,dates,i+1,cb); });
-}
-
-function fetchTeamLineup(side,eventId){
-  return fetch(apiCfg.base+"/football-get-"+side+"-lineup?eventid="+eventId,{
-    headers:{"x-rapidapi-host":apiCfg.host,"x-rapidapi-key":apiCfg.key}
-  }).then(function(r){return r.json();}).then(function(d){
-    var L=(d.response&&d.response.lineup)||null;
-    if(!L) return {name:"",formation:"",starters:[],subs:[],coach:null};
-    var norm=function(p){
-      var perf=p.performance||{};
-      var ev=(perf.events||[]).map(function(x){return x.type;});
-      return {
-        name:p.name||((p.firstName||"")+" "+(p.lastName||"")).trim(),
-        num:p.shirtNumber||"",
-        pos:POS_NAME[p.usualPlayingPositionId]||"",
-        cap:!!p.isCaptain,
-        rating:perf.rating||null,
-        goal:ev.indexOf("goal")>=0,
-        yellow:ev.indexOf("yellowCard")>=0,
-        red:ev.indexOf("redCard")>=0
-      };
-    };
-    return {
-      name:L.name||"", formation:L.formation||"",
-      starters:(L.starters||[]).map(norm),
-      subs:(L.subs||[]).map(norm),
-      coach:L.coach?(L.coach.name||((L.coach.firstName||"")+" "+(L.coach.lastName||"")).trim()):"",
-      unavailable:(L.unavailable||[]).map(function(p){return {name:p.name||"", reason:(p.unavailability&&p.unavailability.expectedReturn)||"out"};})
-    };
-  }).catch(function(){return {name:"",formation:"",starters:[],subs:[],coach:""};});
-}
-
-function fetchSquads(m){
-  function searchTeam(team){
-    return fetch(apiCfg.base+"/football-players-search?search="+encodeURIComponent(team),{
-      headers:{"x-rapidapi-host":apiCfg.host,"x-rapidapi-key":apiCfg.key}
-    }).then(function(r){return r.json();}).then(function(d){
-      var arr=(d.response&&(d.response.suggestions||d.response.players||d.response.list))||[];
-      return arr.map(function(x){return {name:x.name||x.longName||x.title||"",num:"",pos:""};}).filter(function(x){return x.name;});
-    }).catch(function(){return [];});
-  }
-  return Promise.all([searchTeam(m.home),searchTeam(m.away)]).then(function(res){
-    if(!res[0].length&&!res[1].length) return null;
-    return {home:res[0], away:res[1]};
-  });
-}
-
-function playerRow(p){
-  var marks="";
-  if(p.cap) marks+='<span class="lu-cap" title="Captain">C</span>';
-  if(p.goal) marks+='<span class="lu-ev" title="Goal">⚽</span>';
-  if(p.yellow) marks+='<span class="lu-yc" title="Yellow card"></span>';
-  if(p.red) marks+='<span class="lu-rc" title="Red card"></span>';
-  var rating=p.rating?'<span class="lu-rate">'+p.rating.toFixed(1)+'</span>':"";
-  return '<div class="lu-p"><span class="lu-num">'+(p.num||"")+'</span>'
-    +'<span class="lu-name">'+esc(p.name)+marks+'</span>'
-    +(p.pos?'<span class="lu-pos">'+p.pos+'</span>':"")+rating+'</div>';
-}
-
-function renderLineupHTML(m,data){
-  // squad fallback shape
-  if(data.squad){
-    function sqCol(team,arr){
-      return '<div class="lu-col"><div class="lu-team">'+fvs(team)+'<b>'+team+'</b></div>'
-        +(arr.length?'<div class="lu-list">'+arr.map(function(p){return '<div class="lu-p"><span class="lu-name">'+esc(p.name)+'</span></div>';}).join("")+'</div>'
-                    :'<div class="lu-empty-sm">No data</div>')+'</div>';
-    }
-    return '<div class="lu-wrap"><div class="lu-title">Squads (full roster) <span class="lu-refresh" onclick="refreshLineup(event,'+m.id+')">↻ refresh</span></div>'
-      +'<div class="lu-note">Match line-ups not published yet — showing available squads.</div>'
-      +'<div class="lu-cols">'+sqCol(m.home,data.squad.home)+sqCol(m.away,data.squad.away)+'</div></div>';
-  }
-  // full lineup shape
-  function col(team,L){
-    if(!L) L={starters:[],subs:[],formation:"",coach:"",unavailable:[]};
-    var head='<div class="lu-team">'+fvs(team)+'<b>'+team+'</b>'+(L.formation?'<span class="lu-form">'+L.formation+'</span>':"")+'</div>';
-    var starters=L.starters.length?'<div class="lu-list">'+L.starters.map(playerRow).join("")+'</div>':'<div class="lu-empty-sm">No starting XI yet</div>';
-    var subs=L.subs&&L.subs.length?'<div class="lu-sub-h">Substitutes</div><div class="lu-list lu-bench">'+L.subs.map(playerRow).join("")+'</div>':"";
-    var coach=L.coach?'<div class="lu-coach">Coach: <b>'+esc(L.coach)+'</b></div>':"";
-    var unav=L.unavailable&&L.unavailable.length?'<div class="lu-sub-h">Unavailable</div>'+L.unavailable.map(function(p){return '<div class="lu-unav">'+esc(p.name)+' <span>'+esc(p.reason)+'</span></div>';}).join(""):"";
-    return '<div class="lu-col">'+head+starters+subs+coach+unav+'</div>';
-  }
-  return '<div class="lu-wrap"><div class="lu-title">Starting line-ups <span class="lu-refresh" onclick="refreshLineup(event,'+m.id+')">↻ refresh</span></div>'
-    +'<div class="lu-cols">'+col(m.home,data.home)+col(m.away,data.away)+'</div></div>';
-}
-function refreshLineup(e,mid){ e.stopPropagation(); delete lineupCache[mid]; loadLineup(e,mid); }
-
-
-function toggleE(id){expanded[id]=!expanded[id];renderSchedOnly();if(expanded[id])scrollC(id);}
-function openE(e,id){e.stopPropagation();expanded[id]=true;renderSchedOnly();scrollC(id);}
-function scrollC(id){setTimeout(function(){var el=document.getElementById("mc_"+id);if(el)el.scrollIntoView({behavior:"smooth",block:"nearest"});},60);}
-// ═══════════════════════════════════════════════════
-// ANALYTICS — leaderboard (wisdom-of-crowd points)
-// ═══════════════════════════════════════════════════
-function renderAn(){
-  var root=document.getElementById("anRoot");
-  var fin=MATCHES.filter(function(m){var br=getBR(m.id);return br&&!br.live&&winner(br.score,m.home,m.away)!==null;});
-
-  // gather all participant ids: from users map + anyone who has a pick
-  var ids={};
-  Object.keys(users).forEach(function(u){ids[u]=true;});
-  MATCHES.forEach(function(m){ Object.keys(picks[m.id]||{}).forEach(function(u){ids[u]=true;}); });
-  var idList=Object.keys(ids);
-
-  function nameOf(uid){ return (users[uid]&&users[uid].name)|| (uid===myId?meName():("Player "+uid.slice(-4))); }
-
-  // per-user stats
-  var stats=idList.map(function(uid){
-    var pts=0, correct=0, placed=0, total=0;
-    MATCHES.forEach(function(m){
-      var pk=(picks[m.id]||{})[uid];
-      if(pk) total++;
-      var p=matchPoints(m,uid);
-      if(p===null) return;          // not finished
-      if(pk){ placed++; if(p>0){correct++; pts+=p;} }
-    });
-    return {uid:uid, name:nameOf(uid), pts:pts, correct:correct, placed:placed, total:total};
-  }).filter(function(s){return s.total>0;}); // only show people who placed at least one pick
-
-  stats.sort(function(a,b){ return b.pts-a.pts || b.correct-a.correct; });
-
-  if(!stats.length){
-    root.innerHTML='<div class="empty">No picks yet.<br>Open a match and place your pick to join the leaderboard.</div>';
-    return;
-  }
-
-  var myRank=stats.findIndex(function(s){return s.uid===myId;})+1;
-  var played=fin.length;
-
-  // leaderboard rows
-  var rows=stats.map(function(s,i){
-    var isMe=s.uid===myId;
-    var medal=i===0?"🥇":i===1?"🥈":i===2?"🥉":(i+1)+"";
-    var acc=s.placed?Math.round(s.correct/s.placed*100):0;
-    return '<tr'+(isMe?' class="lb-me"':'')+'>'
-      +'<td class="lb-rank">'+medal+'</td>'
-      +'<td class="lb-name">'+esc(s.name)+(isMe?' <span class="you-tag">YOU</span>':'')+'</td>'
-      +'<td class="lb-pts">'+s.pts.toFixed(2)+'</td>'
-      +'<td>'+s.correct+'/'+s.placed+'</td>'
-      +'<td>'+acc+'%</td>'
-      +'<td>'+s.total+'</td>'
-      +'</tr>';
-  }).join("");
-
-  root.innerHTML=
-    '<div class="an-grid">'
-    +'<div class="st"><div class="sv g">'+played+'</div><div class="sl">matches settled</div></div>'
-    +'<div class="st"><div class="sv gr">'+stats.length+'</div><div class="sl">players</div></div>'
-    +'<div class="st"><div class="sv b">'+(myRank||"—")+'</div><div class="sl">your rank</div></div>'
-    +'<div class="st"><div class="sv c">'+((stats.find(function(s){return s.uid===myId;})||{}).pts||0).toFixed(1)+'</div><div class="sl">your points</div></div>'
-    +'</div>'
-    +'<div class="sec">Leaderboard</div>'
-    +'<div style="overflow-x:auto"><table class="lb">'
-    +'<thead><tr><th>#</th><th>Player</th><th>Points</th><th>Hits</th><th>Acc</th><th>Bets</th></tr></thead>'
-    +'<tbody>'+rows+'</tbody></table></div>'
-    +'<p class="set-hint" style="margin-top:10px">Points use a "wisdom of the crowd" model: a correct pick is worth <b>1 ÷ its share of the room</b> (capped at 20× for picks under 5%). Backing an unpopular outcome that comes true earns far more than backing the favourite. Odds freeze at kickoff.</p>';
-}
-
-function switchPage(id,el){
-  document.querySelectorAll(".page").forEach(function(p){p.classList.remove("active");});
-  document.querySelectorAll(".nav-tab").forEach(function(t){t.classList.remove("active");});
-  document.getElementById("page-"+id).classList.add("active");
-  el.classList.add("active");
-  if(id==="analytics")renderAn();
-  if(id==="settings")renderSettings();
-}
-
-// Делегирование кликов по кнопкам выбора (data-setpick)
-document.getElementById("schedRoot").addEventListener("click",function(e){
-  var el=e.target.closest("[data-setpick]");
-  if(!el) return;
-  e.stopPropagation();
-  var mid=parseInt(el.getAttribute("data-setpick"));
-  var team=el.getAttribute("data-team");
-  var cur=(picks[mid]||{})[myId];
-  setPick(mid, cur===team?"":team);
-  expanded[mid]=true;
-  renderSchedOnly();
+  S.peer = claimed.peer;
+  S.slot = claimed.slot;
+  if (!S.nick) S.nick = slotName(S.slot);
+  wirePeer();
+  enterDeck();
+  for (let i = 1; i <= SLOTS; i++) if (i !== S.slot) reachOut(S.prefix + i);
 });
 
-// BOOT
-initTelegram();
-render();
-setTimeout(applyMob,100);
-initFirebase();
-renderSettings();
-// fully automatic result checking — no user action needed
-setTimeout(function(){
-  fetchFixtures();        // initial catch-up (live/finished today)
-  scheduleAllChecks();    // schedule per-match checks at kickoff+100min
-}, 1500);
-// periodic sweep: re-schedule upcoming matches + fill any live/missed scores
-setInterval(function(){
-  scheduleAllChecks();
-  // only hit the API in the sweep if there's a match in its live/just-finished window
-  var now=Date.now();
-  var active=MATCHES.some(function(m){var ks=matchTS(m);return now-ks>-10*60*1000 && now-ks<3*60*60*1000;});
-  if(active) fetchFixtures();
-}, SWEEP_INTERVAL_MS);
-// re-render schedule every minute so picks lock exactly at kickoff
-setInterval(function(){
-  if(document.getElementById("page-schedule").classList.contains("active")) renderSchedOnly();
-}, 60000);
+function micError(err){
+  const n = err && err.name;
+  if (n === 'NotAllowedError' || n === 'SecurityError')
+    return 'Телефон не дал доступ к микрофону. Разрешите его в настройках сайта в браузере и нажмите «Выйти в эфир» снова.';
+  if (n === 'NotFoundError' || n === 'OverconstrainedError')
+    return 'Микрофон не найден.';
+  if (n === 'NotReadableError')
+    return 'Микрофон занят другим приложением — закройте звонок или диктофон и повторите.';
+  if (!window.isSecureContext)
+    return 'Микрофон работает только по HTTPS. Откройте страницу по защищённому адресу.';
+  return 'Микрофон недоступен: ' + (err && err.message ? err.message : 'неизвестная ошибка');
+}
+
+async function openMic(deviceId){
+  const audio = { echoCancellation:true, noiseSuppression:true, autoGainControl:true, channelCount:1 };
+  if (deviceId) audio.deviceId = { exact: deviceId };
+  const stream = await navigator.mediaDevices.getUserMedia({ audio, video:false });
+
+  if (S.stream) S.stream.getTracks().forEach(t => t.stop());
+  S.stream = stream;
+  S.track = stream.getAudioTracks()[0];
+  S.track.enabled = false;              // микрофон закрыт, пока тангента отпущена
+
+  if (!S.ac) S.ac = new (window.AudioContext || window.webkitAudioContext)();
+  if (S.ac.state === 'suspended'){ try{ await S.ac.resume(); }catch(e){} }
+
+  const src = S.ac.createMediaStreamSource(stream);
+  S.analyser = S.ac.createAnalyser();
+  S.analyser.fftSize = 1024;
+  S.analyser.smoothingTimeConstant = 0.5;
+  src.connect(S.analyser);              // на выход не подаём — иначе эхо в наушниках
+  S.buf = new Uint8Array(S.analyser.fftSize);
+
+  await listMics();
+  if (!S.raf) meterLoop();
+  return stream;
+}
+function closeMic(){
+  if (S.stream) S.stream.getTracks().forEach(t => t.stop());
+  S.stream = null; S.track = null;
+}
+
+async function listMics(){
+  try{
+    const devs = await navigator.mediaDevices.enumerateDevices();
+    const ins = devs.filter(d => d.kind === 'audioinput');
+    const cur = S.track && S.track.getSettings ? S.track.getSettings().deviceId : '';
+    el.micSel.innerHTML = '';
+    ins.forEach((d, i) => {
+      const o = document.createElement('option');
+      o.value = d.deviceId;
+      o.textContent = d.label || ('Микрофон ' + (i + 1));
+      if (d.deviceId === cur) o.selected = true;
+      el.micSel.appendChild(o);
+    });
+    if (!ins.length){
+      const o = document.createElement('option');
+      o.textContent = 'Устройство по умолчанию';
+      el.micSel.appendChild(o);
+    }
+  }catch(e){}
+}
+el.micSel.addEventListener('change', async () => {
+  const id = el.micSel.value;
+  if (!id) return;
+  if (S.tx) stopTx();
+  try{
+    await openMic(id);
+    S.peers.forEach(p => {
+      const pc = p.call && p.call.peerConnection;
+      if (!pc) return;
+      pc.getSenders().forEach(s => { if (s.track && s.track.kind === 'audio') s.replaceTrack(S.track); });
+    });
+    sys('микрофон переключён');
+  }catch(err){ fail(micError(err)); }
+});
+
+/* ============================================================
+   ПОСТ НА БРОКЕРЕ
+   ============================================================ */
+async function claimSlot(){
+  let brokerDown = false;
+  for (let i = 1; i <= SLOTS; i++){
+    setStatus('Проверяю пост ' + i + ' из ' + SLOTS + '…', 'busy');
+    const r = await tryClaim(S.prefix + i);
+    if (r.peer) return { peer:r.peer, slot:i };
+    if (r.reason === 'broker'){ brokerDown = true; break; }
+  }
+  throw new Error(brokerDown
+    ? 'Сервер поиска участников не отвечает. Проверьте интернет и попробуйте через минуту.'
+    : 'Канал ' + S.code + ' занят: в нём уже ' + SLOTS + ' участников. Возьмите другой код.');
+}
+function tryClaim(id){
+  return new Promise(resolve => {
+    let done = false, p;
+    const finish = (peer, reason) => { if (done) return; done = true; clearTimeout(timer); resolve({peer, reason}); };
+    try{ p = new Peer(id, { debug:0 }); }
+    catch(e){ return resolve({ peer:null, reason:'broker' }); }
+    const timer = setTimeout(() => { try{ p.destroy(); }catch(e){} finish(null,'broker'); }, 12000);
+    p.on('open', () => finish(p, 'ok'));
+    p.on('error', e => {
+      const t = e && e.type;
+      if (t === 'unavailable-id'){ try{ p.destroy(); }catch(x){} finish(null,'taken'); }
+      else if (t === 'browser-incompatible' || t === 'network' || t === 'server-error'
+               || t === 'socket-error' || t === 'socket-closed'){
+        try{ p.destroy(); }catch(x){} finish(null,'broker');
+      }
+    });
+  });
+}
+function wirePeer(){
+  S.peer.on('error', e => {
+    const t = e && e.type;
+    if (t === 'peer-unavailable') return;                    // пустой пост — норма
+    if (t === 'network' || t === 'socket-closed' || t === 'socket-error'){
+      fail('связь с сервером поиска потеряна — текущие соединения работают, новые не подключатся');
+      return;
+    }
+    fail('сбой связи: ' + t);
+  });
+  S.peer.on('disconnected', () => { try{ S.peer.reconnect(); }catch(e){} });
+  S.peer.on('connection', conn => bindData(conn));
+  S.peer.on('call', call => { call.answer(S.stream); bindCall(call); });
+}
+function reachOut(id){
+  try{ const call = S.peer.call(id, S.stream); if (call) bindCall(call); }catch(e){}
+  try{ const conn = S.peer.connect(id, { reliable:true, serialization:'json' }); if (conn) bindData(conn); }catch(e){}
+}
+
+/* ---------------- участники ---------------- */
+function slotOf(peerId){
+  const n = parseInt(String(peerId).slice(S.prefix.length), 10);
+  return Number.isFinite(n) ? n : 0;
+}
+function rec(peerId){
+  let p = S.peers.get(peerId);
+  if (!p){
+    p = { id:peerId, slot:slotOf(peerId), name:'', conn:null, call:null, audio:null,
+          analyser:null, buf:null, talking:false, level:0, announced:false };
+    S.peers.set(peerId, p);
+  }
+  return p;
+}
+const display = p => p.name || slotName(p.slot);
+
+function announce(p){
+  if (p.announced) return;
+  p.announced = true;
+  sys(display(p) + ' в канале');
+  joinBeep(); buzz(15);
+  renderRoster();
+}
+function bindCall(call){
+  const p = rec(call.peer);
+  if (p.call && p.call !== call){ try{ p.call.close(); }catch(e){} }
+  p.call = call;
+  call.on('stream', remote => attachAudio(p, remote));
+  call.on('close', () => dropPeer(p.id, 'голосовой канал закрыт'));
+  call.on('error', () => dropPeer(p.id, 'ошибка голосового канала'));
+}
+function bindData(conn){
+  const p = rec(conn.peer);
+  if (p.conn && p.conn !== conn){ try{ p.conn.close(); }catch(e){} }
+  p.conn = conn;
+  conn.on('open', () => { send(conn, { t:'hi', name:S.nick, slot:S.slot }); announce(p); });
+  conn.on('data', d => onData(p, d));
+  conn.on('close', () => dropPeer(p.id, 'отключился'));
+  conn.on('error', () => {});
+}
+function attachAudio(p, stream){
+  if (p.audio){ try{ p.audio.pause(); p.audio.srcObject = null; p.audio.remove(); }catch(e){} }
+  const a = document.createElement('audio');
+  a.autoplay = true; a.playsInline = true; a.srcObject = stream;
+  a.volume = targetVolume(); a.style.display = 'none';
+  document.body.appendChild(a);
+  a.play().catch(() => {});
+  p.audio = a;
+  try{
+    const src = S.ac.createMediaStreamSource(stream);
+    const an = S.ac.createAnalyser();
+    an.fftSize = 512; an.smoothingTimeConstant = 0.6;
+    src.connect(an);                        // только измерение; звук идёт через <audio>
+    p.analyser = an; p.buf = new Uint8Array(an.fftSize);
+  }catch(e){}
+  announce(p); updateLink();
+}
+function dropPeer(id, why){
+  const p = S.peers.get(id);
+  if (!p) return;
+  S.peers.delete(id);
+  if (p.audio){ try{ p.audio.pause(); p.audio.srcObject = null; p.audio.remove(); }catch(e){} }
+  try{ if (p.conn) p.conn.close(); }catch(e){}
+  try{ if (p.call) p.call.close(); }catch(e){}
+  if (p.announced) sys(display(p) + ' — ' + why);
+  renderRoster(); updateLink(); updateCarrier();
+}
+function send(conn, obj){ try{ if (conn && conn.open) conn.send(obj); }catch(e){} }
+function broadcast(obj){ S.peers.forEach(p => send(p.conn, obj)); }
+
+function onData(p, d){
+  if (!d || typeof d !== 'object') return;
+  if (d.t === 'hi'){
+    p.name = String(d.name || '').slice(0,18);
+    if (d.slot) p.slot = d.slot;
+    announce(p); renderRoster();
+    if (S.tx) send(p.conn, { t:'tx', v:1 });
+  }
+  else if (d.t === 'tx'){
+    p.talking = !!d.v;
+    if (p.talking){ air(display(p) + ' на связи'); buzz(12); }
+    else { air('конец передачи · ' + display(p)); rogerBeep(); }
+    renderRoster(); updateCarrier();
+  }
+  else if (d.t === 'msg'){
+    const text = String(d.text || '').slice(0,500);
+    if (text){
+      logEntry('chat', '<span class="from">' + esc(display(p)) + '</span>' + esc(text));
+      buzz([10,60,10]);
+    }
+  }
+  else if (d.t === 'bye') dropPeer(p.id, 'вышел из канала');
+}
+
+/* ============================================================
+   ТАНГЕНТА
+   ============================================================ */
+function startTx(){
+  if (S.tx || !S.track || !S.joined) return;
+  S.tx = true; S.txStart = Date.now();
+  S.gateOpenUntil = Date.now() + 350;        // не режем первое слово
+  S.track.enabled = true;
+  broadcast({ t:'tx', v:1 });
+  applyVolume(); buzz(22);
+  el.ptt.classList.add('down');
+  el.pttLabel.textContent = 'В эфире';
+  el.pttSub.textContent = S.latch ? 'нажмите, чтобы закрыть' : 'говорите';
+  lamp(el.ledTx, el.ledTxWrap, 'on-red');
+  updateCarrier(); renderRoster();
+}
+function stopTx(){
+  if (!S.tx) return;
+  S.tx = false;
+  if (S.track) S.track.enabled = false;
+  broadcast({ t:'tx', v:0 });
+  applyVolume(); buzz(10);
+  el.ptt.classList.remove('down');
+  el.ptt.classList.remove('gated');
+  el.pttLabel.textContent = 'Говорить';
+  el.pttSub.textContent = S.latch ? 'нажмите один раз' : (coarse ? 'нажмите и держите' : 'удерживайте · пробел');
+  lamp(el.ledTx, el.ledTxWrap, '');
+  el.vuBar.setAttribute('stroke-dashoffset', String(RING));
+  el.vuBar.classList.remove('hot');
+  const secs = Math.max(1, Math.round((Date.now() - S.txStart) / 1000));
+  air('передача ' + secs + ' с');
+  rogerBeep();
+  updateCarrier(); renderRoster();
+}
+const toggleTx = () => S.tx ? stopTx() : startTx();
+
+/* палец: нажал — говорит, отпустил — молчит. Сползание пальца с кнопки
+   передачу не рвёт, поэтому слушаем отпускание на всём окне. */
+el.ptt.addEventListener('pointerdown', e => {
+  e.preventDefault();
+  if (el.ptt.setPointerCapture){ try{ el.ptt.setPointerCapture(e.pointerId); }catch(x){} }
+  if (!S.latch) startTx();
+});
+el.ptt.addEventListener('pointerup', e => { e.preventDefault(); if (S.latch) toggleTx(); });
+window.addEventListener('pointerup', () => { if (!S.latch) stopTx(); });
+window.addEventListener('pointercancel', () => { if (!S.latch) stopTx(); });
+el.ptt.addEventListener('contextmenu', e => e.preventDefault());
+el.ptt.addEventListener('dragstart', e => e.preventDefault());
+
+el.latch.addEventListener('click', () => {
+  S.latch = !S.latch;
+  el.latch.classList.toggle('on', S.latch);
+  el.latch.setAttribute('aria-pressed', String(S.latch));
+  if (!S.latch && S.tx) stopTx();
+  if (!S.tx) el.pttSub.textContent = S.latch ? 'нажмите один раз' : (coarse ? 'нажмите и держите' : 'удерживайте · пробел');
+  sys(S.latch ? 'фиксация тангенты включена' : 'фиксация тангенты выключена');
+});
+
+function typing(){
+  const a = document.activeElement;
+  return a && (a.tagName === 'INPUT' || a.tagName === 'TEXTAREA' || a.tagName === 'SELECT');
+}
+window.addEventListener('keydown', e => {
+  if (!S.joined || typing()) return;
+  if (e.code === 'Space'){
+    e.preventDefault();
+    if (e.repeat) return;
+    S.latch ? toggleTx() : startTx();
+  }else if (e.key === 't' || e.key === 'T' || e.key === 'е' || e.key === 'Е'){
+    e.preventDefault(); el.latch.click();
+  }else if (e.key === 'Escape') closeSheet();
+});
+window.addEventListener('keyup', e => { if (e.code === 'Space' && !S.latch) stopTx(); });
+window.addEventListener('blur', () => { if (!S.latch) stopTx(); });
+
+/* ============================================================
+   УРОВЕНЬ · ШУМОПОРОГ · ИНДИКАЦИЯ
+   ============================================================ */
+function rms(analyser, buf){
+  if (!analyser) return 0;
+  analyser.getByteTimeDomainData(buf);
+  let sum = 0;
+  for (let i = 0; i < buf.length; i++){ const v = (buf[i] - 128) / 128; sum += v * v; }
+  return Math.sqrt(sum / buf.length);
+}
+function meterLoop(){
+  S.raf = requestAnimationFrame(meterLoop);
+
+  const level = rms(S.analyser, S.buf);
+  if (S.tx){
+    const shown = Math.min(1, level * 4.2);
+    el.vuBar.setAttribute('stroke-dashoffset', String(RING * (1 - shown)));
+    el.vuBar.classList.toggle('hot', shown > 0.88);
+
+    const sq = Number(el.sq.value);
+    if (sq > 0 && S.track){
+      const thr = 0.008 + sq * 0.011;
+      if (level > thr) S.gateOpenUntil = Date.now() + 400;   // выбег, чтобы не рубить слова
+      const open = Date.now() < S.gateOpenUntil;
+      if (S.track.enabled !== open){
+        S.track.enabled = open;
+        el.ptt.classList.toggle('gated', !open);
+        el.pttSub.textContent = open ? 'говорите' : 'порог закрыт — тишина';
+      }
+    }
+  }
+
+  let rx = false;
+  S.peers.forEach(p => { p.level = rms(p.analyser, p.buf); if (p.level > 0.012) rx = true; });
+  lamp(el.ledRx, el.ledRxWrap, rx && !S.tx ? 'on-amber' : '');
+}
+
+function updateLink(){
+  const n = S.peers.size;
+  lamp(el.ledLink, el.ledLinkWrap, n ? 'on-green' : 'on-amber');
+  el.lcdCount.textContent = String(n + 1);
+  renderRoster();
+}
+function updateCarrier(){
+  const talkers = [];
+  if (S.tx) talkers.push('вы');
+  S.peers.forEach(p => { if (p.talking) talkers.push(display(p)); });
+  if (talkers.length){
+    el.carrier.classList.add('live');
+    el.carrier.textContent = '◉ в эфире: ' + talkers.join(', ');
+  }else{
+    el.carrier.classList.remove('live');
+    el.carrier.textContent = 'эфир свободен';
+  }
+}
+function renderRoster(){
+  const rows = [{ slot:S.slot, name:S.nick, me:true, talking:S.tx }];
+  S.peers.forEach(p => rows.push({ slot:p.slot, name:display(p), me:false, talking:p.talking }));
+  rows.sort((a,b) => a.slot - b.slot);
+  el.roster.innerHTML = '';
+  rows.forEach(r => {
+    const li = document.createElement('li');
+    if (r.talking) li.className = 'talking';
+    li.innerHTML =
+      '<span class="slot">' + String(r.slot).padStart(2,'0') + '</span>' +
+      '<span class="who">' + esc(r.name) + '</span>' +
+      (r.me ? '<span class="you">вы</span>' : '') +
+      '<span class="st">' + (r.talking ? 'говорит' : 'слушает') + '</span>';
+    el.roster.appendChild(li);
+  });
+  el.tabCount.textContent = (S.peers.size + 1) + '/' + SLOTS;
+  const alone = S.peers.size === 0;
+  el.rosterEmpty.classList.toggle('hidden', !alone);
+  el.shareWrap.classList.toggle('hidden', !alone);
+}
+
+/* ============================================================
+   ГРОМКОСТЬ
+   ============================================================ */
+function targetVolume(){
+  const base = Number(el.vol.value) / 100;
+  return (S.tx && el.duck.checked) ? base * 0.16 : base;
+}
+function applyVolume(){
+  const v = targetVolume();
+  S.peers.forEach(p => { if (p.audio) p.audio.volume = v; });
+}
+el.vol.addEventListener('input', () => { el.volOut.textContent = el.vol.value; applyVolume(); });
+el.sq.addEventListener('input', () => { el.sqOut.textContent = el.sq.value === '0' ? 'выкл' : el.sq.value; });
+el.duck.addEventListener('change', applyVolume);
+
+/* ============================================================
+   ВКЛАДКИ · ЛИСТ НАСТРОЕК · ЧАТ
+   ============================================================ */
+function showPanel(which){
+  const roster = which === 'roster';
+  el.panelRoster.classList.toggle('active', roster);
+  el.panelLog.classList.toggle('active', !roster);
+  el.tabRoster.classList.toggle('active', roster);
+  el.tabLog.classList.toggle('active', !roster);
+  el.tabRoster.setAttribute('aria-selected', String(roster));
+  el.tabLog.setAttribute('aria-selected', String(!roster));
+  if (!roster){
+    S.unread = 0; el.tabPip.classList.remove('on');
+    el.log.scrollTop = el.log.scrollHeight;
+  }
+}
+el.tabRoster.addEventListener('click', () => showPanel('roster'));
+el.tabLog.addEventListener('click', () => showPanel('log'));
+
+function openSheet(){ el.sheet.classList.add('open'); el.scrim.classList.add('open'); }
+function closeSheet(){ el.sheet.classList.remove('open'); el.scrim.classList.remove('open'); }
+el.gear.addEventListener('click', openSheet);
+el.scrim.addEventListener('click', closeSheet);
+
+el.share.addEventListener('click', async () => {
+  const text = 'Канал рации: ' + S.code;
+  if (navigator.share){
+    try{ await navigator.share({ title:'ПРМ-6', text }); return; }catch(e){ if (e && e.name === 'AbortError') return; }
+  }
+  try{
+    await navigator.clipboard.writeText(text);
+    el.share.textContent = 'Код скопирован';
+    setTimeout(() => { el.share.textContent = 'Поделиться кодом канала'; }, 1800);
+  }catch(e){
+    el.share.textContent = 'Код канала: ' + S.code;
+  }
+});
+
+function sendMsg(){
+  const text = el.msg.value.trim().slice(0,500);
+  if (!text) return;
+  broadcast({ t:'msg', text });
+  logEntry('chat mine', '<span class="from">' + esc(S.nick) + '</span>' + esc(text));
+  el.msg.value = '';
+}
+el.send.addEventListener('click', sendMsg);
+el.msg.addEventListener('keydown', e => { if (e.key === 'Enter'){ e.preventDefault(); sendMsg(); } });
+
+/* ============================================================
+   ВХОД / ВЫХОД
+   ============================================================ */
+function enterDeck(){
+  S.joined = true;
+  document.body.classList.add('live');
+  el.lcdChan.textContent = S.code;
+  el.lcdNick.textContent = S.nick;
+  el.lcdSlot.textContent = String(S.slot).padStart(2,'0');
+  el.volOut.textContent = el.vol.value;
+  el.sqOut.textContent = el.sq.value === '0' ? 'выкл' : el.sq.value;
+  el.pttSub.textContent = coarse ? 'нажмите и держите' : 'удерживайте · пробел';
+  el.sheetNote.textContent = coarse
+    ? 'Микрофон открывается только на время удержания кнопки. Экран можно не гасить — тогда рация остаётся на связи.'
+    : 'Пробел — удержание, T — фиксация тангенты.';
+  lamp(el.ledPwr, el.ledPwrWrap, 'on-green');
+  updateLink(); updateCarrier(); renderRoster(); showPanel('roster');
+  sys('канал ' + S.code + ' · пост ' + String(S.slot).padStart(2,'0'));
+  holdWake();
+  syncViewport();
+}
+function leave(){
+  stopTx();
+  broadcast({ t:'bye' });
+  S.peers.forEach(p => {
+    if (p.audio){ try{ p.audio.pause(); p.audio.srcObject = null; p.audio.remove(); }catch(e){} }
+    try{ if (p.conn) p.conn.close(); }catch(e){}
+    try{ if (p.call) p.call.close(); }catch(e){}
+  });
+  S.peers.clear();
+  try{ if (S.peer) S.peer.destroy(); }catch(e){}
+  S.peer = null;
+  closeMic(); dropWake(); closeSheet();
+  if (S.raf){ cancelAnimationFrame(S.raf); S.raf = 0; }
+  S.joined = false; S.slot = 0;
+  document.body.classList.remove('live','kb');
+  el.join.disabled = el.dice.disabled = false;
+  el.log.innerHTML = '';
+  setStatus('Отключено от канала ' + S.code, '');
+}
+el.leave.addEventListener('click', () => { if (S.joined) leave(); });
+window.addEventListener('pagehide', () => {
+  if (S.joined){ broadcast({ t:'bye' }); try{ S.peer.destroy(); }catch(e){} }
+});
+
+/* ---------------- старт ---------------- */
+if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+  setStatus('Этот браузер не умеет работать с микрофоном. Нужен Chrome, Safari, Firefox или Edge свежей версии.', 'bad');
+  el.join.disabled = true;
+}else if (!window.isSecureContext){
+  setStatus('Страница открыта без HTTPS — микрофон будет заблокирован браузером.', 'bad');
+}
+})();
 </script>
 </body>
 </html>
